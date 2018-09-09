@@ -1,0 +1,48 @@
+---
+status: publish
+published: true
+title: awk内置变量详细介绍
+author:
+  display_name: LinuxSong
+  login: xks
+  email: linuxsong@gmail.com
+  url: http://www.linuxsong.org
+author_login: xks
+author_email: linuxsong@gmail.com
+author_url: http://www.linuxsong.org
+excerpt: awk提供了有很多内置变量，如果你经常使用awk处理文本，了解这些这些内置变量的使用是很有必要的。下面看一下这些内置变量的详细介绍。
+wordpress_id: 62
+wordpress_url: http://www.linuxsong.org/?p=62
+date: '2010-09-04 19:51:09 +0800'
+date_gmt: '2010-09-04 11:51:09 +0800'
+comments: []
+---
+<p><a href="http://www.linuxsong.org/category/awk/">awk</a>提供了有很多内置变量，如果你经常使用awk处理文本，了解这些这些内置变量的使用是很有必要的。下面看一下这些内置变量的详细介绍。</p>
+<p>ARGC 命令行参数个数（不包括awk的选项和awk的程序内容）<br />
+ARGIND 当前正在处理的ARGV中的文件的索引值（同时处理多个文件时会用到）<br />
+ARGV 命令行参数序列数组，下标从0开始<br />
+CONVFMT 数字转换格式，和C语言中的数字输出格式化类似, 默认为"%.6g"<br />
+ENVIRON 当前系统的环境变量<br />
+ERRNO 出错时的错误信息<br />
+FIELDWIDTHS 以空格分隔的字段宽度，如果指定此变量，awk将会用指定的宽度替换变量FS指定的分隔符。看下面的例子：<br />
+[code][LinuxSong@test /tmp]$ cat t[/code]</p>
+<p>abcdefasfa<br />
+abcdefasfa<br />
+abcdefasfa<br />
+[code][LinuxSong@test /tmp]$ awk 'BEGIN {FIELDWIDTHS=&quot;2 3 4&quot;}{print $1,$2,$3}' t[/code]</p>
+<p>ab cde fasf<br />
+ab cde fasf<br />
+ab cde fasf</p>
+<p>FILENAME 当前正在处理的文件名，该变量不能在BEGIN块中使用。<br />
+FNR 当前处理的记录号<br />
+FS 字段的分隔符，默认为空格。<br />
+IGNORECASE 如果该变量设置为非0值，在进行字符串匹配时忽略大小写。<br />
+NF 当前记录中的字段个数<br />
+NR 已经读出的记录数<br />
+OFMT 数字的输出格式<br />
+OFS 输出的字段分隔符，默认为空格<br />
+ORS 输出的记录分隔符，默认为新行<br />
+RS 输入记录的分隔符，默认为新行<br />
+RSTART 被match()函数匹配的字符串的起始位置，如果没有匹配则为0（从1开始）<br />
+RLENGTH 被match()函数匹配的字符串的长度<br />
+SUBSEP 数组中多个下标的分隔符,默认为"\034"</p>

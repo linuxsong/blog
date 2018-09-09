@@ -1,0 +1,53 @@
+---
+status: publish
+published: true
+title: 不安装rpm包提取rpm软件包中的文件
+author:
+  display_name: LinuxSong
+  login: xks
+  email: linuxsong@gmail.com
+  url: http://www.linuxsong.org
+author_login: xks
+author_email: linuxsong@gmail.com
+author_url: http://www.linuxsong.org
+excerpt: 有时我们需要取出rpm包中的文件，但是不想安装。Linux提供的丰富工具让我们可以轻易解决这个问题，方法是用rpm2cpio将rpm文件转换成cpio格式，然后再从cpio中提取文件。
+wordpress_id: 179
+wordpress_url: http://www.linuxsong.org/?p=179
+date: '2010-09-05 01:51:55 +0800'
+date_gmt: '2010-09-04 17:51:55 +0800'
+comments:
+- id: 5
+  author: free antivirus download
+  author_email: none@gmail.com
+  author_url: http://freeavdownload.com
+  date: '2010-09-09 19:11:45 +0800'
+  date_gmt: '2010-09-09 11:11:45 +0800'
+  content: great...
+- id: 28371
+  author: strider
+  author_email: fangpengwansui@126.com
+  author_url: http://pureage.info
+  date: '2014-04-29 12:33:38 +0800'
+  date_gmt: '2014-04-29 04:33:38 +0800'
+  content: 多谢！收了
+- id: 31166
+  author: Roshs Run NZ
+  author_email: sshoean@gmail.com
+  author_url: http://www.fuzumi.net/m636/
+  date: '2016-01-22 22:46:01 +0800'
+  date_gmt: '2016-01-22 14:46:01 +0800'
+  content: "Just click on the Subscribe button above.\r\nRoshs Run NZ http://www.fuzumi.net/m636/"
+- id: 35554
+  author: wobiyadaw
+  author_email: kirukepu3@gmail.com
+  author_url: http://unsc.de/?option=com_k2&amp;view=itemlist&amp;task=user&amp;id=1289
+  date: '2017-03-27 03:34:26 +0800'
+  date_gmt: '2017-03-26 19:34:26 +0800'
+  content: compare viagra cialis levitra. <a href="http://xcities.eu/?option=com_k2&amp;view=itemlist&amp;task=user&amp;id=213"
+    rel="nofollow">levitra online</a>. maximum dosage of levitra.
+---
+<p>有时我们需要取出rpm包中的文件，但是不想安装。<a href="http://www.linuxsong.org/category/linux/">Linux</a>提供的丰富工具让我们可以轻易解决这个问题，方法是用rpm2cpio将rpm文件转换成cpio格式，然后再从cpio中提取文件，下面是详细命令：</p>
+<p>rpm2cpio foo.rpm | cpio -idmv</p>
+<p>rpm2cpio可以将rpm包转换成cpio格式<br />
+cpio命令中的-i是提取文件，-d表示根据rpm包中文件原来的路径建立目, -m是保持文件的更新时间, -v是显示处理的文件列表。</p>
+<p>这样就会把foo.rpm文件中的所有文件放在当前目录中。</p>

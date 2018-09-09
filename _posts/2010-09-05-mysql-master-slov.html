@@ -1,0 +1,87 @@
+---
+status: publish
+published: true
+title: Mysql中复制介绍及主从服务器的配置
+author:
+  display_name: LinuxSong
+  login: xks
+  email: linuxsong@gmail.com
+  url: http://www.linuxsong.org
+author_login: xks
+author_email: linuxsong@gmail.com
+author_url: http://www.linuxsong.org
+excerpt: "复制介绍\r\n\r\nMySQL支持单向、异步复制，复制过程中一个服务器充当主服务器，而一个或多个其它服务器充当从服务器。主服务器将更新写入二进制日志文件，并维护文件的一个索引以跟踪日志循环。这些日志可以记录发送到从服务器的更新。当一个从服务器连接主服务器时，它通知主
+  服务器从服务器在日志中读取的最后一次成功更新的位置。"
+wordpress_id: 251
+wordpress_url: http://www.linuxsong.org/?p=251
+date: '2010-09-05 11:42:46 +0800'
+date_gmt: '2010-09-05 03:42:46 +0800'
+comments: []
+---
+<h2>复制介绍</h2>
+<p>MySQL支持单向、异步复制，复制过程中一个服务器充当主服务器，而一个或多个其它服务器充当从服务器。主服务器将更新写入二进制日志文件，并维护文件的一个索引以跟踪日志循环。这些日志可以记录发送到从服务器的更新。当一个从服务器连接主服务器时，它通知主 服务器从服务器在日志中读取的最后一次成功更新的位置。从服务器接收从那时起发生的任何更新，然后封锁并等待主服务器通知新的更新。</p>
+<p>如果你想要设置链式复制服务器，从服务器本身也可以充当主服务器。</p>
+<p><!--more-->请注意当你进行复制时，所有对复制中的表的更新必须在主服务器上进行。否则，你必须要小心，以避免用户对主服务器上的表进行的更新与对从服务器上的表所进行的更新之间的冲突。</p>
+<p>单向复制有利于健壮性、速度和系统管理：</p>
+<p>· 主服务器/从服务器设置增加了健壮性。主服务器出现问题时，你可以切换到从服务器作为备份。</p>
+<p>· 通过在主服务器和从服务器之间切分处理客户查询的负荷，可以得到更好的客户响应时间。SELECT查询可以发送到从服务器以降低主服务器的查询处理负荷。但修改数据的语句仍然应发送到主服务器，以便主服务器和从服务器保持同步。如果非更新查询为主，该负载均衡策略很有效，但一般是更新查询。</p>
+<p>· 使用复制的另一个好处是可以使用一个从服务器执行备份，而不会干扰主服务器。在备份过程中主服务器可以继续处理更新。</p>
+<p>主从服务器的配置</p>
+<p>假如有两台机器，<br />
+A： 192.168.10.86<br />
+B： 192.168.10.87</p>
+<p>想把A配置成主服务器，B配置成从服务器(从服务器可以有多个，这里做一个为例子，其它的从机操作基本相同），操作步骤如下：<br />
+<strong>机器A上的操作：<br />
+</strong>1.为从服务器创建复制帐号（建议只用这个用户做复制帐号使用，不要做为它用）<br />
+mysql&gt; GRANT REPLICATION SLAVE ON *.* TO 'repl'@'192.168.10.87' IDENTIFIED BY 'slavepass';</p>
+<p>2.修改/etc/my.cnf</p>
+<p>在[mysqld]中添加如下内容：<br />
+server-id = 1 #主机标示，唯一整数,不能和其它主从服务器相同。<br />
+log_bin = /var/log/mysql/mysql-bin #确保此文件mysql可写<br />
+binlog-do-db =test #需要备份数据，多个写多行<br />
+binlog-ignore-db=mysql #不需要备份的数据库，多个写多行</p>
+<p>$ sudo service mysqld restart</p>
+<p><strong><strong>机器B上的操作：</strong></strong>1. 先测试一下，复制帐号是否可用：<br />
+$ mysql -h192.168.10.86 -urepl -p<strong><strong>slavepass</strong></strong></p>
+<p>2. 修改/etc/my.cnf<br />
+在[mysqld]中添加如下内容：</p>
+<p>server-id=2<br />
+master-host=192.168.10.86<br />
+master-port=3306<br />
+master-user=repl<br />
+master-password=test<br />
+master-connect-retry=5</p>
+<p>replicate-do-db =test</p>
+<p>参数介绍：</p>
+<p>master-host=<em>host</em></p>
+<p>主复制服务器的主机名或IP地址。如果没有给出该选项，从服务器线程不启动。</p>
+<p>master-password=<em>password</em></p>
+<p>连接主服务器时从服务器线程用于鉴定的账户的密码。如果未设置，假定密码为空。</p>
+<p>master-port=<em>port_number</em></p>
+<p>mysql的的端口号（如果你没有修改的话就是3306)</p>
+<p>master-user=<em>username</em></p>
+<p>连接主服务器时从服务器线程用于鉴定的账户的用户名。该账户必须具有REPLICATION SLAVE权限。如果未设置主服务器用户，假定使用用户test。</p>
+<p>replicate-do-db=<em>db_name</em></p>
+<p>告诉从服务器限制默认数据库(由USE所选择)为<em>db_name</em>的语句的复制。要指定多个数据库，应多次使用该选项，每个数据库使用一次。请注意不复制跨数据库的语句，例如当已经选择了其它数据库或没有数据库时执行UPDATE<em>some_db.some_table</em> SET foo='bar'。如果需要跨数据库进行更新，使用--replicate-wild-do-table=<em>db_name</em>.%。请读取该选项列表后面的注意事项。</p>
+<p>一个不能按照期望工作的例子：如果用--replicate-do-db=sales启动从服务器，并且在主服务器上执行下面的语句，UPDATE语句不会复制：</p>
+<p>USE prices; UPDATE sales.january SET amount=amount+1000; 如果需要跨数据库进行更新，应使用--replicate-wild-do-table=<em>db_name</em>.%。</p>
+<p>master-connect-retry=retry_seconds<br />
+从服务器丢失与主服务器的连接，从服务器尝试立即重新连接。如果失败，则过retry_seconds秒后重新连接。</p>
+<p>数据库同步</p>
+<p>修改完后，要进行数据同步。<br />
+同步方法可以用两种方法<br />
+1.<br />
+mysql&gt; LOAD DATA FROM MASTER;</p>
+<p>使用这种方法时，授予复制帐户必须有SUPER和RELOAD全局权限（前面我们创建的帐号没有这个权限）。<br />
+LOAD DATA FROM MASTER目前只在所有表使用MyISAM存储引擎的主服务器上工作。并且，该语句将获得全局读锁定，因此当表正复制到从服务器上时，不可能在主服务器上进行更新。</p>
+<p>2.<br />
+用mysqldump将主服务器中要复制的数据库导出，在本例中我们用test<br />
+$ mysqldump -uroot -p test --databases &gt; test.sql</p>
+<p>然后将其拷贝到B机器中，导入数据。<br />
+$ mysql -uroot -p &lt; test.sql</p>
+<p>验证</p>
+<p>在主机A中，mysql&gt;show master status;</p>
+<p>在从机B中，mysql&gt;show slave status;</p>
+<p>然后，在主机中插入一条数据，看一下B机上的数据库中有相应的数据。</p>
+<p><strong>注意：</strong>你不能从使用新二进制日志格式的主服务器向使用旧二进制日志格式的从服务器复制(例如，从MySQL 5.0到MySQL 4.1）。这样操作在复制设置升级服务器时后果严重</p>
+<p>合理利用mysql的主从数据库，可以为大负载的需求提供负载均衡，并且可以实现读写分离，可以做更多的优化。</p>

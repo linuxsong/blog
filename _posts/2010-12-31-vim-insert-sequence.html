@@ -1,0 +1,51 @@
+---
+status: publish
+published: true
+title: Vim中快速插入序列
+author:
+  display_name: LinuxSong
+  login: xks
+  email: linuxsong@gmail.com
+  url: http://www.linuxsong.org
+author_login: xks
+author_email: linuxsong@gmail.com
+author_url: http://www.linuxsong.org
+excerpt: Vim编辑文本时经常会遇到需要插入一个序列（比如从10到20），或者与此类似的相关序列问题，原来没有仔细想过这个问题，总是一个个的敲。时间久了觉得这样实在太麻烦，Vim这么强大的编辑器一定要更好的方法可以解决这个问题。于时花时间思考了一下，总结了以下几种快速处理序列的方法。
+wordpress_id: 455
+wordpress_url: http://www.linuxsong.org/?p=455
+date: '2010-12-31 00:25:25 +0800'
+date_gmt: '2010-12-30 16:25:25 +0800'
+comments: []
+---
+<p><a href="http://www.linuxsong.org/tag/vim/">Vim</a>编辑文本时经常会遇到需要插入一个序列（比如从10到20），或者与此类似的相关序列问题，原来没有仔细想过这个问题，总是一个个的敲。时间久了觉得这样实在太麻烦，Vim这么强大的编辑器一定要更好的方法可以解决这个问题。于时花时间思考了一下，总结了以下几种快速处理序列的方法。</p>
+<p>例如，在第5行文本后面插入一个序列10到20（每行一个）.</p>
+<p>方法1：</p>
+<p>将光标移到第5行，在命令模式下输入</p>
+<p>11o&lt;ESC&gt;  (插入11个空行）</p>
+<p>:let i=10|g/\%&gt;5l\%&lt;17l/s/^/\=i/|let i+=1  (\%&gt;5l\%&lt;17l 意思是从第6行到16行）</p>
+<p>这样就会得到我们想要的结果（从第6行到16行）：</p>
+<p>10<br />
+11<br />
+12<br />
+13<br />
+14<br />
+15<br />
+16<br />
+17<br />
+18<br />
+19<br />
+20</p>
+<p>如果你想认内容在一行上，那么就将光标移到第6后，然后在命令模式下输入 1J即可。</p>
+<p>另外一种方法 是利用宏录制与 &lt;c-a&gt; ：</p>
+<p>在第6行插入10,然后在命令模式下依次输入：</p>
+<p>qq</p>
+<p>yyp</p>
+<p>&lt;c-a&gt; (ctrl+a)</p>
+<p>q</p>
+<p>9@q</p>
+<p>利用这两种方法，我们可以方便生成需要的序列，以及快速处理其它一些与序列相关的问题。</p>
+<p>另外，如果你是在<a href="http://www.linuxsong.org/tag/linux/">Linux</a>系统下，有一种更为方便的方法，就是在Vim中直接调用Linux的seq命令</p>
+<p>:r !seq 10 20 （多行）</p>
+<p>或</p>
+<p>:r !echo {10..20} (单行）</p>
+<p><a href="http://www.linuxsong.org/tag/vim/">Vim</a>真的挺强大的。</p>

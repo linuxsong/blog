@@ -1,0 +1,41 @@
+---
+status: publish
+published: true
+title: Vim快速选中、删除、复制引号或括号中的内容
+author:
+  display_name: LinuxSong
+  login: xks
+  email: linuxsong@gmail.com
+  url: http://www.linuxsong.org
+author_login: xks
+author_email: linuxsong@gmail.com
+author_url: http://www.linuxsong.org
+excerpt: 最近刚刚发现了一些Vim中，快速对引号或括号等标点内的内容进行选中、删除、复制操作的超级技巧，感觉非常实用。可以极大的提高编辑效率。
+wordpress_id: 284
+wordpress_url: http://www.linuxsong.org/?p=284
+date: '2010-09-07 10:43:33 +0800'
+date_gmt: '2010-09-07 02:43:33 +0800'
+comments:
+- id: 29782
+  author: "【vim环境配置】详细实录 &#8211; 承续缘 | 查问题"
+  author_email: ''
+  author_url: http://www.chawenti.com/articles/33315.html
+  date: '2015-10-11 08:19:33 +0800'
+  date_gmt: '2015-10-11 00:19:33 +0800'
+  content: "[&#8230;] 　　另外，对于大中小括号、双引号、单引号等各种号中变量的删除、复制、选择都比较常用。可以参考（http://www.linuxsong.org/2010/09/vim-quick-select-copy-delete/）学习。
+    [&#8230;]"
+---
+<p>最近刚刚发现了一些<a href="http://www.linuxsong.org/category/vim/">Vim</a>中，快速对引号或括号等标点内的内容进行选中、删除、复制操作的超级技巧，感觉非常实用。可以极大的提高编辑效率。</p>
+<p>以下命令可以对标点内的内容进行操作。<br />
+ci'、ci"、ci(、ci[、ci{、ci&lt; - 分别更改这些配对标点符号中的文本内容<br />
+di'、di"、di(或dib、di[、di{或diB、di&lt; - 分别删除这些配对标点符号中的文本内容<br />
+yi'、yi"、yi(、yi[、yi{、yi&lt; - 分别复制这些配对标点符号中的文本内容<br />
+vi'、vi"、vi(、vi[、vi{、vi&lt; - 分别选中这些配对标点符号中的文本内容</p>
+<p><!--more-->另外如果把上面的i改成a可以连配对标点一起操作。</p>
+<p>举个例子：</p>
+<p>比如要操作的文本如下：</p>
+<p>111"222"333</p>
+<p>将光标移到"222"的任何一个字符处输入命令 di" ,文本会变成： 111""333</p>
+<p>若输入命令 da" ,文本会变成： 111333</p>
+<p>特别是对于用Vim编码的同学来说，真是非常强劲的技巧。</p>
+<p>内容部分引自：<a href="http://linuxtoy.org/archives/killer-vim-tip.html" target="_blank">linuxtoy</a></p>

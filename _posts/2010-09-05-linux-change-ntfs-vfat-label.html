@@ -1,0 +1,59 @@
+---
+status: publish
+published: true
+title: 在Linux下查看、修改Windows分区的卷标
+author:
+  display_name: LinuxSong
+  login: xks
+  email: linuxsong@gmail.com
+  url: http://www.linuxsong.org
+author_login: xks
+author_email: linuxsong@gmail.com
+author_url: http://www.linuxsong.org
+excerpt: "在Linux中如何修改Windows分区的卷标呢？我们要用到两个工具：\r\n对于 VFAT 文件系统，可以使用来自 dosfstools 软件包的
+  >dosfslabel；对于 NTFS 文件系统，可以使用来自 ntfsprogs 软件包的 ntfslabel"
+wordpress_id: 243
+wordpress_url: http://www.linuxsong.org/?p=243
+date: '2010-09-05 11:34:02 +0800'
+date_gmt: '2010-09-05 03:34:02 +0800'
+comments:
+- id: 4116
+  author: yifu
+  author_email: shi_ye@yeah.net
+  author_url: ''
+  date: '2012-02-04 19:05:25 +0800'
+  date_gmt: '2012-02-04 11:05:25 +0800'
+  content: "我在安装ntfsprogs并修改ntfs分区卷标后，\r\n用mount命令挂在是，出现了错误\r\n提示那个文件夹权限有问题。\r\n我创建的文件夹属性\r\ndrwxr-xr-x
+    2 root root 4096 2012-01-03 19:41 sdb1\r\n挂在是提示\r\nmount: warning: /media/sdb2
+    seems to be mounted read-only.\r\n然后这个文件夹权限被改成\r\ndr-x------ 1 root root 4096
+    2012-02-03 15:25 sdb1\r\n修改权限也没用，当挂载到其他目录时，这个目录权限又恢复到原来状态。\r\n\r\n现在只能直接点击文件管理器侧边栏的磁盘图标让它自动挂载了。\r\n这是肿么了？"
+- id: 4177
+  author: LinuxSong
+  author_email: linuxsong@gmail.com
+  author_url: http://www.linuxsong.org
+  date: '2012-02-09 16:17:06 +0800'
+  date_gmt: '2012-02-09 08:17:06 +0800'
+  content: 这个应该不是修改卷标引起的。你安装ntfs-3g了吗？mount 到/mnt目录下试试看。
+---
+<p>修改<a href="http://www.linuxsong.org/category/linux/">Linux</a>分区的卷标可以用 e2label,比如要把/dev/sda1 的卷标改为/boot,则可这样</p>
+<p>$ e2label /dev/sda1 /boot<br />
+查看Linux分区文件系统卷标<br />
+$ e2label /dev/sda1<br />
+/boot</p>
+<p>在Linux中如何修改Windows分区的卷标呢？我们要用到两个工具：<br />
+对于 VFAT 文件系统，可以使用来自 dosfstools 软件包的 &gt;dosfslabel；对于 NTFS 文件系统，可以使用来自 ntfsprogs 软件包的 ntfslabel</p>
+<p>dosfslabel （若没有安装，Fedora用户可以直接yum install -y dosfstools)<br />
+用于VFAT分区，命令用法：<br />
+dosfslabel device [label]</p>
+<p>如修改vfat分区（fat16,fat32均可)卷标</p>
+<p>$ dosfslabel /dev/sda5 /windows</p>
+<p>查看vfat分区卷标</p>
+<p>$ dosfslabel /dev/sda5</p>
+<p>ntfsprogs （若没有安装，Fedora用户可以直接yum install -y ntfsprogs)</p>
+<p>用于NTFS分区，命令用法：<br />
+ntfslabel device [label]<br />
+如修改ntfs分区卷标</p>
+<p>$ ntfslabel  /dev/sda6 /xp</p>
+<p>查看ntfs分区卷标</p>
+<p>$ ntfslabel /dev/sda6<br />
+/xp</p>

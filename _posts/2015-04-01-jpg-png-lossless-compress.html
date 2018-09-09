@@ -1,0 +1,32 @@
+---
+status: publish
+published: true
+title: jpg和png图片的无损压缩工具
+author:
+  display_name: LinuxSong
+  login: xks
+  email: linuxsong@gmail.com
+  url: http://www.linuxsong.org
+author_login: xks
+author_email: linuxsong@gmail.com
+author_url: http://www.linuxsong.org
+wordpress_id: 574
+wordpress_url: http://www.linuxsong.org/?p=574
+date: '2015-04-01 11:23:28 +0800'
+date_gmt: '2015-04-01 03:23:28 +0800'
+comments: []
+---
+<p>网站和APP中通常包含大量的图片素材，减少图片的大小可以改善网页的加载速度、减少APP的包大小。这里介绍两个比较有效的jpg和png的无损压缩工具。</p>
+<p>1. jpegtran</p>
+<p>jpegtran 是专门针对jpg图片的无损压缩工具，支持linux、osx、windows等平台，基本用法：</p>
+<p>比如要压缩yy.jpg后重新存成xx.jpg，命令如下：<br />
+jpegtran  -optimize -progressive -copy none  -outfile xx.jpg yy.jpg<br />
+比如要针某个目录下的所有jpg进行压缩可以使用：<br />
+find path -name "*.jpg" -exec jpegtran  -optimize -progressive -copy none  -outfile  {}  {} \;</p>
+<p>2. optipng<br />
+optipng 是专门png图片的无损压缩工具， Google Chrome的Pagespeed 插件中对png图片的无损压缩就是用的这个工具，同样支持多种平台，基本用法：<br />
+optipng -strip all xx.png<br />
+批量压缩：<br />
+find path -name "*.png" -exec optipng -strip all {} \;<br />
+具体参数的详细说明请参考man手册。</p>
+<p>这两种工具对基本素材类的图片压缩比例非常可观，因为是无损的，所以不用担心图片质量的损耗。</p>

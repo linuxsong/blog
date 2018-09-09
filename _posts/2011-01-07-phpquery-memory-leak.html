@@ -1,0 +1,106 @@
+---
+status: publish
+published: true
+title: phpQuery占用过多内存的解决方法
+author:
+  display_name: LinuxSong
+  login: xks
+  email: linuxsong@gmail.com
+  url: http://www.linuxsong.org
+author_login: xks
+author_email: linuxsong@gmail.com
+author_url: http://www.linuxsong.org
+excerpt: "phpQuery是一个用php实现的类似jQuery的开源项目，可以在服务器端以jQuery的语法形式解析网页元素。 相对于正则或其它方式匹配网页方式，phpQuery使用起来要方便的多。\r\n在使用phpQuery采集网页时，遇到一个问题：在处理大量网页之后，phpQuery占用的内存数量非常惊人（很快就超过了1G)，"
+wordpress_id: 461
+wordpress_url: http://www.linuxsong.org/?p=461
+date: '2011-01-07 23:36:12 +0800'
+date_gmt: '2011-01-07 15:36:12 +0800'
+comments:
+- id: 4192
+  author: starsw001
+  author_email: starsw001@yahoo.com.cn
+  author_url: http://www.ooofk.com
+  date: '2012-04-28 10:06:49 +0800'
+  date_gmt: '2012-04-28 02:06:49 +0800'
+  content: 嗯。看看了。。。
+- id: 4217
+  author: ''
+  author_email: ''
+  author_url: ''
+  date: '2012-06-13 10:28:25 +0800'
+  date_gmt: '2012-06-13 02:28:25 +0800'
+  content: "$doc-&gt;unloadDocument();  这样更好"
+- id: 4218
+  author: LinuxSong
+  author_email: linuxsong@gmail.com
+  author_url: http://www.linuxsong.org
+  date: '2012-06-13 10:55:49 +0800'
+  date_gmt: '2012-06-13 02:55:49 +0800'
+  content: 这个是更好一点，以前没注意还有这个api,看了一下代码，这个函数就是unset(phpQuery::$documents).
+- id: 15996
+  author: 小谈博客
+  author_email: tanteng@gmail.com
+  author_url: http://tanteng.sinaapp.com
+  date: '2013-10-21 22:27:06 +0800'
+  date_gmt: '2013-10-21 14:27:06 +0800'
+  content: 正好要用到phpquery抓取，记住了！
+- id: 15997
+  author: 解决phpQuery占用内存过多的问题 | 小谈博客
+  author_email: ''
+  author_url: http://tanteng.sinaapp.com/2013/10/phpquery-memory/
+  date: '2013-10-21 22:30:34 +0800'
+  date_gmt: '2013-10-21 14:30:34 +0800'
+  content: "[...] 原文转自：http://www.linuxsong.org/2011/01/phpquery-memory-leak   分享到：
+    \    更多          PHP, 网站开发php   &larr; 什么是无反相机     var duoshuoQuery = {&quot;short_name&quot;:&quot;tanteng&quot;,&quot;sso&quot;:{&quot;login&quot;:&quot;http://tanteng.sinaapp.com/wp-login.php?action=duoshuo_login&quot;,&quot;logout&quot;:&quot;http://tanteng.sinaapp.com/wp-login.php?action=logout&amp;_wpnonce=e13640fe70&quot;}};
+    duoshuoQuery.sso.login += &#039;&amp;redirect_to=&#039; + encodeURIComponent(window.location.href);
+    duoshuoQuery.sso.logout += &#039;&amp;redirect_to=&#039; + encodeURIComponent(window.location.href);
+    (function() { var ds = document.createElement(&#039;script&#039;); ds.type = &#039;text/javascript&#039;;
+    ds.async = true; ds.charset = &#039;UTF-8&#039;; ds.src = &#039;http://static.duoshuo.com/embed.js&#039;;
+    (document.getElementsByTagName(&#039;head&#039;)[0] || document.getElementsByTagName(&#039;body&#039;)[0]).appendChild(ds);
+    })();    if (typeof DUOSHUO !== &#039;undefined&#039;) DUOSHUO.EmbedThread(&#039;.ds-thread&#039;);
+    \     \uFEFF [...]"
+- id: 23835
+  author: raymondzhong
+  author_email: raymondzhong@hotmail.com
+  author_url: ''
+  date: '2014-03-28 17:31:11 +0800'
+  date_gmt: '2014-03-28 09:31:11 +0800'
+  content: 有的网站 div中的内容要js过2，3秒才出来 这样的 要怎么采集啊。
+- id: 25339
+  author: LinuxSong
+  author_email: linuxsong@gmail.com
+  author_url: http://www.linuxsong.org
+  date: '2014-04-04 15:42:54 +0800'
+  date_gmt: '2014-04-04 07:42:54 +0800'
+  content: 你说的这种是ajax请求吧.像这种情况可以分析页面中的ajax请求,单独抓取.或者用其它支持ajax抓取的工具.
+- id: 31682
+  author: 赞一个，解决了大问题。
+  author_email: ''
+  author_url: ''
+  date: '2016-06-20 03:31:05 +0800'
+  date_gmt: '2016-06-19 19:31:05 +0800'
+  content: 赞一个，解决了大问题。
+---
+<p>phpQuery是一个用<a title="php" href="http://www.linuxsong.org/category/php/">php</a>实现的类似jQuery的开源项目，可以在服务器端以jQuery的语法形式解析网页元素。 相对于正则或其它方式匹配网页方式，phpQuery使用起来要方便的多。</p>
+<p>在使用phpQuery采集网页时，遇到一个问题：在处理大量网页之后，phpQuery占用的内存数量非常惊人（很快就超过了1G)，</p>
+<p>比如这段代码：</p>
+<p>[code]</p>
+<p>while (true) {<br />
+    phpQuery::newDocumentFile($htmlFile);<br />
+    // 处理网页元素...<br />
+    echo memory_get_usage() . &quot;\n&quot;;<br />
+}</p>
+<p>[/code]</p>
+<p>谨慎运行上面这段代码，它会很快用光你的内存。</p>
+<p>经过查看phpQuery的源代码终于发现了问题所在，phpQuery在每处理一个网页就会产生一个DOMDocumentWrapper 对象，而每个DOMDocumentWrapper 对象会被保存在静态成员$documents中（phpQuery::createDocumentWrapper中），这个变量是一个数组，每解析一个网页数组元素就增加一个。</p>
+<p>phpQuery::$documents[$wrapper-&gt;id] = $wrapper;</p>
+<p>找到问题后，解决就很容易了，每次解析完一个网页，把phpQuery::$documents置空即可。</p>
+<p>[code]</p>
+<p>while (true) {<br />
+    phpQuery::newDocumentFile($htmlFile);<br />
+    // 处理网页元素...<br />
+    phpQuery::$documents = array();<br />
+    echo memory_get_usage() . &quot;\n&quot;;<br />
+}</p>
+<p>[/code]</p>
+<p>内存占用稳定了。</p>

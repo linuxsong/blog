@@ -1,0 +1,34 @@
+---
+status: publish
+published: true
+title: 在Vim中设置svn代码更新、提交快捷键
+author:
+  display_name: LinuxSong
+  login: xks
+  email: linuxsong@gmail.com
+  url: http://www.linuxsong.org
+author_login: xks
+author_email: linuxsong@gmail.com
+author_url: http://www.linuxsong.org
+excerpt: 经常写代码的同学免不了要经常重往版本库中提交、更新代码。如果在Vim中设置一些快捷键来完成这些工作，可以极大的提高工作效率。由于Vim灵活的可配置性，完成这些工作非常轻松，以svn为例说下具体方法。
+wordpress_id: 279
+wordpress_url: http://www.linuxsong.org/?p=279
+date: '2010-09-05 19:20:38 +0800'
+date_gmt: '2010-09-05 11:20:38 +0800'
+comments: []
+---
+<p>经常写代码的同学免不了要经常重往版本库中提交、更新代码。如果在Vim中设置一些快捷键来完成这些工作，可以极大的提高工作效率。由于<a href="http://www.linuxsong.org/category/vim/">Vim</a>灵活的可配置性，完成这些工作非常轻松，以svn为例说下具体方法：</p>
+<p>在~/.vimrc中添加以下代码：<br />
+"更新当前目录的代码<br />
+map &lt;F5&gt;    :!svn up &lt;cr&gt;<br />
+"提交SVN(当前目录)<br />
+map &lt;F7&gt;    :!svn ci -m "" &lt;cr&gt;<br />
+"提交SVN(当前文件)<br />
+map &lt;F8&gt;    :!svn ci -m "" %&lt;cr&gt;</p>
+<p>添加以上代码后，在Vim中按F5就可以更新当前目录，F7提交当前目录中版本库的所有改动,F8只提交当前编辑的文件（前提是当前文件已添加到版本库中），快捷键可以根据自己的喜好修改。</p>
+<p>另外在版本库提交时还可以做一些其他的工作，比如如果你写的是PHP代码，那么可以在提交前先检查php程序中有没有语法错误，如果没有错误再提交，有错误不提交。</p>
+<p>"提交SVN(当前文件)前先检查php语法<br />
+map &lt;F8&gt;    :!php -l % &gt; /dev/null &amp;&amp; svn ci -m "" %&lt;cr&gt;<br />
+"仅检测PHP语法<br />
+autocmd FileType php map &lt;silent&gt; &lt;F9&gt; :!php -l %&lt;cr&gt;</p>
+<p>如果你使用的是其它版本控制软件，比如cvs等，相信参照以上的方法也可以简单实现。</p>

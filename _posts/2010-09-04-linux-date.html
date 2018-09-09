@@ -1,0 +1,69 @@
+---
+status: publish
+published: true
+title: Linux date 命令介绍
+author:
+  display_name: LinuxSong
+  login: xks
+  email: linuxsong@gmail.com
+  url: http://www.linuxsong.org
+author_login: xks
+author_email: linuxsong@gmail.com
+author_url: http://www.linuxsong.org
+wordpress_id: 27
+wordpress_url: http://www.linuxsong.org/?p=27
+date: '2010-09-04 18:52:18 +0800'
+date_gmt: '2010-09-04 10:52:18 +0800'
+comments: []
+---
+<p>date命令</p>
+<p id="nvoa5">date命令的功能是显示和设置系统日期和时间。</p>
+<p id="nvoa6">该命令的一般格式为： date [选项] 显示时间格式（以+开头，后面接格式）</p>
+<p id="nvoa7">date 设置时间格式</p>
+<p id="nvoa8">命令中各选项的含义分别为：</p>
+<p id="nvoa9">-d datestr, --date datestr 显示由datestr描述的日期</p>
+<p id="nvoa10">-s datestr, --set datestr 设置datestr 描述的日期</p>
+<p id="nvoa11">-u, --universal 显示或设置通用时间</p>
+<p>时间域</p>
+<p id="nvoa12">% H 小时（00..23）</p>
+<p id="nvoa13">% I 小时（01..12）</p>
+<p id="nvoa14">% k 小时（0..23）</p>
+<p id="nvoa15">% l 小时（1..12）</p>
+<p id="nvoa16">% M 分（00..59）</p>
+<p id="nvoa17">% p 显示出AM或PM</p>
+<p id="nvoa18">% r 时间（hh：mm：ss AM或PM），12小时</p>
+<p id="nvoa19">% s 从1970年1月1日00：00：00到目前经历的秒数</p>
+<p id="nvoa20">% S 秒（00..59）</p>
+<p id="nvoa21">% T 时间（24小时制）（hh:mm:ss）</p>
+<p id="nvoa22">% X 显示时间的格式（％H:％M:％S）</p>
+<p id="nvoa23">% Z 时区 日期域</p>
+<p id="nvoa24">% a 星期几的简称（ Sun..Sat）</p>
+<p id="nvoa25">% A 星期几的全称（ Sunday..Saturday）</p>
+<p id="nvoa26">% b 月的简称（Jan..Dec）</p>
+<p id="nvoa27">% B 月的全称（January..December）</p>
+<p id="nvoa28">% c 日期和时间（ Mon Nov 8 14：12：46 CST 1999）</p>
+<p id="nvoa29">% d 一个月的第几天（01..31）</p>
+<p id="nvoa30">% D 日期（mm／dd／yy）</p>
+<p id="nvoa31">% h 和%b选项相同</p>
+<p id="nvoa32">% j 一年的第几天（001..366）</p>
+<p id="nvoa33">% m 月（01..12）</p>
+<p id="nvoa34">% w 一个星期的第几天（0代表星期天）</p>
+<p id="nvoa35">% W 一年的第几个星期（00..53，星期一为第一天）</p>
+<p id="nvoa36">% x 显示日期的格式（mm/dd/yy）</p>
+<p id="nvoa37">% y 年的最后两个数字（ 1999则是99）</p>
+<p id="nvoa38">% Y 年（例如：1970，1996等）</p>
+<p id="nvoa39">需要特别说明的是，只有超级用户才能用date命令设置时间，一般用户只能用date命令显示时间。</p>
+<p id="nvoa40">例1：用指定的格式显示时间。</p>
+<p id="nvoa41">$ date ‘+This date now is =&gt;%x ，time is now =&gt;%X ，thank you !'</p>
+<p id="nvoa42">This date now is =&gt;11/12/99 ，time is now =&gt;17:53:01 ，thank you !</p>
+<p id="nvoa43">例2：用预定的格式显示当前的时间。</p>
+<p id="nvoa44"># date</p>
+<p id="nvoa45">Fri Nov 26 15：20：18 CST 1999</p>
+<p id="nvoa46">例3：设置时间为下午14点36分。</p>
+<p id="nvoa47"># date -s 14:36:00</p>
+<p id="nvoa48">Fri Nov 26 14：15：00 CST 1999</p>
+<p id="nvoa49">例4：设置时间为1999年11月28号。</p>
+<p id="nvoa50"># date -s 991128</p>
+<p id="nvoa51">Sun Nov 28 00：00：00 CST 1999<br />
+例5：设置一天前<br />
+date --date "1 days ago" +"%Y-%m-%d"</p>

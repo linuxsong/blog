@@ -1,0 +1,214 @@
+---
+status: publish
+published: true
+title: 康威生命游戏的js+html5实现
+author:
+  display_name: LinuxSong
+  login: xks
+  email: linuxsong@gmail.com
+  url: http://www.linuxsong.org
+author_login: xks
+author_email: linuxsong@gmail.com
+author_url: http://www.linuxsong.org
+wordpress_id: 617
+wordpress_url: http://www.linuxsong.org/?p=617
+date: '2015-11-28 16:44:14 +0800'
+date_gmt: '2015-11-28 08:44:14 +0800'
+tags: javascript
+comments: []
+---
+<p>生命游戏是英国数学家约翰·何顿·康威在1970年发明的细胞自动机（百度百科：<a title="生命游戏" href="http://baike.baidu.com/view/162057.htm" target="_blank">生命游戏</a>）。</p>
+<p>生命游戏的规则非常简单：</p>
+<ul>
+<li>生存规则：8个邻格中有2-3个“邻居”的自动机可以存活到下一回合</li>
+<li>死亡规则：8个邻格中有4个或以上“邻居”的自动机在下一回合死于人口过载；1个或以下“邻居”的自动机在下一回合死于孤独</li>
+<li>出生规则：8个邻格中有3个“邻居”的空格子在下一回合生出一个新的自动机</li>
+</ul>
+<p>虽然规则很简单，但是会产生一些有趣的演化，我觉得是一件很好玩的事情。所以用<a href="http://www.linuxsong.org/category/javascript/" target="_blank">js</a>和h5的canvas实现了一个。</p>
+<p><!--more--></p>
+<p>效果：</p>
+<p><center><br />
+<canvas id="canvas" width="602" height="602"></canvas><br />
+<script src="//cdnjs.cloudflare.com/ajax/libs/fabric.js/1.7.19/fabric.min.js" type="text/javascript"></script></p>
+<div style="margin: 20px 50px 20px; padding-bottom: 10px; border-bottom: 1px solid #c1c1c1; text-align: center; width: 502px;"><input style="width: 70px;" type="button" value="重新开始" onclick="javascript:restartLifeGame();"/> 大小：<input id="lifeSize" style="width: 50px; margin-right: 20px;" type="text" value="50" /> 剩余生命：<span id="remainLifes" style="display: inline-block; width: 50px;">0</span> 进化次数：<span id="period" style="display: inline-block; width: 40px;">0</span></div>
+<p>&nbsp;<br />
+</center><br />
+<script type="text/javascript">// <![CDATA[
+function LifeGame(row, col) {
+    this.row = row;
+    this.col = col;
+    this.grid = [];
+    this.remainLifes = 0;
+    this.nextRemainLifes = 0;
+    this.period = 1;
+}
+//随机初始化生命，按百分比随机生成生命数量
+LifeGame.prototype.initRandom = function(percent) {
+    this.remainLifes = 0;
+    this.period = 1;
+    for(var i=0;i
+<this.row;i++) {
+        this.grid[i] = [];
+        for(var j=0;j<this.col;j++) {
+            if (Math.random() * 100 <= percent) {
+                this.grid[i][j] = {'state':1, 'nextState':1};
+                this.remainLifes++;
+                this.nextRemainLifes = this.remainLifes;
+            } else {
+                this.grid[i][j] = {'state':0, 'nextState':0};
+            }
+        }
+    }
+};
+//计算某个生命的邻居生存个数
+LifeGame.prototype.aliveCountAround = function(x,y) {
+    return this.grid[this.mapX(x-1)][this.mapY(y-1)].state +
+            this.grid[this.mapX(x-1)][y].state +
+            this.grid[this.mapX(x-1)][this.mapY(y+1)].state +
+            this.grid[x][this.mapY(y-1)].state +
+            this.grid[x][this.mapY(y+1)].state +
+            this.grid[this.mapX(x+1)][this.mapY(y-1)].state +
+            this.grid[this.mapX(x+1)][y].state +
+            this.grid[this.mapX(x+1)][this.mapY(y+1)].state;
+};
+//左右边界的映射，超出左边界则认为是右边界关联，如-1会映射为是最右侧,这样会让游戏的宽度是无限延展的
+LifeGame.prototype.mapX = function(x) {
+    return (x >= this.row || x < 0 ) ? (x%this.row + this.row) % this.row : x;
+};
+//上下边界的映射，参见mapX
+LifeGame.prototype.mapY = function(y) {
+    return (y >= this.col || y < 0 ) ? (y%this.col + this.col) % this.col: y;
+};
+//计算某个生命的下一回合的生存状态
+LifeGame.prototype.nextState = function(x,y) {
+    var aliveCountAround = this.aliveCountAround(x,y);
+    if (aliveCountAround >= 4) {
+        return 0;
+    } else if(aliveCountAround === 3) {
+        return 1;
+    } else if(aliveCountAround >= 2) {
+        return this.grid[x][y].nextState;
+    } else {
+        return 0;
+    }
+};
+//计算所有生命的下一回合的生存状态
+LifeGame.prototype.calcNextState = function() {
+    this.nextRemainLifes = 0;
+    for(var i=0;i
+<this.row;i++) {
+        for(var j=0;j<this.col;j++) {
+            this.grid[i][j].nextState = this.nextState(i, j);
+            if (this.grid[i][j].nextState === 1) {
+                this.nextRemainLifes++;
+            }
+        }
+    }
+};
+//转换到下一回合的生存状态
+LifeGame.prototype.changeNextState = function() {
+  for(var i=0;i<this.row;i++) {
+      for(var j=0;j<this.col;j++) {
+          this.grid[i][j].state = this.grid[i][j].nextState;
+      }
+  }
+  this.remainLifes = this.nextRemainLifes;
+  this.period++;
+};
+//下一回合
+LifeGame.prototype.nextAround = function() {
+    this.calcNextState();
+    this.changeNextState();
+};
+//某个生命是否存活
+LifeGame.prototype.isAlive = function(x,y) {
+    return this.grid[x][y].state === 1;
+};
+            var life;
+            var lifeTimer = 0;
+            var canvas = new fabric.Canvas('canvas');
+            canvas.renderOnAddRemove = false;
+            var lifes = [];
+            restartLifeGame();
+            function initLifeGame()
+            {
+                var rect = new fabric.Rect({
+                    top : 0,
+                    left : 0,
+                    width : 600,
+                    height : 600,
+                    fill : 'white',
+                    selectable: false,
+                    strokeWidth: 1,
+                    stroke: '#C1C1C1'
+                });
+                canvas.add(rect);
+                canvas.renderAll();
+            }
+            function restartLifeGame()
+            {
+                var size = parseInt(document.getElementById('lifeSize').value);
+                if (isNaN(size) || size <= 0) {
+                    alert('请输入正确数值');
+                    return;
+                }
+                if (lifeTimer != 0)
+                    clearInterval(lifeTimer);
+                canvas.clear();
+                initLifeGame();
+                beginLife(size, size);
+            }
+            function beginLife(row,col)
+            {
+                life = new LifeGame(row,col);
+                life.initRandom(20);
+                  var width  = 600/life.col;
+                  var height = 600/life.row;
+                  for(var i=0;i		<life.row;i++) {
+                      lifes[i] = [];
+                      for(var j=0;j		<life.col;j++) {
+                        lifes[i][j] = new fabric.Rect({
+                            top:    i*height,
+                            left:   j*width,
+                            width:  width,
+                            height: height,
+                            fill:   'black',
+                            selectable: false,
+                            stroke: 'rgba(100,200,200,0.5)',
+                            strokeWidth: 1,
+                            visible:    false
+                        });
+                        canvas.add(lifes[i][j]);
+                      }
+                  }
+                refreshLife();
+                lifeTimer = setInterval(refreshLife, 300);
+            }
+            function refreshLife()
+            {
+                drawLife();
+                document.getElementById('remainLifes').innerText = life.remainLifes;
+                document.getElementById('period').innerText = life.period;
+                life.nextAround();
+            }
+            function drawLife()
+            {
+                for(var i=0;i<life.row;i++) {
+                    for(var j=0;j<life.col;j++) {
+                        if (life.isAlive(i,j))  {
+                           lifes[i][j].visible = true;
+                        } else {
+                           lifes[i][j].visible = false;
+                        }
+                    }
+                }
+                canvas.renderAll();
+            }
+            function pauseLife()
+            {
+                clearInterval(lifeTimer);
+            }// ]]>
+</script>
+<p>其中Canvas的绘图部分使用了<a title="fabricjs" href="http://fabricjs.com/" target="_blank">fabric.js</a>库，一个非常强大的Canvas相关操作的js库。<br />
+<br/><br />
+具体代码请移步：<a href="https://github.com/linuxsong/lifegame" target="_blank">Github</a></p>

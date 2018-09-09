@@ -1,0 +1,163 @@
+---
+status: publish
+published: true
+title: 使用虚拟内存文件系统和绑定安装
+author:
+  display_name: LinuxSong
+  login: xks
+  email: linuxsong@gmail.com
+  url: http://www.linuxsong.org
+author_login: xks
+author_email: linuxsong@gmail.com
+author_url: http://www.linuxsong.org
+excerpt: 伴 随着 Linux 2.4 版本的发行，出现了大量的文件系统可能性，其中包括 ReiserFS、XFS、GFS 和其它文件系统。这些文件系统听起来的确都很酷，但是它们真正能做些什么呢，擅长在哪些方面，以及在
+  Linux 产品环境下如何才能安全地使用它们呢？Daniel Robbins 通过向您展示如何在 Linux 2.4 的环境下建立这些新的高级文件系统来回答以上的问题。在这个部分，Daniel
+  简单地介绍了 tmpfs，一个基于 VM 的文件系统，还向您介绍了 2.4 版本的“绑定”安装功能带来的新的可能。
+wordpress_id: 138
+wordpress_url: http://www.linuxsong.org/?p=138
+date: '2010-09-05 01:02:00 +0800'
+date_gmt: '2010-09-04 17:02:00 +0800'
+comments: []
+---
+<p><a id="x0o652" href="http://www.ibm.com/developerworks/cn/linux/filesystem/l-fs3/index.html#author" target="_blank">Daniel Robbins</a> (<a id="x0o653" rel="noreferrer">drobbins@gentoo.org</a>), 总裁／首席执行官, Gentoo Technologies, Inc.</p>
+<blockquote id="x0o656"><p>伴 随着 <a href="http://www.linuxsong.org/category/linux/">Linux</a> 2.4 版本的发行，出现了大量的文件系统可能性，其中包括 ReiserFS、XFS、GFS 和其它文件系统。这些文件系统听起来的确都很酷，但是它们真正能做些什么呢，擅长在哪些方面，以及在 Linux 产品环境下如何才能安全地使用它们呢？Daniel Robbins 通过向您展示如何在 Linux 2.4 的环境下建立这些新的高级文件系统来回答以上的问题。在这个部分，Daniel 简单地介绍了 tmpfs，一个基于 VM 的文件系统，还向您介绍了 2.4 版本的“绑定”安装功能带来的新的可能。</p></blockquote>
+<p id="x0o657">在本系列我以前的文章中，我 <a id="x0o658" href="http://www.ibm.com/developerworks/cn/linux/filesystem/l-fs/index.html" target="_blank">介绍了创建日志和使用 ReiserFS 的好处</a>，并 <a id="x0o659" href="http://www.ibm.com/developerworks/cn/linux/filesystem/l-fs2/index.html" target="_blank">展示了如何安装一个稳固的基于 Linux 2.4 的 ReiserFS 系统</a>。 在本文中，我们要谈论几个相对次要的主题。首先，我们会简单地介绍一下 tmpfs，也就是我们知道的虚拟内存（virtual memory，VM）文件系统。Tmpfs 可能是现在 Linux 可以使用的最好的类似于 RAM 磁盘的系统，而且是 2.4 内核的一个新功能。然后，我们将简单地介绍另一个 2.4 内核的新功能，叫做“绑定安装”，它在安装（和重新安装）文件系统的时候带来了很大的灵活性。在下一篇文章中，我们会把重点集中在 devfs 上，之后，我们会花点时间来进一步熟悉新的 ext3 文件系统。</p>
+<p id="x0o663"><!--more-->如果我必须一下子说清楚 tmpfs，我会说 tmpfs 就象虚拟磁盘（ramdisk），但不一样。象虚拟磁盘一样，tmpfs <em>可以</em>使用您的 RAM，但它也可以使用您的交换分区来存储。而且传统的虚拟磁盘是个块设备，并需要一个 <code id="x0o665">mkfs</code> 之类的命令才能真正地使用它，tmpfs 是一个文件系统，而不是块设备；您只是安装它，它就可以使用了。总而言之，这让 tmpfs 成为我有机会遇到的最好的基于 RAM 的文件系统。</p>
+<p id="x0o669">让我们来看看 tmpfs 更有趣的一些特性吧。正如我前面提到的一样，tmpfs 既可以使用 RAM， <em>也</em>可 以使用交换分区。刚开始这看起来可能有点武断，但请记住 tmpfs 也是我们知道的“虚拟内存文件系统”。而且，您可能也知道，Linux 内核的虚拟内存资源同时来源于您的 RAM 和交换分区。内核中的 VM 子系统将这些资源分配到系统中的其它部分，并负责在后台管理这些资源，通常是透明地将 RAM 页移动到交换分区或从交换分区到 RAM 页。</p>
+<p id="x0o671">tmpfs 文件系统需要 VM 子系统的页面来存储文件。tmpfs 自己并不知道这些页面是在交换分区还是在 RAM 中；做这种决定是 VM 子系统的工作。tmpfs 文件系统所知道的就是它正在使用某种形式的虚拟内存。</p>
+<p id="x0o675">这 里是 tmpfs 文件系统另一个有趣的特性。不同于大多数“标准的”文件系统，如 ext3、ext2、XFS、JFS、ReiserFS 和其它一些系统，tmpfs 并不是存在于一个底层块设备上面。因为 tmpfs 是直接建立在 VM 之上的，您用一个简单的 mount 命令就可以创建 tmpfs 文件系统了。</p>
+<table id="x0o676" border="0" cellspacing="0" cellpadding="0" width="100%">
+<tbody id="x0o677">
+<tr id="x0o678">
+<td id="x0o679">
+<pre id="x0o680"># mount tmpfs /mnt/tmpfs -t tmpfs</pre>
+</td>
+</tr>
+</tbody>
+</table>
+<p id="x0o682">执行这个命令之后，一个新的 tmpfs 文件系统就安装在 /mnt/tmpfs，随时可以使用。注意，不需运行 <code id="x0o683">mkfs.tmpfs</code> ；事实上，那是不可能的，因为没有这样的命令存在。在 <code id="x0o684">mount</code> 命令执行之后，文件系统立即就被安装并且可以使用了，类型是<code id="x0o685">tmpfs</code> 。这和 Linux 虚拟磁盘如何使用大相径庭；标准的 Linux 虚拟磁盘是 <em>块设备</em>，所以在使用它们之前必须用您选择的文件系统将其格式化。相反，tmpfs <em>是</em>一个文件系统。所以，您可以简单地安装它就可以使用了。</p>
+<p id="x0o6120">您可能想知道我们前面在 /mnt/tmpfs 安装的 tmpfs 文件系统有多大。这个问题的答案有点意外，特别是在和基于磁盘的文件系统比较的时候。/mnt/tmpfs 最初会只有很小的空间，但随着文件的复制和创建，tmpfs 文件系统驱动程序会分配更多的 VM，并按照需求动态地增加文件系统的空间。而且，当 /mnt/tmpfs 中的文件被删除时，tmpfs 文件系统驱动程序会动态地减小文件系统并释放 VM 资源，这样做可以将 VM 返回到循环当中以供系统中其它部分按需要使用。因为 VM 是宝贵的资源，所以您一定不希望任何东西浪费超出它实际所需的 VM，tmpfs 的好处之一就在于这些都是自动处理的。 请参阅 <a id="x0o6121" href="http://www.ibm.com/developerworks/cn/linux/filesystem/l-fs3/index.html#resources" target="_blank">参考资料</a>。</p>
+<p id="x0o6125">tmpfs 的另一个主要的好处是它闪电般的速度。因为典型的 tmpfs 文件系统会完全驻留在 RAM 中，读写几乎可以是瞬间的。即使用了一些交换分区，性能仍然是卓越的，当更多空闲的 VM 资源可以使用时，这部分 tmpfs 文件系统会被移动到 RAM 中去。让 VM 子系统自动地移动部分 tmpfs 文件系统到交换分区实际上对性能上是<em>好</em>的，因为这样做可以让 VM 子系统为需要 RAM 的进程释放空间。这一点连同它动态调整大小的能力，比选择使用传统的 RAM 磁盘可以让操作系统有好得多的整体性能和灵活性。</p>
+<p id="x0o6130">这 看起来可能不象是个积极因素，tmpfs 数据在重新启动之后不会保留，因为虚拟内存本质上就是易失的。我想您可能猜到了 tmpfs 被称为“tmpfs”的一个原因，不是吗？然而，这实际上可以是一件好事。它让 tmpfs 成为一个保存您不需保留的数据（如临时文件，可以在 /tmp 中找到，还有 /var 文件系统树的某些部分）的卓越的文件系统。</p>
+<p id="x0o6159">为了使用 tmpfs，您所需要的就是启用了“Virtual memory file system support（以前是 shm fs）”选项的 2.4 系列内核；这个选项在内核配置选项的“File systems”部分。一旦您有了一个启用了 tmpfs 的内核，您就可以开始安装 tmpfs 文件系统了。其实，在您所有的 2.4 内核中都打开 tmpfs 选项是个好主意，不管您是否计划使用 tmpfs。这是因为您需要内核 tmpfs 支持来使用 POSIX 共享的内存。然而，<em>System V</em>共享的内存不需要内核中有 tmpfs 就 <em>可以</em>工作。注意，您 <em>不</em>需要为了让 POSIX 共享的内存工作而安装 tmpfs 文件系统；您只需要在内核中支持 tmpfs 就可以了。POSIX 共享的内存现在使用得不太多，但这种情况可能会随着时间而改变。</p>
+<p id="x0o6166">tmpfs 根据需要动态增大或减小的事实让人疑惑：如果您的 tmpfs 文件系统增大到它耗尽了 <em>所有</em>虚 拟内存的程度，而您没有剩余的 RAM 或交换分区，这时会发生什么？一般来说，这种情况是有点讨厌。如果是 2.4.4 内核，内核会立即锁定。如果是 2.4.6 内核，VM 子系统已经以很多种方式得到了修正，虽然耗尽 VM 并不是一个美好的经历，事情也不会完全地失败。如果 2.4.6 内核到了无法分配更多 VM 的程度，您显然不愿意不能向 tmpfs 文件系统写任何新数据。另外，可能会发生其他一些事情。首先，系统的其他一些进程会无法分配更多的内存；通常，这意味着系统多半会变得 <em>极度</em>缓慢而且几乎没有响应。这样，超级用户要采取必要的步骤来缓解这种低 VM 的情况就会很困难，或异常地耗时。</p>
+<p id="x0o6169">另 外，内核有一个内建的最终防线系统，用来在没有可用内存的时候释放内存，它会找到占用 VM 资源的进程并终止该进程。不幸的是，这种“终止进程”的解决方案在 tmpfs 的使用增加引起 VM 耗尽的情况下通常会导致不良后果。以下是原因。tmpfs 本身不能（也不应该）被终止，因为它是内核的一部分而非一个用户进程，而且也没有容易的方法可以让内核找出是那个进程占满了 tmpfs 文件系统。所以，内核会错误地攻击它能找到的最大的占用 VM 的进程，通常会是 X 服务器（X server），如果您碰巧在使用它。所以，您的 X 服务器会被终止，而引起低 VM 情况的根本原因（tmpfs）却没有被解决。Ick.</p>
+<p id="x0o6173">幸运的是，tmpfs 允许您在安装或重新安装文件系统的时候指定文件系统容量的最大值上限。实际上，从 2.4.6 内核到 2.11g 内核，这些参数只能在 <em>安装</em>时 设置，而不是重新安装时，但我们可以期望在不久的将来可以在重新安装时设置这些参数。tmpfs 容量最大值的最佳设置依赖于资源和您特定的 Linux 主机的使用模式；这个想法是要防止一个完全使用资源的 tmpfs 文件系统耗尽所有虚拟内存结果导致我们前面谈到的糟糕的低 VM 情况。寻找好的 tmpfs 上限值的一个好方法是使用 <code id="x0o6175">top</code> 来监控您系统的交换分区在高峰使用阶段的使用情况。然后，确保指定的 tmpfs 上限稍小于所有这些高峰使用时间内空闲交换分区和空闲 RAM 的总和。</p>
+<p id="x0o6176">创建有最大容量的 tmpfs 文件系统很容易。要创建一个新的最大 32 MB 的 tmpfs 文件系统，请键入：</p>
+<table id="x0o6177" border="0" cellspacing="0" cellpadding="0" width="100%">
+<tbody id="x0o6178">
+<tr id="x0o6179">
+<td id="x0o6180">
+<pre id="x0o6181"># mount tmpfs /dev/shm -t tmpfs -o size=32m</pre>
+</td>
+</tr>
+</tbody>
+</table>
+<p id="x0o6184">这次，我们没有把 tmpfs 文件系统安装在 /mnt/tmpfs，而是创建在 /dev/shm，这正好是 tmpfs 文件系统的“正式”安装点。如果您正好在使用 devfs，您会发现这个目录已经为您创建好了。</p>
+<p id="x0o6185">还有，如果我们想将文件系统的容量限制在 512 KB 或 1 GB 以内，我们可以分别指定 <code id="x0o6186">size=512k</code> 和 <code id="x0o6187">size=1g</code> 。除了限制容量，我们还可以通过指定<code id="x0o6188">nr_inodes=x</code> 参数限制索引节点（文件系统对象）。在使用 <code id="x0o6189">nr_inodes</code> 时， <code id="x0o6190">x</code> 可以是一个简单的整数，后面还可以跟一个 <code id="x0o6191">k</code> 、 <code id="x0o6192">m</code> 或 <code id="x0o6193">g</code> 指定千、百万或十亿（！）个索引节点。</p>
+<p id="x0o6194">而且，如果您想把上面的 <code id="x0o6195">mount tmpfs</code> 命令的等价功能添加到 /etc/fstab，应该是这样：</p>
+<table id="x0o6196" border="0" cellspacing="0" cellpadding="0" width="100%">
+<tbody id="x0o6197">
+<tr id="x0o6198">
+<td id="x0o6199">
+<pre id="x0o6200">tmpfs /dev/shm tmpfs size=32m 0 0</pre>
+</td>
+</tr>
+</tbody>
+</table>
+<p id="x0o6231">在以前使用 2.2 的时候，试图在 <em>已经</em>安 装了东西的安装点再次安装任何东西都会引发错误。然而，重写后的内核安装代码使多次使用安装点不再成为问题。这里是一个示例的情况：假设我们有一个现存的 文件系统安装在 /tmp。然而，我们决定要开始使用 tmpfs 进行 /tmp 的存储。过去，您唯一的选择就是卸载 /tmp 并在其位置重新安装您新的 tmpfs/tmp 文件系统，如下所示：</p>
+<table id="x0o6233" border="0" cellspacing="0" cellpadding="0" width="100%">
+<tbody id="x0o6234">
+<tr id="x0o6235">
+<td id="x0o6236">
+<pre id="x0o6237">#  umount /tmp
+#  mount tmpfs /tmp -t tmpfs -o size=64m</pre>
+</td>
+</tr>
+</tbody>
+</table>
+<p id="x0o6240">可是，这种解决方案也许对您不管用。可能有很多正在运行的进程在 /tmp 中有打开的文件；如果是这样，在试图卸载 /tmp 时，您就会遇到如下的错误：</p>
+<table id="x0o6241" border="0" cellspacing="0" cellpadding="0" width="100%">
+<tbody id="x0o6242">
+<tr id="x0o6243">
+<td id="x0o6244">
+<pre id="x0o6245">umount: /tmp: device is busy</pre>
+</td>
+</tr>
+</tbody>
+</table>
+<p id="x0o6248">然而，使用最近的 2.4 内核，您可以安装您新的 /tmp 文件系统，而不会遇到“device is busy”错误：</p>
+<table id="x0o6249" border="0" cellspacing="0" cellpadding="0" width="100%">
+<tbody id="x0o6250">
+<tr id="x0o6251">
+<td id="x0o6252">
+<pre id="x0o6253"># mount tmpfs /tmp -t tmpfs -o size=64m</pre>
+</td>
+</tr>
+</tbody>
+</table>
+<p id="x0o6256">用一条命令，您新的 tmpfs /tmp 文件系统就被安装在 /tmp，并安装在已经安装的不能再被直接访问的分区 <em>之上</em>。然而，虽然您不能访问原来的 /tmp，任何在原文件系统上还有打开文件的进程都可以继续访问它们。而且，如果您 <code id="x0o6258">unmount</code> 基于 tmpfs 的 /tmp，原来安装的 /tmp 文件系统会重新出现。实际上，您在相同的安装点上可以安装任意数目的文件系统，安装点就象一个堆栈；卸载当前的文件系统，上一个最近安装的文件系统就会重新出现。</p>
+<p id="x0o6288">使用绑定安装，我们可以将所有甚至 <em>部分</em>已经安装的文件系统安装到另一个位置，而在两个安装点可以同时访问该文件系统。例如，您可以使用绑定安装来安装您现存的根文件系统到 /home/drobbins/nifty，如下所示：</p>
+<table id="x0o6290" border="0" cellspacing="0" cellpadding="0" width="100%">
+<tbody id="x0o6291">
+<tr id="x0o6292">
+<td id="x0o6293">
+<pre id="x0o6294">#  mount --bind / /home/drobbins/nifty</pre>
+</td>
+</tr>
+</tbody>
+</table>
+<p id="x0o6296">现 在，如果您观察 /home/drobbins/nifty 的内部，您就会看到您的根文件系统（/home/drobbins/nifty/etc、/home/drobbins/nifty/opt 等）。而且，如果您在根文件系统修改文件，您在 /home/drobbins/nifty 中也可以看到所作的改动。这是因为它们是同一个文件系统；内核只是简单地为我们将该文件系统映射到两个不同的安装点。注意，当您在另一处安装文件系统时， 任何安装在绑定安装文件系统 <em>内部的</em>安装点的文件系统都不会随之移动。换句话说，如果您在单独的文件系统上有 /usr，我们前面执行的绑定安装就会让 /home/drobbins/nifty/usr 为空。您会需要附加的绑定安装命令来使您能够浏览位于 /home/drobbins/nifty/usr 的 /usr 的内容：</p>
+<table id="x0o6298" border="0" cellspacing="0" cellpadding="0" width="100%">
+<tbody id="x0o6299">
+<tr id="x0o6300">
+<td id="x0o6301">
+<pre id="x0o6302">#  mount --bind /usr /home/drobbins/nifty/usr</pre>
+</td>
+</tr>
+</tbody>
+</table>
+<p id="x0o6307">绑定安装让更妙的事情成为可能。假设您有一个 tmpfs 文件系统安装在它的传统位置 /dev/shm，您决定要开始在当前位于根文件系统的 /tmp 使用 tmpfs。虽然可以在 /tmp（这是可能的）安装一个新的 tmpfs 文件系统，您也可以决定让新的 /tmp<em>共享</em>当前安装的 /dev/shm 文件系统。然而，虽然您可以在 /tmp 绑定安装 /dev/shm 就完成了，但您的 /dev/shm 还包含一些您不想在 /tmp 出现的目录。所以，您怎么做呢？这样如何：</p>
+<table id="x0o6309" border="0" cellspacing="0" cellpadding="0" width="100%">
+<tbody id="x0o6310">
+<tr id="x0o6311">
+<td id="x0o6312">
+<pre id="x0o6313"># mkdir /dev/shm/tmp
+# chmod 1777 /dev/shm/tmp
+# mount --bind /dev/shm/tmp /tmp</pre>
+</td>
+</tr>
+</tbody>
+</table>
+<p id="x0o6318">在这个示例中，我们首先创建了一个 /dev/shm/tmp 目录，然后给它 <code id="x0o6319">1777</code> 权限，对 /tmp 适当的许可。既然我们的目录已经准备好了，我们可以安装，也只能安装 /dev/shm/tmp 到 /tmp。所以，虽然 /tmp/foo 会映射到 /dev/shm/tmp/foo，但您没有办法从 /tmp 访问 /dev/shm/bar 文件。</p>
+<p id="x0o6320">正如您所见，绑定安装非常强大，让您可以轻易地修改文件系统设计，丝毫不必忙乱。下一篇文章，我们会谈到 devfs，至于现在，您也许会想看看下面的参考资料。</p>
+<ul id="x0o6326">
+<li id="x0o6327">您可以参阅本文在 developerWorks 全球站点上的 <a id="x0o6328" href="http://www.ibm.com/developerworks/library/l-fs3.html?S_TACT=105AGX52&amp;S_CMP=cn-a-l" target="_blank">英文原文</a>.</li>
+<li id="x0o6331">阅读 Daniel 本系列以前的文章，他在那里 <a id="x0o6332" href="http://www.ibm.com/developerworks/cn/linux/filesystem/l-fs/index.html" target="_blank">介绍了创建日志和使用 ReiserFS 的好处</a>，并 <a id="x0o6333" href="http://www.ibm.com/developerworks/cn/linux/filesystem/l-fs2/index.html" target="_blank">展示了如何安装一个稳固的基于 Linux 2.4 的 ReiserFS 系统</a>。</li>
+<li id="x0o6336"><a id="x0o6337" href="http://www.lwn.net/" target="_blank">Linux Weekly News</a>是与最新的内核开发保持同步的很好的参考资料。</li>
+<li id="x0o6340"><a id="x0o6341" href="http://freshmeat.net/projects/util-linux/" target="_blank">util-linux</a>（最新链接）收集了各种重要的 Linux 应用程序，包括 <code id="x0o6342">mount</code>和 <code id="x0o6343">unmount</code> 。您也许希望升级到最新的可用版本，这样您就可以使用<code id="x0o6344">mount --bind</code> 语法（而不是使用 <code id="x0o6345">mount -o bind</code> ）。</li>
+<li id="x0o6348">因为 tmpfs 和绑定安装相对来说比较新，大部分都是没有文档说明的内核新特性，学习它们的最好方法就是学习 Linux 内核源代码的相关部分。</li>
+<li id="x0o6351"><a id="x0o6352" href="http://www.namesys.com/" target="_blank">Namesys 页面</a> <em>就</em>是学习更多关于 ReiserFS 的地方。</li>
+<li id="x0o6356"><a id="x0o6357" href="http://www.namesys.com/mailinglist.html" target="_blank">ReiserFS 邮件清单</a>是更深入了解当前ReiserFS 信息的很好的资源。一定还要看看 <a id="x0o6358" href="http://marc.theaimsgroup.com/?l=reiserfs&amp;r=1&amp;w=2" target="_blank">ReiserFS 邮件清单归档</a>。</li>
+<li id="x0o6361">在 Juan I. Santos Florido 的 <a id="x0o6362" href="http://www.linuxgazette.com/issue55/florido.html" target="_blank">Linux Gazette Journal File Systems</a>回顾中，您可以找到 UFS、ext2 和 ReiserFS 之间元数据差异的很深入的讲解和其它一些内容。</li>
+<li id="x0o6365">阅读 <em>developerWorks</em>上 Steve Best 的 <a id="x0o6367" href="http://www.ibm.com/developerworks/cn/linux/filesystem/jfs/jfs/index.html" target="_blank">JFS 概观</a>。</li>
+<li id="x0o6370">参加 <em>developerWorks</em>上 Daniel 的免费的 <a id="x0o6372" href="http://www.ibm.com/developerworks/cn/views/linux/tutorials.jsp?cv_doc_id=84974" target="_blank">JFS 基础教程</a>。</li>
+<li id="x0o6375">浏览 <em>developerWorks</em>上 <a id="x0o6377" href="http://www.ibm.com/developerworks/cn/linux/index.html" target="_blank">更多 Linux 参考资料</a>。</li>
+<li id="x0o6380">浏览 <em>developerWorks</em>上 <a id="x0o6382" href="http://www.ibm.com/developerworks/opensource/?S_TACT=105AGX52&amp;article=osr&amp;S_CMP=cn-a-l" target="_blank">更多开放源代码资源</a>。</li>
+</ul>
+<table id="x0o6389" border="0" cellspacing="0" cellpadding="0" width="100%">
+<tbody id="x0o6390">
+<tr id="x0o6391">
+<td id="x0o6392" colspan="3"><img id="x0o6393" src="http://www.ibm.com/i/c.gif" alt="" width="100%" height="5" /></td>
+</tr>
+<tr id="x0o6394" align="left" valign="top">
+<td id="x0o6395">
+<p id="x0o6396"><img id="x0o6397" src="http://www.ibm.com/developerworks/cn/i/robbins.gif" alt="作者" width="64" height="71" align="left" /></p>
+</td>
+<td id="x0o6398"><img id="x0o6399" src="http://www.ibm.com/i/c.gif" alt="" width="4" height="5" /></td>
+<td id="x0o6400" width="100%">
+<p id="x0o6401">Daniel Robbins 是 Gentoo Technologies，Inc. 的总裁／首席执行官，住在新墨西哥州的 Albuquerque，他是 <a id="x0o6402" href="http://www.gentoo.org/" target="_blank">Gentoo Linux</a>（一种 PC 机上的高级 Linux）和 <strong>Portage</strong>系统（Linux 的下一代移植系统）的创建者。他还是 Macmillan 的书籍 <em>Caldera OpenLinux Unleashed</em>、<em>SuSE Linux Unleashed</em>和 <em>Samba Unleashed</em>的特约作者。Daniel 从他二年级时接触到 Logo 编程语言和 Pac Man 游戏的潜在危险魔力后就被这股热流卷进了计算机中。这或许可以解释他为什么曾经是<strong>SONY 电子出版／游戏公司</strong>的首席图形设计师了。Daniel 喜欢花时间和他的妻子 Mary 还有他刚出生的宝贝女儿 Hadassah 在一起。您可以通过 <a id="x0o6408" rel="noreferrer">drobbins@gentoo.org</a>联系他。</p>
+</td>
+</tr>
+</tbody>
+</table>

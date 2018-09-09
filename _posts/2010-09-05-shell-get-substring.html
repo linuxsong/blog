@@ -1,0 +1,38 @@
+---
+status: publish
+published: true
+title: Shell中取子串的方法
+author:
+  display_name: LinuxSong
+  login: xks
+  email: linuxsong@gmail.com
+  url: http://www.linuxsong.org
+author_login: xks
+author_email: linuxsong@gmail.com
+author_url: http://www.linuxsong.org
+excerpt: "Shell中提供了丰富的文本处理工具，解决问题的方法也会有很多种。那么在Shell中如何获取子串呢？\r\n比如我们要取\"linuxsong\"中的\"linux\",也就是从第1位开始，取5个字符，看看下面的几种方法："
+wordpress_id: 122
+wordpress_url: http://www.linuxsong.org/?p=122
+date: '2010-09-05 00:44:26 +0800'
+date_gmt: '2010-09-04 16:44:26 +0800'
+comments: []
+---
+<p><a href="http://www.linuxsong.org/category/shell/">Shell</a>中提供了丰富的文本处理工具，解决问题的方法也会有很多种。那么在Shell中如何获取子串呢？<br />
+比如我们要取"linuxsong"中的"linux",也就是从第1位开始，取5个字符，看看下面的几种方法：</p>
+<p>1.简单常用的方法<br />
+$ expr substr "linuxsong" 1 5<br />
+linux</p>
+<p>2.直接变量截取<br />
+$ a="linuxsong"<br />
+$ echo ${a:0:5}<br />
+linux</p>
+<p>3.用cut截取字符串<br />
+$ echo "linuxsong" | cut -c 1-5 #取第1-5个字符<br />
+linux</p>
+<p>4.<a href="http://www.linuxsong.org/category/awk/">awk</a>取子串<br />
+$ echo "linuxsong" | awk '{print substr($0,1,5)}'<br />
+linux</p>
+<p>5.head取子串<br />
+$ echo "linuxsong" | head -c5<br />
+linux</p>
+<p>除此之外还有很多其它方法，在这里推荐第1、2种方法。其它的例子主要是为了说明Shell处理文本的方便，为大家提供一种思路，只有想不到的，没有做不到的:)</p>

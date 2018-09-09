@@ -1,0 +1,39 @@
+---
+status: publish
+published: true
+title: linux下防止arp攻击
+author:
+  display_name: LinuxSong
+  login: xks
+  email: linuxsong@gmail.com
+  url: http://www.linuxsong.org
+author_login: xks
+author_email: linuxsong@gmail.com
+author_url: http://www.linuxsong.org
+excerpt: "arp协议是IP地址到MAC地址的转换协议。\r\n一台机器往另一台机器发送数据时首先会查询本机的arp缓存，看一下有没有目标主机的MAC地址，如果缓存中有，就会直接根据缓存中的MAC地址发送数据，如果缓存中没有，则会发送一个arp广播请求报文，机器在收到arp响应后，会进行缓存，以供下次使用，很重要的一点是ARP协议并不只在发送了ARP请求才接收ARP应答，也就是说只要是有arp应答，接收者就会把MAC地址放在高速缓存中。"
+wordpress_id: 108
+wordpress_url: http://www.linuxsong.org/?p=108
+date: '2010-09-05 00:18:41 +0800'
+date_gmt: '2010-09-04 16:18:41 +0800'
+comments: []
+---
+<p>在介绍如何防止arp攻击之前，先大体了解一下arp协议及攻击原理。<br />
+arp协议是IP地址到MAC地址的转换协议。</p>
+<p>一台机器往另一台机器发送数据时首先会查询本机的arp缓存，看一下有没有目标主机的MAC地址，如果缓存中有，就会直接根据缓存中的MAC地址发送数据，如果缓存中没有，则会发送一个arp广播请求报文，机器在收到arp响应后，会进行缓存，以供下次使用，很重要的一点是ARP协议并不只在发送了ARP请求才接收ARP应答，也就是说只要是有arp应答，接收者就会把MAC地址放在高速缓存中。<br />
+根据上面的原理，arp攻击者不断的发出虚假的arp报文欺骗被攻击者，也就是常说的ARP欺骗。导致机器不能把数据发送到正确的目标机器。<br />
+了解了上面的知识以后，我们便可以对症下药，简单的预防arp攻击的方法是将IP地址与MAC地址静态绑定（存在ARP表中）。<br />
+在<a href="http://www.linuxsong.org/category/linux/">Linux</a>下管理arp的命令是arp.<br />
+显示当前缓存中的IP与MAC地址的映射：</p>
+<p>[linuxsong@test ~]$ arp<br />
+Address HWtype HWaddress Flags Mask Iface<br />
+192.168.1.1 ether 00:13:20:0F:B3:EC C wlan0</p>
+<p>静态绑定一个IP地址与MAC地址：<br />
+[linuxsong@test ~]$ sudo arp -s 192.168.1.1 00:13:20:0F:B3:EC<br />
+[linuxsong@test ~]$ arp<br />
+Address HWtype HWaddress Flags Mask Iface<br />
+192.168.1.1 ether 00:13:20:0F:B3:EC C M wlan0</p>
+<p>这样机器在向192.168.1.1发送数据时就会直接从arp表中读取。不会受到其它的arp应答的影响。<br />
+可以将上面的命令放在/etc/rc.local中，不用每次都手动执行。也可以将IP与MAC的地址影射存在一个文件中，然后在/etc/rc.local写入：<br />
+arp -f filename<br />
+默认文件为：/etc/ethers<br />
+详细内容可以查看arp手册。</p>

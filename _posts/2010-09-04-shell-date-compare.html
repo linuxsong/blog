@@ -1,0 +1,35 @@
+---
+status: publish
+published: true
+title: Shell比较两个日期的大小
+author:
+  display_name: LinuxSong
+  login: xks
+  email: linuxsong@gmail.com
+  url: http://www.linuxsong.org
+author_login: xks
+author_email: linuxsong@gmail.com
+author_url: http://www.linuxsong.org
+excerpt: 在Shell中我们可以利用date命令比较两个日期的大小，方法是先把日期转换成时间戳格式，再进行比较。
+wordpress_id: 16
+wordpress_url: http://www.linuxsong.org/?p=16
+date: '2010-09-04 18:49:17 +0800'
+date_gmt: '2010-09-04 10:49:17 +0800'
+comments: []
+---
+<p>在<a href="http://www.linuxsong.org/category/shell">Shell</a>中我们可以利用date命令比较两个日期的大小，方法是先把日期转换成时间戳格式，再进行比较。<br />
+date 的+%s可以将日期转换成时间戳格式,看下面的例子：</p>
+<p>[bash]</p>
+<p>#!/bin/bash</p>
+<p>date1=&quot;2008-4-09 12:00:00&quot;<br />
+date2=&quot;2008-4-10 15:00:00&quot;</p>
+<p>t1=`date -d &quot;$date1&quot; +%s`<br />
+t2=`date -d &quot;$date2&quot; +%s`</p>
+<p>if [ $t1 -gt $t2 ]; then<br />
+    echo &quot;$date1 &gt; $date2&quot;<br />
+elif [ $t1 -eq $t2 ]; then<br />
+    echo &quot;$date1 == $date2&quot;<br />
+else<br />
+    echo &quot;$date1 &lt; $date2&quot;<br />
+fi</p>
+<p>[/bash]</p>

@@ -1,0 +1,86 @@
+---
+status: publish
+published: true
+title: Mac OS X 上的ldd和strace的替代
+author:
+  display_name: LinuxSong
+  login: xks
+  email: linuxsong@gmail.com
+  url: http://www.linuxsong.org
+author_login: xks
+author_email: linuxsong@gmail.com
+author_url: http://www.linuxsong.org
+wordpress_id: 606
+wordpress_url: http://www.linuxsong.org/?p=606
+date: '2015-04-20 19:13:54 +0800'
+date_gmt: '2015-04-20 11:13:54 +0800'
+comments: []
+---
+<p>Linux下经常会用到ldd查看程序使用了哪些共享链接库，很方便的一个工具，在Mac OS X上没有这个命令，如果想在Mac OS X查看程序使用了哪些链接库可以用otool 来代替。</p>
+<p>例：</p>
+<!--more-->
+
+<pre>
+$ otool -L /usr/bin/vim
+ /usr/bin/vim:
+       /usr/lib/libncurses.5.4.dylib (compatibility version 5.4.0, current version 5.4.0)
+       /usr/lib/libiconv.2.dylib (compatibility version 7.0.0, current version 7.0.0)
+       /usr/lib/libSystem.B.dylib (compatibility version 1.0.0, current version 1213.0.0)
+
+</pre>
+<p>otool还有很多其它参数：</p>
+<p>-f print the fat headers<br />
+-a print the archive header<br />
+-h print the mach header<br />
+-l print the load commands<br />
+-L print shared libraries used<br />
+-D print shared library id name<br />
+-t print the text section (disassemble with -v)<br />
+-p &lt;routine name&gt; start dissassemble from routine name<br />
+-s &lt;segname&gt; &lt;sectname&gt; print contents of section<br />
+-d print the data section<br />
+-o print the Objective-C segment<br />
+-r print the relocation entries<br />
+-S print the table of contents of a library<br />
+-T print the table of contents of a dynamic shared library<br />
+-M print the module table of a dynamic shared library<br />
+-R print the reference table of a dynamic shared library<br />
+-I print the indirect symbol table<br />
+-H print the two-level hints table<br />
+-G print the data in code table<br />
+-v print verbosely (symbolically) when possible<br />
+-V print disassembled operands symbolically<br />
+-c print argument strings of a core file<br />
+-X print no leading addresses or headers<br />
+-m don't use archive(member) syntax<br />
+-B force Thumb disassembly (ARM objects only)<br />
+-q use llvm's disassembler (the default)<br />
+-Q use otool(1)'s disassembler<br />
+-mcpu=arg use `arg' as the cpu for disassembly<br />
+-j print opcode bytes<br />
+-C print linker optimization hints<br />
+--version print the version of otool</p>
+<p>详细使用请参看手册。</p>
+<p>Linux中的strace可以查看程序运行时的系统调用，有时对于调试程序很有帮助，Mac OS X中可用dtruss (需要root)替代</p>
+<p>例：</p>
+<p>sudo dtruss df -h</p>
+<p>其它参数：</p>
+<p>-p PID # examine this PID<br />
+-n name # examine this process name<br />
+-t syscall # examine this syscall only<br />
+-a # print all details<br />
+-c # print syscall counts<br />
+-d # print relative times (us)<br />
+-e # print elapsed times (us)<br />
+-f # follow children<br />
+-l # force printing pid/lwpid<br />
+-o # print on cpu times<br />
+-s # print stack backtraces<br />
+-L # don't print pid/lwpid<br />
+-b bufsize # dynamic variable buf size<br />
+eg,<br />
+dtruss df -h # run and examine "df -h"<br />
+dtruss -p 1871 # examine PID 1871<br />
+dtruss -n tar # examine all processes called "tar"<br />
+dtruss -f test.sh # run test.sh and follow children</p>
+<p>详细请参考手册。</p>

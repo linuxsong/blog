@@ -1,0 +1,62 @@
+---
+status: publish
+published: true
+title: binutils介绍
+author:
+  display_name: LinuxSong
+  login: xks
+  email: linuxsong@gmail.com
+  url: http://www.linuxsong.org
+author_login: xks
+author_email: linuxsong@gmail.com
+author_url: http://www.linuxsong.org
+excerpt: "名称：binutils（binary utilities）\r\n说明：binutils为一个工具集合，包含如下的工具。\r\n\r\naddr2line
+  把程序地址转换为文件名和行号。在命令行中给它一个地址和一个可执行文件名，它就会使用这个可执行文件的调试信息指出在给出的地址上是哪个文件以及行号。"
+wordpress_id: 37
+wordpress_url: http://www.linuxsong.org/?p=37
+date: '2010-09-04 19:07:04 +0800'
+date_gmt: '2010-09-04 11:07:04 +0800'
+comments: []
+---
+<p>名称：binutils（binary utilities）<br />
+说明：binutils为一个工具集合，包含如下的工具。</p>
+<p>addr2line 把程序地址转换为文件名和行号。在命令行中给它一个地址和一个可执行文件名，它就会使用这个可执行文件的调试信息指出在给出的地址上是哪个文件以及行号。</p>
+<p>ar<br />
+ar用来建立、修改、提取归档文件。归档文件是包含多个文件内容的一个大文件，其结构保证了可以恢复原始文件内容，通常用来制作库文件---即含有许多.o文件的.a文件.如果你想了解某个库文件的内容,可以<br />
+ar tv libabc.a<br />
+制作一个库文件也很简单:<br />
+ar rs libabc.a a.o b.o c.o</p>
+<p>as 主要用来编译GNU C编译器gcc输出的汇编文件，产生的目标文件由连接器ld连接。</p>
+<p>c++filt 连接器使用它来过滤 C++ 和 Java 符号，防止重载函数冲突。</p>
+<p>gprof 显示程序调用段的各种数据。</p>
+<p><!--more-->ld<br />
+是连接器，连 接 器 的 主 要 作 用 是 把 一 个 或 多 个 目 标 文 件(程 序 库)转 变 为 一 个 可 执 行 程 序.符 号 的 重 定 位(relocation)是 它 最 重 要 的 工 作. 传 给ld的 主 要 参 数 有 目 标 文<br />
+件,-l 选项和-L选项. 例如:<br />
+ld -o crt0.o myapp main.o subs.o -lm -lc -L/usr/lib<br />
+注 意-lc的 写 法,它 表 示 要 与libc.a连 接2 ;同 样,-lm表 示 要 与 数 学 库libm.a连<br />
+接. -Lpath指定库的搜索路径.</p>
+<p>nm<br />
+nm用来列出elf文件中使用到的symbol:</p>
+<pre>nm a1.o
+       U crtio
+       U dev_uart_init
+00000000 T main
+       U printf</pre>
+<p>T表示定义过的函数,U表示尚未定义的函数，它们可能在其它.o文件或程序库中定义. nm对诊断连接错误很有帮助.</p>
+<p>objcopy 把一种目标文件中的内容复制到另一种类型的目标文件中.</p>
+<p>objdump<br />
+objdump 显示一个或者更多目标文件的信息。显示一个或者更多目标文件的信息。使用选项来控制其显示的信息。它所显示的信息通常只有编写编译工具的人才感兴趣。它的一个重要作用是反汇编目标文件，如：<br />
+objdumb -S ./a.out</p>
+<p>ranlib 产生归档文件索引，并将其保存到这个归档文件中。在索引中列出了归档文件各成员所定义的可重分配目标文件。</p>
+<p>readelf<br />
+readelf用来察看elf文件的内容. 用-a选项可以看见大部分内容:<br />
+readelf -a a2.elf</p>
+<p>size 列出目标文件每一段的大小以及总体的大小。默认情况下，对于每个目标文件或者一个归档文件中的每个模块只产生一行输出。</p>
+<p>strings 打印某个文件的可打印字符串，这些字符串最少4个字符长，也可以使用选项-n设置字符串的最小长度。默认情况下，它只打印目标文件初始化和可加载段中的 可打印字符；对于其它类型的文件 它打印整个文件的可打印字符，这个程序对于了解非文本文件的内容很有帮助。</p>
+<p>strip 丢弃目标文件中的全部或者特定符号，如删除一个程序的符号表：<br />
+strip ./a.out</p>
+<p>libiberty 包含许多GNU程序都会用到的函数，这些程序有： getopt, obstack, strerror, strtol 和 strtoul.</p>
+<p>libbfd 二进制文件描述库.</p>
+<p>libopcodes 用来处理opcodes的库, 在生成一些应用程序的时候也会用到它, 比如objdump.Opcodes是文本格式可读的处理器操作指令.<br />
+功能：程序调试、归档等。</p>
+<p>利用Binutils中的工具可以帮助我们诊断许多问题.</p>

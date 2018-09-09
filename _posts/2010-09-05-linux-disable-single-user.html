@@ -1,0 +1,52 @@
+---
+status: publish
+published: true
+title: Linux禁止单用户模式(single)来增强系统安全
+author:
+  display_name: LinuxSong
+  login: xks
+  email: linuxsong@gmail.com
+  url: http://www.linuxsong.org
+author_login: xks
+author_email: linuxsong@gmail.com
+author_url: http://www.linuxsong.org
+excerpt: "一、Linux忘记root密码，进入单用户模式修改密码\r\n\r\n（一）、关于lilo\r\n\r\n1. 在出现 lilo: 提示时键入
+  Linux single\r\n\r\n画面显示 lilo: Linux single"
+wordpress_id: 228
+wordpress_url: http://www.linuxsong.org/?p=228
+date: '2010-09-05 11:05:02 +0800'
+date_gmt: '2010-09-05 03:05:02 +0800'
+comments: []
+---
+<p>一、<a href="http://www.linuxsong.org/category/linux/">Linux</a>忘记root密码，进入单用户模式修改密码</p>
+<p>（一）、关于lilo</p>
+<p>1. 在出现 lilo: 提示时键入 Linux single</p>
+<p>画面显示 lilo: Linux single</p>
+<p>2. 回车可直接进入Linux命令行</p>
+<p>3. 用password命令修改密码</p>
+<p>（二）、关于 grub</p>
+<p>1. 在出现grub画面时，用上下键选中你平时启动Linux的那一项，然后按e键</p>
+<p>2. 再次用上下键选中你平时启动Linux的那一项(类似于kernel/boot/vmlinuz-2.4.18-14 ro root=LABEL=/)，然后按e键</p>
+<p>3. 修改你现在见到的命令行，后加上数字1或者single：</p>
+<p><!--more-->kernel /boot/vmlinuz-2.4.18-14 single ro root=LABEL=/ 1</p>
+<p>kernel /boot/vmlinuz-2.4.18-14 single ro root=LABEL=/ single</p>
+<p>4. 回车返回，然后按b键启动，即可直接进入Linux命令行</p>
+<p>5.直接输入passwd 回车即可修改密码，在默认情况下这里直接回车是直接修改ROOT超级管理用户的密码，当然，你要修改其他用户密码，在PASSWD后直接跟需要修改密码的用户名即可。</p>
+<p>或</p>
+<p>#vi /etc/shadow</p>
+<p>将第一行，即以root开头的一行中root:后和下一个:前的内容删除，</p>
+<p>第一行将类似于</p>
+<p>root::......</p>
+<p>保存</p>
+<p>#reboot重启，root密码为空。</p>
+<p>（三）使用redhat的第一张安装光盘启动，在出现' boot：'时，输入“Linux rescue”，然后一直按回车，直到出现命令提示符后，输入“chroot /mnt/sysimage ”取得root权限，再输入“password root”修改root密码，再reboot就好了</p>
+<p>二、禁止进入单用户模式</p>
+<p>如果禁止进入单用户,首先要对GRUB进行密码配置，只需要修改/boot/grub/grub.conf或者 /etc/grub.conf（/etc/grub.conf是/boot/grub/grub.conf的符号链接），例如:vi /boot/grub/grub.conf进入配置文件编辑。</p>
+<p>这里我们介绍个方法,给grub加个密码,增禁止他人以单用户模式进入系统. 有2个方式：</p>
+<p>1、明文方式</p>
+<p>在splashimage这个参数下一行添加: password=密码。保存后重新启动计算机，再次登录到GRUB菜单页面的时候就会发现，这时已经不能直接使用e命令编辑启动标签了，须先使用p命 令，输入正确的密码后才能够对启动标签进行编辑.但是我们设置了明文密码也不是很安全的.如果他人得到了明文密码后仍然可以修改GRUB启动标签从而修改 root密码.</p>
+<p>2、MD5加密方式</p>
+<p>在终端中输入grub-md5-crypt回车，这时系统会要求输入两次相同的密码，之后系统便会输出MD5码。大家只需要将生成的MD5密文复制 下来，在splashimage这个参数下一行添加: password --md5 MD5密文比如: splashimage=(hd0,0)/grub/splash.xpm.gz</p>
+<p>password --md5 $1$xI6vS$Wi5pi8JyORUNnj3/0Yq2/0</p>
+<p>hiddenmenu</p>
+<p>保存后重新启动计算机,再次登录到GRUB菜单页面的时候就会发现,这时已经不能直接使用e命令编辑启动标签了,须先使用p命令,输入正确的密码后才能够对启动标签进行编辑。</p>

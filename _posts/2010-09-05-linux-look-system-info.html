@@ -1,0 +1,66 @@
+---
+status: publish
+published: true
+title: linux 查看系统信息命令
+author:
+  display_name: LinuxSong
+  login: xks
+  email: linuxsong@gmail.com
+  url: http://www.linuxsong.org
+author_login: xks
+author_email: linuxsong@gmail.com
+author_url: http://www.linuxsong.org
+excerpt: "总结了一下Linux中查看系统信息的常用命令。\r\n\r\n1.查看CPU信息\r\n$ cat /proc/cpuinfo\r\n\r\n2.查看内存信息\r\n$
+  cat /proc/meminfo\r\n查看内存大小\r\n$ grep MemTotal /proc/meminfo"
+wordpress_id: 110
+wordpress_url: http://www.linuxsong.org/?p=110
+date: '2010-09-05 00:21:14 +0800'
+date_gmt: '2010-09-04 16:21:14 +0800'
+comments: []
+---
+<p>总结了一下<a href="http://www.linuxsong.org/category/linux/">Linux</a>中查看系统信息的常用命令。</p>
+<p>1.查看CPU信息<br />
+$ cat /proc/cpuinfo</p>
+<p>2.查看内存信息<br />
+$ cat /proc/meminfo<br />
+查看内存大小<br />
+$ grep MemTotal /proc/meminfo</p>
+<p>3.查看所有PCI设备<br />
+$ /sbin/lspci</p>
+<p>4.查看所有的usb设备<br />
+$ /sbin/lsusb</p>
+<p>5显示系统中所有加载的模块<br />
+$ /sbin/lsmod</p>
+<p>6.显示当前的内存使用情况<br />
+$ free -m</p>
+<p>7.查看系统各分区的使用情况（已用空间、可用空间等）<br />
+$ df -h</p>
+<p>8.查看磁盘的分区及文件系统格式(需root权限)<br />
+fdisk -l</p>
+<p>9.查看系统中CPU利用率、空闲率及各进程CPU、内存、IO等资源占用情况<br />
+$ top</p>
+<p>10.另一个查看统中CPU利用率、空闲率的方法<br />
+$ vmstat 5 #5秒刷新一次<br />
+<!--more--><br />
+11.查看系统运行时间及负载情况<br />
+$ uptime</p>
+<p>12.查看IDE硬盘参数<br />
+hdparm /dev/hda #需要root权限</p>
+<p>13.查看网络接口与IP地址等信息<br />
+$ /sbin/ifconfig</p>
+<p>14.查看网卡设置信息（网卡速率、连接状态等）<br />
+$ /sbin/ethtool eth0 #可以查看网线是否连接</p>
+<p>15.查看网络连接信息<br />
+netstat -an</p>
+<p>16.查看路由信息<br />
+$ route -n</p>
+<p>17.查看防火墙设置<br />
+$iptables -L</p>
+<p>18.查看当前登录用户及登录时间<br />
+$ w</p>
+<p>19.查看登录用户历史<br />
+$ last</p>
+<p>20.查看主机名<br />
+$ hostname</p>
+<p>21.查看内核版本信息<br />
+$ uname -a</p>

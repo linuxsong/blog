@@ -1,0 +1,55 @@
+---
+status: publish
+published: true
+title: Linux命令行下更改桌面背景(GNOME环境)
+author:
+  display_name: LinuxSong
+  login: xks
+  email: linuxsong@gmail.com
+  url: http://www.linuxsong.org
+author_login: xks
+author_email: linuxsong@gmail.com
+author_url: http://www.linuxsong.org
+excerpt: "GNOME桌面环境下通过图形界面操作更改桌面背景很简单，但是如何在命令行下设置桌面背景呢？我们可以用GNOME的配置工具\uFEFF\uFEFFgconftool-2实现"
+wordpress_id: 294
+wordpress_url: http://www.linuxsong.org/?p=294
+date: '2010-09-10 01:10:04 +0800'
+date_gmt: '2010-09-09 17:10:04 +0800'
+comments:
+- id: 7
+  author: freetstar
+  author_email: lgxwqq@gmail.com
+  author_url: http://www.freetstar.com
+  date: '2010-09-10 12:16:11 +0800'
+  date_gmt: '2010-09-10 04:16:11 +0800'
+  content: 脚本不错
+- id: 10
+  author: 让美女时钟做你的桌面 | Thinking In Linux
+  author_email: ''
+  author_url: http://www.linuxsong.org/2010/09/girl-clock-wallpaper/
+  date: '2010-09-12 12:13:22 +0800'
+  date_gmt: '2010-09-12 04:13:22 +0800'
+  content: "[...] Thinking In Linux   KISS-Keep It Simple, Stupid!    跳至正文 首页关于        &larr;
+    Linux命令行下更改桌面背景(GNOME环境) [...]"
+---
+<p><a href="http://www.linuxsong.org/tag/gnome/">GNOME</a>桌面环境下通过图形界面操作更改桌面背景很简单，但是如何在命令行下设置桌面背景呢？我们可以用GNOME的配置工具﻿﻿gconftool-2实现，方法如下：</p>
+<p>比如我们要把/tmp/image.jpg设为桌面背景，缩放显示，命令如下：<br />
+gconftool-2  -s /desktop/gnome/background/picture_filename -t string "/tmp/image.jpg" -s  /desktop/gnome/background/picture_options zoom</p>
+<p>如果想居中显示，并且指定背景颜色为纯黑色：<br />
+<!--more-->gconftool -s /desktop/gnome/background/picture_filename -t string "/tmp/image.jpg" -s  /desktop/gnome/background/picture_options center -s /desktop/gnome/background/primary_color -t string "#000000"  -s /desktop/gnome/background/color_shading_type solid</p>
+<p>picture_options其它的几个选项</p>
+<p>平铺： wallpaper</p>
+<p>伸缩： stretched</p>
+<p>SPAN: spanned</p>
+<p>有了这个命令，我们就可以做一些比如定时更换桌面背景的事情了。比如设置一个图片目录，然后隔一段时间从里面选一张做为桌面背景。</p>
+<p>举个例子，比如我有一个图片目录 /tmp/wallpaper,想每隔10分钟更换一张图片做为桌面背景，代码如下：</p>
+<p>[bash]</p>
+<p>#!/bin/sh</p>
+<p>while [ true ]</p>
+<p>do</p>
+<p>gconftool-2  -s /desktop/gnome/background/picture_filename -t string &quot;`ls /tmp/wallpaper/*.jpg | shuf -n 1`&quot; -s  /desktop/gnome/background/picture_options zoom</p>
+<p>sleep 600</p>
+<p>done</p>
+<p>[/bash]</p>
+<p>这几行就搞定了。</p>
+<p>注：以上内容只在GNOME桌面环境下有效。</p>

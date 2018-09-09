@@ -1,0 +1,49 @@
+---
+status: publish
+published: true
+title: 修改mysql的最大连接数
+author:
+  display_name: LinuxSong
+  login: xks
+  email: linuxsong@gmail.com
+  url: http://www.linuxsong.org
+author_login: xks
+author_email: linuxsong@gmail.com
+author_url: http://www.linuxsong.org
+excerpt: "mysql 5.0的默认最大连接数为100， 对于大负载量的并发需求可能不够，这时你可以修改mysql的最大连接。\r\n查看mysql的当前最大连接数：\r\nmysqladmin
+  -uroot -ppassword variables | grep max_connections"
+wordpress_id: 248
+wordpress_url: http://www.linuxsong.org/?p=248
+date: '2010-09-05 11:40:07 +0800'
+date_gmt: '2010-09-05 03:40:07 +0800'
+comments: []
+---
+<p>mysql 5.0的默认最大连接数为100， 对于大负载量的并发需求可能不够，这时你可以修改mysql的最大连接。<br />
+查看mysql的当前最大连接数：<br />
+mysqladmin -uroot -ppassword variables | grep max_connections<br />
+或者<br />
+mysql&gt; SHOW GLOBAL VARIABLES WHERE Variable_name='max_connections';</p>
+<p>修改方法有如下几种</p>
+<p><!--more-->1.<br />
+mysql&gt; SET GLOBAL max_connections=1000;</p>
+<p>修改后会立即生效，不需要重启mysql服务，但是重启后会失效。</p>
+<p>2.修改/etc/my.cnf,<br />
+在[mysqld] 下面添加：<br />
+max_connections=1000</p>
+<p>修改后需要重启mysql服务才会重效。<br />
+结合第1和第2种方法，可以实现修改立即生效，以后重启也会有效。</p>
+<p>3.修改/usr/bin/mysqld_safe<br />
+将下面的内容<br />
+if test -z "$args"<br />
+then<br />
+$NOHUP_NICENESS $ledir/$MYSQLD $defaults --basedir=$MY_BASEDIR_VERSION --datadir=$DATADIR $USER_OPTION --pid-file=$pid_file --skip-external-locking &gt;&gt; $err_log 2&gt;&amp;1<br />
+else<br />
+eval "$NOHUP_NICENESS $ledir/$MYSQLD $defaults --basedir=$MY_BASEDIR_VERSION --datadir=$DATADIR $USER_OPTION --pid-file=$pid_file --skip-external-locking $args &gt;&gt; $err_log 2&gt;&amp;1"</p>
+<p>改为（添加红色字体的内容）：<br />
+if test -z "$args"<br />
+then<br />
+$NOHUP_NICENESS $ledir/$MYSQLD $defaults --basedir=$MY_BASEDIR_VERSION --datadir=$DATADIR $USER_OPTION --pid-file=$pid_file --skip-external-locking 　　-O max_connections=1000 &gt;&gt; $err_log 2&gt;&amp;1<br />
+else<br />
+eval "$NOHUP_NICENESS $ledir/$MYSQLD $defaults --basedir=$MY_BASEDIR_VERSION --datadir=$DATADIR $USER_OPTION --pid-file=$pid_file --skip-external-locking $args -O max_connections=1000 &gt;&gt; $err_log 2&gt;&amp;1"</p>
+<p>修改后重启mysql服务后有效。</p>
+<p>建议用第一和第二种方法进行修改。</p>

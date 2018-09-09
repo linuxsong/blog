@@ -1,0 +1,34 @@
+---
+status: publish
+published: true
+title: Linux man手册的章节分类
+author:
+  display_name: LinuxSong
+  login: xks
+  email: linuxsong@gmail.com
+  url: http://www.linuxsong.org
+author_login: xks
+author_email: linuxsong@gmail.com
+author_url: http://www.linuxsong.org
+excerpt: Linux提供了丰富的帮助手册，当你需要查看某个命令的参数时不必到处上网查找，只要man一下即可。
+wordpress_id: 177
+wordpress_url: http://www.linuxsong.org/?p=177
+date: '2010-09-05 01:50:01 +0800'
+date_gmt: '2010-09-04 17:50:01 +0800'
+comments: []
+---
+<p>Linux提供了丰富的帮助手册，当你需要查看某个命令的参数时不必到处上网查找，只要man一下即可。<br />
+<a href="http://www.linuxsong.org/category/linux/">Linux</a>的man手册共有以下几个章节：</p>
+<p>1、Standard commands （标准命令）<br />
+2、System calls （系统调用）<br />
+3、Library functions （库函数）<br />
+4、Special devices （设备说明）<br />
+5、File formats （文件格式）<br />
+6、Games and toys （游戏和娱乐）<br />
+7、Miscellaneous （杂项）<br />
+8、Administrative Commands （管理员命令）</p>
+<p>例如：我们输入 man ls，它会在最左上角显示“LS（1）”，在这里，“LS”表示手册名称，而“（1）”表示该手册位于第一节章，同样，我们输入“man ifconfig”它会在最左上角显示“IFCONFIG（8）”。也可以这样输入命令：“man [章节号] 手册名称”。</p>
+<p>man是按照手册的章节号的顺序进行搜索的，比如：</p>
+<p>man sleep</p>
+<p>只会显示sleep命令的手册,如果想查看库函数sleep，就要输入:</p>
+<p>man 3 sleep</p>

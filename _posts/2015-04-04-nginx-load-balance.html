@@ -1,0 +1,143 @@
+---
+status: publish
+published: true
+title: 用Nginx实现负载均衡
+author:
+  display_name: LinuxSong
+  login: xks
+  email: linuxsong@gmail.com
+  url: http://www.linuxsong.org
+author_login: xks
+author_email: linuxsong@gmail.com
+author_url: http://www.linuxsong.org
+wordpress_id: 580
+wordpress_url: http://www.linuxsong.org/?p=580
+date: '2015-04-04 17:08:04 +0800'
+date_gmt: '2015-04-04 09:08:04 +0800'
+comments: []
+---
+<p>由于Nginx的简单轻巧，如今越来越多的人采用Nginx当作Web服务器，Nginx除了可以当作web server之外，还可以利用Nginx来实现负载均衡，用Nginx来配置http(或https)的负载均衡也非常简单。</p>
+<p>Nginx的负载均衡支持以下几种方式：<br />
+round-robin — 简单轮询（默认方式）<br />
+least-connected — 最少活跃链接数（基本就是相对来说谁最闲就分配给谁）<br />
+ip-hash — 根据IP进行哈希(请求来源的IP)</p>
+<p>举例说明，假设后台有3台服务器用户处理用户的请求,用Nginx来实现负载均衡：</p>
+<p><strong>基本配置<br />
+</strong>1.round-robin方式：</p>
+<pre>http {
+    upstream myapp1 {
+        server srv1.example.com;
+        server srv2.example.com;
+        server srv3.example.com;
+    }
+
+    server {
+        listen 80;
+
+        location / {
+            proxy_pass http://myapp1;
+        }
+    }
+}
+</pre>
+<p>当有用户请求时，Nginx会采用round-robin方式来分配各个请求到3台服务器上。</p>
+<p>2. least-connected方式：</p>
+<pre>http {
+    upstream myapp1 {
+        least_conn; #注意是least_conn不是least_connected
+        server srv1.example.com;
+        server srv2.example.com;
+        server srv3.example.com;
+    }
+
+    server {
+        listen 80;
+
+        location / {
+            proxy_pass http://myapp1;
+        }
+    }
+}
+</pre>
+<p>3. ip-hash</p>
+<pre>http {
+    upstream myapp1 {
+        ip_hash;
+        server srv1.example.com;
+        server srv2.example.com;
+        server srv3.example.com;
+    }
+
+    server {
+        listen 80;
+
+        location / {
+            proxy_pass http://myapp1;
+        }
+    }
+}
+</pre>
+<p>以上三种实现方式中，round_robin和least_conn不能保证同一用户的请求会发送到同一服务器上，如果你的服务中用到了Session的话，就需要考虑Session分布的问题。通常的解决办法是将Session统一存储，比如用Memcache或数据库存储。<br />
+如果采用ip_hash可以将同一用户的请求发到同一台机器上。</p>
+<p>除了上面的配置以外，Nginx还支持给每台服务器设置权重：<br />
+比如：</p>
+<pre>http {
+    upstream myapp1 {
+        ip_hash;
+        server srv1.example.com weight=3;
+        server srv2.example.com;
+        server srv3.example.com;
+    }
+
+    server {
+        listen 80;
+
+        location / {
+            proxy_pass http://myapp1;
+        }
+    }
+}
+</pre>
+<p>在srv1中加了一个权值3，这样分配给srv1的请求数将是其它机器的3倍，比如有5个请求，会分给srv13个，srv2和srv3各一个。</p>
+<p>least_conn和ip_hash也同样支持权重分配，配置方法和上面一样。</p>
+<p><strong>错误检测</strong></p>
+<p>Nginx在分配任务时会查看（被动）各台服务器的运行状态，如果分配给某台服务器的请求没有正确响应那么，Nginx会将该机器暂时标为不可用（请求仍会分配给其它服务器），可以通过max_fails参数（默认为1）来设置最大重试次数,用fail_timeout(默认为10s)来设置超时时间。</p>
+<p>如：</p>
+<pre>http {
+    upstream myapp1 {
+        ip_hash;
+        server srv1.example.com max_fails=2 fail_timeout=30s;
+        server srv2.example.com;
+        server srv3.example.com;
+    }
+
+    server {
+        listen 80;
+
+        location / {
+            proxy_pass http://myapp1;
+        }
+    }
+}
+</pre>
+<p>max_fails=2 fail_timeout=30s意思是在30秒内，连接该服务器连续2次失败，刚在接下来的30秒内，不再分配新的请求给这台机器（30秒之后新请求会重新尝试分配给该服务器）。</p>
+<p>如果设置max_fails=0,那么Nginx不检测这台机器的状况。</p>
+<p>如果想让某台机器下线，可以设置成down，如下：</p>
+<pre>http {
+    upstream myapp1 {
+        ip_hash;
+        server srv1.example.com max_fails=2 fail_timeout=30s;
+        server srv2.example.com down;
+        server srv3.example.com;
+    }
+
+    server {
+        listen 80;
+
+        location / {
+            proxy_pass http://myapp1;
+        }
+    }
+}
+</pre>
+<p>以上是使用Nginx做负载均衡的基本配置，其它详细的用法请参考Nginx手册。</p>

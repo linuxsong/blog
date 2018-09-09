@@ -1,0 +1,27 @@
+---
+status: publish
+published: true
+title: svn中操作带有"@"符号的文件
+author:
+  display_name: LinuxSong
+  login: xks
+  email: linuxsong@gmail.com
+  url: http://www.linuxsong.org
+author_login: xks
+author_email: linuxsong@gmail.com
+author_url: http://www.linuxsong.org
+wordpress_id: 576
+wordpress_url: http://www.linuxsong.org/?p=576
+date: '2015-04-02 14:36:34 +0800'
+date_gmt: '2015-04-02 06:36:34 +0800'
+comments: []
+---
+<p>如果在命终端中用svn命令操作文件名中有“@”符号的文件（ios开发的朋友应该很清楚），会遇到：<br />
+svn: E205000: Syntax error parsing peg revision '3x.png'<br />
+或者：<br />
+svn: E200009: 'welcome1@3x.png': a peg revision is not allowed here<br />
+类似的错误提示，原因是因为svn命令把文件名中的@识别成有其它含义的特殊字符，导致操作失败。<br />
+解决办法：<br />
+在使用svn命令时在文件名尾部再添加一个“@”即可解决。<br />
+比如 要查看welcome1@3x.png文件信息：<br />
+svn info welcome1@3x.png@</p>

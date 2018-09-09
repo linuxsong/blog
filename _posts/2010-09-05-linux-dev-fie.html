@@ -1,0 +1,76 @@
+---
+status: publish
+published: true
+title: Linux 设备文件介绍
+author:
+  display_name: LinuxSong
+  login: xks
+  email: linuxsong@gmail.com
+  url: http://www.linuxsong.org
+author_login: xks
+author_email: linuxsong@gmail.com
+author_url: http://www.linuxsong.org
+excerpt: 在Linux中,所有的设备以文件的形式出现在目录 /dev 中。它们可读、可写，如果你有权限这么做的话。设备文件列表能够揭示设备的一些重要细节
+wordpress_id: 102
+wordpress_url: http://www.linuxsong.org/?p=102
+date: '2010-09-05 00:10:14 +0800'
+date_gmt: '2010-09-04 16:10:14 +0800'
+comments: []
+---
+<p id="p_1b0">在<a href="http://www.linuxsong.org/category/linux/">Linux</a>中,所有的设备以文件的形式出现在目录 /dev 中。它们可读、可写，如果你有权限这么做的话。设备文件列表能够揭示设备的一些重要细节：ls -l /dev/ttys3</p>
+<p id="p_1b1">我的系统给出如下的输出：crwxr-xr-x 1 root tty 4, 67 Mar 13 22:59 ttyS3</p>
+<p id="p_1b2">最左边的“c”表明这是一个字符设备。如果是“b”则意味着“块设备”，“p”=先入先出设备（FIFO），“u”=非缓冲字符设备，“d”=目 录，“l”=符号链接。数字“4，67”的意思是主设备为4，次设备好为67。为了使你系统中所有用户能使用某些设备，你需要对设备文件设置正确的权限。</p>
+<p id="p_1b3">例如：</p>
+<p id="p_1b4">ls -l /dev/usb/scanner0<br />
+chmod 666 /dev/usb/scanner0</p>
+<p id="p_1b6">这里有一个常见设备的清单：</p>
+<p><!--more--></p>
+<ul id="p_1b7">
+<li id="p_1b8">/dev/ttyS0 – 第一个串行口。鼠标通常接在这里。</li>
+<li id="p_1b9">/dev/ttyS1 – 第二个串行口。你的调制解调器很可能接在这里。</li>
+<li id="p_1b10">/dev/ttyS2 和 /dev/ttyS3 是第三和第四个串行口（一般不存在，但你的内置调制解调器可以被设置成使用其中之一）。</li>
+<li id="p_1b11">/dev/modem – 串口调制解调器。通常是一个指向 /dev/ttyS1、/dev/ttyS2 或 /dev/ttyS3 的符号链接，具体取决于你的调制解调器接在那个串行端口。</li>
+<li id="p_1b12">/dev/mouse – 鼠标。通常是一个指向 /dev/ttyS0 或相似设备（见上）的符号链接，具体取决于你的鼠标接在哪个串行端口。</li>
+<li id="p_1b13">/dev/lp0 – 接在第一个并行口的打印机。通常你的打印机接在这里。</li>
+<li id="p_1b14">/dev/lp1 – 接在第二个并行口的打印机（一般不存在）。</li>
+<li id="p_1b15">/dev/fd0 – 第一个软盘驱动器（一般都有）。</li>
+<li id="p_1b16">/dev/fd0H1440 – 第一个软盘驱动器的高密度模式驱动程序。一般情况下，这个驱动程序（或其他有相似名字的设备驱动程序）在以特定密度格式化一张软盘的时候被调用。 Slackware 还有支持将一张3.5英寸软盘格式化为最大1.7MB的驱动程序。默认情况下，RedHat 和 Mandrake 没有这些驱动程序。</li>
+<li id="p_1b17">/dev/fd1 – 第二个软盘驱动器。</li>
+<li id="p_1b18">/dev/hda – 第一个 IDE 硬盘（整个硬盘）。大多数 IBM 兼容 PC 的硬盘是 IDE 设备。</li>
+<li id="p_1b19">/dev/hdb – 第二个 IDE 硬盘（整个硬盘）。很多计算机中，IDE 光驱接在这里。</li>
+<li id="p_1b20">/dev/hdc – 第三个 IDE 硬盘（整个硬盘）。很多计算机中，IDE 光驱接在这里。</li>
+<li id="p_1b21">/dev/cdrom – 指向相应设备的链接，通常是 /dev/hdc 或 /dev/hdb（CDROM）或/dev/scd0（CD-R/RW）。</li>
+<li id="p_1b22">/dev/hda1 – 第一个 IDE 硬盘的第一个分区。/dev/hda2 时第一个 IDE 硬盘的第二个分区。不难猜测，/dev/hdd8 将会是第四个IDE硬盘的第八分区。</li>
+<li id="p_1b23">/dev/tty1 – 第一个字符终端。/dev/tty2 时第二个字符终端，以此类推。</li>
+<li id="p_1b24">/dev/dsp – 数字音频，例如声卡。“dsp”是“digital signal processing（数字信号处理）”的缩写。</li>
+<li id="p_1b25">/dev/sndstat – 用 cat /dev/sndstat 来更多地了解你的声卡状态。</li>
+<li id="p_1b26">/dev/null – 当你不想要输出的时候就送到这里。</li>
+<li id="p_1b27">/dev/random – 用来读伪随机数。用 cat /dev/random 来在屏幕上显示一对乱七八糟的字符。还有一个 /dev/urandom 设备用来生成低质量的随机数序列。</li>
+<li id="p_1b28">/dev/sda – 第一个 SCSI 硬盘（整个硬盘）。在一台家用计算机中，不太可能有 SCSI 设备（昂贵）。</li>
+<li id="p_1b29">/dev/sdb – 第二个 SCSI 硬盘（“sdc”是第三个 SCSI 硬盘，以此类推。一个系统中可以有多个 SCSI 硬盘）。</li>
+<li id="p_1b30">/dev/sda1 – 第一个 SCSI 硬盘的第一个分区。</li>
+<li id="p_1b31">/dev/sr0 – 第一个 SCSI 光驱（有时叫做/dev/scd0）。如果你有一个 ATAPI CD Writer，也可能在这里。</li>
+<li id="p_1b32">/dev/sr1 – 第二个 SCSI 光驱（有时叫做 /dev/scd1）。（/dev/sr2 是第三个 SCSI 光驱，以此类推。系统中可以有多个 SCSI 光驱）</li>
+<li id="p_1b33">/dev/usb/scanner0 – 一个 usb 扫描仪。</li>
+</ul>
+<p id="p_1b34">试用 less /usr/src/linux/Documentation/usb/scanner.txt 了解如何从头开始配置扫描仪。欲了解更多：</p>
+<p id="p_1b35">less /usr/src/linux/Documentation/devices.txt<br />
+man MAKEDEV</p>
+<p id="p_1b37">象 /usr/src/linux/Documentation/devices.txt 解释的那样，我可能需要创建一些指向设备文件本身的符号链接来配置我的系统。这只是一个简单的实例，并不意味着通用的建议。当然，如果这些链接存在，它们应该有以下的：</p>
+<ul id="p_1b38">
+<li id="p_1b39">/dev/mouse 当前鼠标端口***</li>
+<li id="p_1b40">/dev/tape 当前磁带设备</li>
+<li id="p_1b41">/dev/cdrom 当前光驱设备***</li>
+<li id="p_1b42">/dev/cdwriter 当前 CD-writer 设备（但是我的 RedHat 是 /dev/cdrecorder）</li>
+<li id="p_1b43">/dev/scanner 当前扫描仪设备</li>
+<li id="p_1b44">/dev/modem 当前拨出（调制解调器）端口</li>
+<li id="p_1b45">/dev/root 当前 root 文件系统</li>
+<li id="p_1b46">/dev/swap 当前 swap 设备</li>
+</ul>
+<p id="p_1b47">*** 表示我的 Marndrake 系统中确实存在的符号链接。例如，如果鼠标有什么问题，我会做下面的事情（以 root）：</p>
+<p id="p_1b48">ls -l /dev/mouse （检查鼠标设备是否存在且指向哪里）<br />
+ln -s /dev/ttyS0 /dev/mouse （创建一个符号链接 /dev/mouse 指向第一个串行端口）</p>
+<p id="p_1b50">对于 SCSI（及ATAPI）设备，/dev/tape 和 /dev/cdrom 应该指向“熟”设备（/dev/st* 和 /dev/sr* 相应地），而 /dev/cdwriter 和 /dev/scanner 应该指向相应的普通 SCSI 设备（/dev/sg*）。非临时套接字和管道可能存在于 /dev。常见的有：</p>
+<p id="p_1b51">/dev/printer socket lpd local socket<br />
+/dev/log socket syslog local socket<br />
+/dev/gpmdata socket gpm mouse multiplexer</p>

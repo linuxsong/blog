@@ -1,0 +1,51 @@
+---
+status: publish
+published: true
+title: ssh 公钥认证方式登录
+author:
+  display_name: LinuxSong
+  login: xks
+  email: linuxsong@gmail.com
+  url: http://www.linuxsong.org
+author_login: xks
+author_email: linuxsong@gmail.com
+author_url: http://www.linuxsong.org
+excerpt: 一般情况下,我们用ssh远程登录到服务器时，要输入用户名和密码。这对经常维护系统的人来说，很麻烦。怎样才能不用密码直接登录到远程的linux/unix服务器呢？ssh公钥认证可以解决这个问题。
+wordpress_id: 144
+wordpress_url: http://www.linuxsong.org/?p=144
+date: '2010-09-05 01:09:01 +0800'
+date_gmt: '2010-09-04 17:09:01 +0800'
+comments: []
+---
+<p>一般情况下,我们用ssh远程登录到服务器时，要输入用户名和密码。这对经常维护系统的人来说，很麻烦。怎样才能不用密码直接登录到远程的<a href="http://www.linuxsong.org/category/linux/">linux/unix</a>服务器呢？ssh公钥认证可以解决这个问题。</p>
+<p><strong id="ne2045">公钥认证</strong>，是使用一对加密字符串，一个称为<strong id="ne2046">公钥</strong>(public key)， 任何人都可以看到其内容，用于加密；另一个称为<strong id="ne2047">密钥</strong>(private key)，只有拥有者才能看到，用于解密。 通过公钥加密过的密文使用密钥可以轻松解密，但根据公钥来猜测密钥却十分困难。</p>
+<p>在使用公钥认证之前，先检查一下服务器的ssh配置文件/etc/ssh/sshd_config</p>
+<pre id="ne2088">RSAAuthentication yes        # 启用 RSA 认证，默认为yes
+PubkeyAuthentication yes     # 启用公钥认证，默认为yes</pre>
+<p>如果配置没有问题，那么你就可以进行下一步了。<br />
+下面我们举个例子，比如有两台机器，客户机A与服务器B，想用ssh公钥认证方式从A机器用client用户登录到B机器的server用户，方法如下：</p>
+<p>1.在客户机A上生成公钥与密钥<br />
+[client@test ~]$ ssh-keygen -t rsa<br />
+Generating public/private rsa key pair.<br />
+Enter file in which to save the key (/home/client/.ssh/id_rsa): #此处直接按回车即可<br />
+Created directory '/home/client/.ssh'.<br />
+Enter passphrase (empty for no passphrase): #此处直接按回车即可<br />
+Enter same passphrase again: #此处直接按回车即可<br />
+Your identification has been saved in /home/client/.ssh/id_rsa.<br />
+Your public key has been saved in /home/client/.ssh/id_rsa.pub.<br />
+The key fingerprint is:<br />
+f5:30:ba:10:ee:7a:c6:cf:d8:ec:3f:4c:b3:f1:09:6d client@linuxsong.org</p>
+<p>这样就生成了client用户在这台机器的公钥(/home/client/.ssh/id_rsa.pub )和私钥(/home/client/.ssh/id_rsa).<br />
+2.将上一步生成的公钥文件拷贝到服务器B上。然后将文件内容追加到server用户目录的.ssh/authorized_keys中：</p>
+<p>[server@server]$ cat id_rsa.pub &gt;&gt; .ssh/authorized_keys</p>
+<p>这样，client用户从客户机上登录到服务器的server用户，就不用再输入密码了。</p>
+<p>另外，如果对服务器安全性比较高的情况下，可以设置用户只允许通过公钥认证，禁止用户用密码方式登录，只要修改一下服务器的配置文件/etc/sshd/sshd_config</p>
+<p>PasswordAuthentication no</p>
+<p>修改完后要重启sshd服务。<br />
+这样用户通过密码方式登录时就会提示：<br />
+Permission denied (publickey,gssapi-with-mic)</p>
+<p>有效的提高了系统的安全性。<br />
+注意：<br />
+<span style="color: #ff0000;">.ssh 目录的权限必须是0700<br />
+.ssh/authorized_keys 文件权限必须是0600</span><br />
+否则公钥认证不会生效。</p>

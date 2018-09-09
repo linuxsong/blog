@@ -1,0 +1,45 @@
+---
+status: publish
+published: true
+title: Linux关机与重启命令详解
+author:
+  display_name: LinuxSong
+  login: xks
+  email: linuxsong@gmail.com
+  url: http://www.linuxsong.org
+author_login: xks
+author_email: linuxsong@gmail.com
+author_url: http://www.linuxsong.org
+excerpt: Linux下的关机与重启的命令有多种，每种方式略有些不同，除非有特别紧急的情况发生，否则不要通过直接关闭电源来关机，这可能会导致数据丢失。
+wordpress_id: 153
+wordpress_url: http://www.linuxsong.org/?p=153
+date: '2010-09-05 01:23:00 +0800'
+date_gmt: '2010-09-04 17:23:00 +0800'
+comments: []
+---
+<p><a href="http://www.linuxsong.org/category/linux/">Linux</a>下的关机与重启的命令有多种，每种方式略有些不同，除非有特别紧急的情况发生，否则不要通过直接关闭电源来关机，这可能会导致数据丢失。</p>
+<p>1. shutdown:妥善的停机方式</p>
+<p>shutdown 是关机或重启系统最安全的方式。<br />
+shutdown可以在指定时间关机（定时关机），也可以让shutdown 在开始关闭系统之前等待一段时间，在等待过程中，shutdown 以越来越短的时间间隔发送一些消息给已登录的用户，警告用户，系统将要关闭，可以让用户在系统关闭之前做好相应的准备工作，防止发生数据丢失。管理员也可以提供一个简短的说明，比如：更换设备，10：00恢复。</p>
+<p>下面看一下shutdown的详细参数：<br />
+shutdown [OPTION]... TIME [MESSAGE]</p>
+<p><!--more-->[-r] 重启计算器。<br />
+[-k] 并不真正关机﹐只是送警告信号给每位登录者<br />
+[-h] 关机后关闭电源。<br />
+[-c] 取消目前正在执行的关机程序，可以给当前登录的用户一个提示信息<br />
+[-F] 在重启系统时执行磁盘检查 （fsck）<br />
+[-f] 在重启系统时不检查磁盘<br />
+比如要在 10：00关闭系统，并给登录用户一条提示信息：<br />
+$ shutdown -h 10:00 "系统维护10:00关机，11:00恢复"</p>
+<p>比如要在15分钟后重启计算机：<br />
+$ shutdown -r +15</p>
+<p>2. halt 更简单的关机方式</p>
+<p>halt命令执行关闭系统所需要的基本任。它可以被shutdown -h调用，也可以单独使用。halt记录关机的情况，终止百必须的进程，执行sync系统调用，等待文件系统写操作完成，然后停止内核。</p>
+<p>halt -n 不执行sync调用。在fsck修复了根分区之后会用到这条命令。如果fsck没用使用-n选项，那么内核可能会用内存中组成上的超级块的老版本覆盖fsck的修改。</p>
+<p>3. telinit 改变init的运行级别</p>
+<p>使用telnit可以指引init进入指定的运行级别。如要让系统进入单用户模式：<br />
+$ telinit 1</p>
+<p>4. reboot 快速重启系统</p>
+<p>reboot基本和halt一样，只不过它是让系统重新启动，而halt是让机器关机。reboot由shutdown -r来调用。与halt类似，它也支持-n参数。</p>
+<p>5. poweroff 让Linux关闭电源</p>
+<p>poweroff命令基本和halt一样，区别在于Linux关闭后，poweroffer可以向电源管理系统（如果有的话）发送一则请求来关闭系统主电源。主要用于远程关机。</p>

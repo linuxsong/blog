@@ -1,0 +1,30 @@
+---
+status: publish
+published: true
+title: Linux下MBR的备份与恢复
+author:
+  display_name: LinuxSong
+  login: xks
+  email: linuxsong@gmail.com
+  url: http://www.linuxsong.org
+author_login: xks
+author_email: linuxsong@gmail.com
+author_url: http://www.linuxsong.org
+excerpt: MBR是Master Boot Record的简称,又叫主引导记录.它是硬盘上最重要的一个数据结构,当用分区软件创建分区的时候,分区软件会自动创建MBR.MBR处于硬盘的第一个
+  扇区.即0柱面,0磁头,1扇区.主引导记录由三部分构成,第一部分是一小段执行代码,共446字节，第二部分是64字节的分区表,第三部分是系统标志,一般为 55AA（两个字节）.
+wordpress_id: 253
+wordpress_url: http://www.linuxsong.org/?p=253
+date: '2010-09-05 11:44:51 +0800'
+date_gmt: '2010-09-05 03:44:51 +0800'
+comments: []
+---
+<p>MBR是Master Boot Record的简称,又叫主引导记录.它是硬盘上最重要的一个数据结构,当用分区软件创建分区的时候,分区软件会自动创建MBR.MBR处于硬盘的第一个 扇区.即0柱面,0磁头,1扇区.主引导记录由三部分构成,第一部分是一小段执行代码,共446字节，第二部分是64字节的分区表,第三部分是系统标志,一般为 55AA（两个字节）.在基于X86的计算机上,可执行代码检查分区表的合法性,同时查找系统分区.找到系统分区后,MBR读取系统分区的第一个扇区,也就是分区引导 扇区到内存,然后把代码控制权交给分区引导扇区.</p>
+<p>在<a href="http://www.linuxsong.org/category/linux/">Linux</a>备份或恢复MBR的方法很简单。<br />
+备份MBR分区法份方法如下：<br />
+dd if=/dev/sda1 of=/root/mbr bs=512 count=1</p>
+<p>恢复MBR</p>
+<p>dd if=/root/mbr of=/dev/sda1 bs=512 count=1</p>
+<p>硬盘的分区表是存放在硬盘的446字节开始的64个字节中，如果只想备份硬盘分区表的方法如下:</p>
+<p>dd if=/dev/sda1 of=/root/mbr bs=1 skip=446 count=64</p>
+<p>恢复分区表的方法如下：<br />
+dd if=/root/mbr of=/dev/sda1 bs=1 skip=446 count=64</p>

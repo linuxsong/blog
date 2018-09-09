@@ -1,0 +1,38 @@
+---
+status: publish
+published: true
+title: ssh-copy-id设置不同的端口
+author:
+  display_name: LinuxSong
+  login: xks
+  email: linuxsong@gmail.com
+  url: http://www.linuxsong.org
+author_login: xks
+author_email: linuxsong@gmail.com
+author_url: http://www.linuxsong.org
+wordpress_id: 540
+wordpress_url: http://www.linuxsong.org/?p=540
+date: '2013-07-07 10:32:11 +0800'
+date_gmt: '2013-07-07 02:32:11 +0800'
+comments:
+- id: 25128
+  author: zeekvfu
+  author_email: wzmindlog@gmail.com
+  author_url: http://MindCache.info
+  date: '2014-04-03 16:33:43 +0800'
+  date_gmt: '2014-04-03 08:33:43 +0800'
+  content: "<code>ssh-copy-id</code> 就是公钥验证了，这个过程也可以手工做。\r\nPS.\r\n我们用的 WordPress
+    主题似乎相同的……"
+- id: 25338
+  author: LinuxSong
+  author_email: linuxsong@gmail.com
+  author_url: http://www.linuxsong.org
+  date: '2014-04-04 15:41:21 +0800'
+  date_gmt: '2014-04-04 07:41:21 +0800'
+  content: |-
+    是可以手工做,不过我觉得手工做很麻烦.
+    浏览了你的博客,比我勤快多了:)
+---
+<p>ssh-copy-id是一个可以很方便的设置机器之间对等登录的工具(不用每次都输入密码),ssh-copy-id的默认端口是22和ssh一样，但是有时我们为了考虑安全问题，会把ssh的端口改成其它端口，ssh-copy-id并没有提供设置端口的参数，查看了ssh-copy-id的代码(一个shell程序)，发现可以使用下面的方法设置端口：</p>
+<p>ssh-copy-id "-p port user@host"</p>
+<p>这样就可以让ssh-copy-id使用不同的端口了。</p>

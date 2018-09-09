@@ -1,0 +1,145 @@
+---
+status: publish
+published: true
+title: Shell条件测试
+author:
+  display_name: LinuxSong
+  login: xks
+  email: linuxsong@gmail.com
+  url: http://www.linuxsong.org
+author_login: xks
+author_email: linuxsong@gmail.com
+author_url: http://www.linuxsong.org
+excerpt: 写脚本时，经常要判断字符串是否相等，检查文件状态或是数字测试等。Shell提供了对字符串、文件、数值及逻辑操作等内容的条件测试的支持。
+wordpress_id: 149
+wordpress_url: http://www.linuxsong.org/?p=149
+date: '2010-09-05 01:17:40 +0800'
+date_gmt: '2010-09-04 17:17:40 +0800'
+comments: []
+---
+<p>写脚本时，经常要判断字符串是否相等，检查文件状态或是数字测试等。<a href="http://www.linuxsong.org/category/shell/">Shell</a>提供了对字符串、文件、数值及逻辑操作等内容的条件测试的支持。</p>
+<p><strong>1.测试文件状态</strong><br />
+test一般有两种格式，即：<br />
+test condition<br />
+或<br />
+[ condition ]<br />
+使用方括号时，要注意在条件两边加上空格。<br />
+一般采用第2种方式，比较方便。<br />
+测试文件状态的条件表达式很多，下面是一个常用的文件状态列表。<br />
+文件状态测试<br />
+-a 文件存在<br />
+-b 文件存在并且是块文件<br />
+-c 文件存在并且是字符文件<br />
+-d 文件存在并且是目录<br />
+-s 文件长度大于0、非空<br />
+-f 文件存在并且是正规文件<br />
+-w 文件存在并且可写<br />
+-L 文件存在并且符号连接<br />
+-u 文件有suid位设置<br />
+-r 文件存在并且可读<br />
+-x 文件存在并且可执行<br />
+file1 -nt file2 file1的修改时间比file2的修改时间晚，或者是 file1存在,file2不存在<br />
+file1 -ot file2 file1的修改时间比file2的修改时间早，或者是 file2存在,file1不存在</p>
+<p><!--more-->注意：0表示成功，其他为失败。<br />
+例：<br />
+[test@test ~]$ ll test.txt<br />
+-rw-rw-r-- 1 test test 3 2008-08-22 16:30 test.txt<br />
+[test@test ~]$ [ -f test.txt ]<br />
+[test@test ~]$ echo $?<br />
+0<br />
+[test@test ~]$ [ -d test.txt ]<br />
+[test@test ~]$ echo $?<br />
+1</p>
+<p><strong>2.逻辑操作符</strong><br />
+测试文件状态是否为OK，但是有时要比较两个文件状态。<a href="http://www.linuxsong.org/category/shell/">shell</a>提供三种逻辑操作完成此<br />
+功能。<br />
+-a 逻辑与，操作符两边均为真，结果为真，否则为假。<br />
+-o 逻辑或，操作符两边一边为真，结果为真，否则为假。<br />
+! 逻辑非，条件为假，结果为真。</p>
+<p>例：<br />
+[test@test ~]$ ll test.txt<br />
+-rw-rw-r-- 1 test test 3 2008-08-22 16:30 test.txt<br />
+[test@test ~]$ [ -f test.txt -a -s test.txt ]<br />
+[test@test ~]$ echo $?<br />
+0</p>
+<p>test.txt是一个普通文件，并且内容不为空，测试成功</p>
+<p>[test@test ~]$ [ -f test.txt -a -x test.txt ]<br />
+[test@test ~]$ echo $?<br />
+1</p>
+<p>test.txt不可执行，所以为假</p>
+<p><strong>3. 字符串测试</strong><br />
+字符串测试是错误捕获很重要的一部分，特别在测试用户输入或比较变量时尤为重要。<br />
+字符串测试有5种格式</p>
+<p>test "string"<br />
+test string_operator "string"<br />
+test "string" string_operator "string"<br />
+[ string_operator string ]<br />
+[ string string_operator string ]</p>
+<p>这里，string_operator可为：<br />
+= 两个字符串相等。<br />
+!= 两个字符串不等。<br />
+-z 空串。<br />
+-n 非空串。<br />
+要测试环境变量EDITOR是否为空：<br />
+$ [ -z $EDITOR ]<br />
+$ echo $?<br />
+1<br />
+非空，取值是否是vi？<br />
+$ [ $EDITOR = "vi" ]<br />
+$ echo $?<br />
+1<br />
+用echo命令反馈其值：<br />
+$ echo $EDITOR<br />
+vi</p>
+<p>测试变量var1与变量var2是否相等：</p>
+<p>$ [ "$var1" = "$var2" ]</p>
+<p>没有规定在设置变量时一定要用双引号，但在进行字符串比较时必须这样做,否则可能会出错，比如<br />
+var1=""<br />
+var="test"<br />
+此时，［ $var1 = $var2 ]语句会解析成：<br />
+[ = test ] 因此会出现语法错误，输出错误提示：<br />
+bash: [: =: unary operator expected<br />
+<strong><br />
+4. 测试数值</strong><br />
+测试数值可以使用许多操作符，一般格式如下：<br />
+"number" numeric_operator "number"<br />
+或者<br />
+[ "number" numeric_operator" number" ]<br />
+numeric_operator可为：<br />
+-eq 数值相等。<br />
+-ne 数值不相等。<br />
+-gt 第一个数大于第二个数。<br />
+-lt 第一个数小于第二个数。<br />
+-le 第一个数小于等于第二个数。<br />
+-ge 第一个数大于等于第二个数。</p>
+<p>例：<br />
+$ value=15<br />
+$ [ $value -eq 15 ]<br />
+$ echo $?<br />
+0<br />
+$ [ $value -eq 16 ]<br />
+$ echo $?<br />
+1</p>
+<p>5. 数值测试<br />
+可以用expr测试一个数,expr命令一般用于整数值，但也可用于字符串。一般格式为：<br />
+expr argument operator argument<br />
+例如：<br />
+要测试一个变量是否是一个整数值，可以这样测试：<br />
+$ val=15<br />
+$ expr $val + 1 &gt; /dev/null 2&gt;&amp;1<br />
+$ echo $?<br />
+0<br />
+如果返回值为0，证明这是一个数，其他则表明为非数值。<br />
+$ val=test<br />
+$ expr $val + 1 &gt; /dev/null 2&gt;&amp;1<br />
+$ echo $?<br />
+2<br />
+这是一个非数值变量。<br />
+expr也可以返回其本身的退出状态，不幸的是返回值与系统最后退出命令刚好相反，成功返回1，任何其他值为无效或错误。下面的例子测试两个字符串是否相等，这里字符串为<br />
+“hello”和“hello”。<br />
+$ val=hello<br />
+$ expr $val = "hello"<br />
+1<br />
+$ echo $?<br />
+0<br />
+expr返回1。不要混淆了，这表明成功。现在检验其最后退出状态，返回0表示测试成功，“hello”确实等于“hello”。</p>

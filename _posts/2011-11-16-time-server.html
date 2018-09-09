@@ -1,0 +1,38 @@
+---
+status: publish
+published: true
+title: Linux下配置rdate时间服务器
+author:
+  display_name: LinuxSong
+  login: xks
+  email: linuxsong@gmail.com
+  url: http://www.linuxsong.org
+author_login: xks
+author_email: linuxsong@gmail.com
+author_url: http://www.linuxsong.org
+excerpt: 配置多台服务器时，经常需要让各个服务器之间的时间保持同步，如果服务器有外网环境，可以直接同外部的时间服务器更新时间，可以采用rdate命令更新时间.
+wordpress_id: 481
+wordpress_url: http://www.linuxsong.org/?p=481
+date: '2011-11-16 15:18:32 +0800'
+date_gmt: '2011-11-16 07:18:32 +0800'
+comments:
+- id: 4062
+  author: 一淘网
+  author_email: 447853463@qq.com
+  author_url: http://www.cnoz.org
+  date: '2012-01-31 15:09:27 +0800'
+  date_gmt: '2012-01-31 07:09:27 +0800'
+  content: 又来了,春节都过去了.....无聊啊,进来看看文章(一淘网：www.cnoz.org)
+---
+<p>配置多台服务器时，经常需要让各个服务器之间的时间保持同步，如果服务器有外网环境，可以直接同外部的时间服务器更新时间，可以采用rdate命令更新时间:</p>
+<p>rdate -s ﻿tick.greyware.com</p>
+<p>可以写个脚本放在/etc/cron.hourly中每小时校正一下时间。</p>
+<p>如果是内网环境下，可以自己配置一个时间服务器，以CentOS为例，配置时间服务器的方法如下：</p>
+<p>1.先安装xinetd : sudo yum install -y xinetd</p>
+<p>2.修改/etc/xinetd.d/time-stream, 修改：</p>
+<p>disable     = yes  改为</p>
+<p>disable = no</p>
+<p>3.启动xinetd</p>
+<p>service xinetd start</p>
+<p>这样其它机器就可以通过rdate 与该机器进行时间同步</p>
+<p>rdate -s ip</p>

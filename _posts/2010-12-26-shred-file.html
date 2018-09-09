@@ -1,0 +1,52 @@
+---
+status: publish
+published: true
+title: Linux中彻底删除文件
+author:
+  display_name: LinuxSong
+  login: xks
+  email: linuxsong@gmail.com
+  url: http://www.linuxsong.org
+author_login: xks
+author_email: linuxsong@gmail.com
+author_url: http://www.linuxsong.org
+excerpt: "我们知道在Linux中删除文件一般使用rm, 但是rm命令并不会真的清空保存该文件的数据块的内容，而只是释放了该文件所占用的索引节点和数据块。因此用rm删除的文件是可以通过一些方法恢复的(比如可以用debugfs恢复，具体方法Google之)。\r\n\r\n有些时候我们要彻底删除一些文件，可以使用shred命令来实现，shred是coreutils的一部分，所以Linux中基本都会有这个命令。"
+wordpress_id: 451
+wordpress_url: http://www.linuxsong.org/?p=451
+date: '2010-12-26 12:14:37 +0800'
+date_gmt: '2010-12-26 04:14:37 +0800'
+comments:
+- id: 4193
+  author: starsw001
+  author_email: starsw001@yahoo.com.cn
+  author_url: http://www.ooofk.com
+  date: '2012-04-28 13:52:26 +0800'
+  date_gmt: '2012-04-28 05:52:26 +0800'
+  content: 这样确实 彻底删除了。。。不错。。。
+- id: 11173
+  author: 刀尖红叶
+  author_email: leafonsword@gmail.com
+  author_url: ''
+  date: '2013-06-17 09:47:45 +0800'
+  date_gmt: '2013-06-17 01:47:45 +0800'
+  content: 很不错~
+---
+<p>我们知道在<a href="http://www.linuxsong.org/tag/linux/">Linux</a>中删除文件一般使用rm, 但是rm命令并不会真的清空保存该文件的数据块的内容，而只是释放了该文件所占用的索引节点和数据块。因此用rm删除的文件是可以通过一些方法恢复的(比如可以用debugfs恢复，具体方法Google之)。</p>
+<p>有些时候我们要彻底删除一些文件，可以使用shred命令来实现，shred是coreutils的一部分，所以<a href="http://www.linuxsong.org/tag/linux/">Linux</a>中基本都会有这个命令。</p>
+<p>shred彻底删除文件的方法:</p>
+<p>$ shred -u file</p>
+<p>shred会用一些随机内容覆盖文件所在的节点和数据块，并删除文件(-u参数)。</p>
+<p>如果想清除的更彻底一点可以加-z 参数，意思是先用随机数据填充，最后再用0填充。</p>
+<p>$ shred -u -z file</p>
+<p>另外shred还可以清除整个分区或磁盘，比如想彻底清除/dev/sdb1分区的内容可以这样:</p>
+<p>$ shred /dev/sdb1   (注意不要加-u参数)</p>
+<p>shred的详细参数：<br />
+-f, --force   更改权限允许写入(如有必要)</p>
+<p>-n, --iterations=N   重写N次，默认为3次</p>
+<p>--random-source=FILE 从指定文件读取数据</p>
+<p>-s, --size=N  将文件粉碎为固定大小 (可使用后缀如K、M、C等)</p>
+<p>-u, --remove   重写后截短并移除文件</p>
+<p>-v, --verbose   显示进度</p>
+<p>-z, --zero - add  用0覆盖数据</p>
+<p>–help  显示帮助</p>
+<p>–version   显示版本信息</p>

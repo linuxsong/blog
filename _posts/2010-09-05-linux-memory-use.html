@@ -1,0 +1,60 @@
+---
+status: publish
+published: true
+title: Linux内存使用情况详解
+author:
+  display_name: LinuxSong
+  login: xks
+  email: linuxsong@gmail.com
+  url: http://www.linuxsong.org
+author_login: xks
+author_email: linuxsong@gmail.com
+author_url: http://www.linuxsong.org
+excerpt: Linux内存使用情况详解,通常我们用free 命令来查看内存使用情况。
+wordpress_id: 169
+wordpress_url: http://www.linuxsong.org/?p=169
+date: '2010-09-05 01:39:20 +0800'
+date_gmt: '2010-09-04 17:39:20 +0800'
+comments:
+- id: 2816
+  author: Magento小工
+  author_email: magchina@live.com
+  author_url: http://www.sqlstudy.com/
+  date: '2011-09-27 14:01:27 +0800'
+  date_gmt: '2011-09-27 06:01:27 +0800'
+  content: 分析的很透彻。 used2 = 417 即是被使用的内存。
+- id: 2817
+  author: Magento小工
+  author_email: magchina@live.com
+  author_url: http://www.sqlstudy.com/
+  date: '2011-09-27 14:03:54 +0800'
+  date_gmt: '2011-09-27 06:03:54 +0800'
+  content: "-/+ buffers/cache\r\n\r\n一直不明白  -/+  的意思。"
+---
+<p>通常我们用free 命令来查看内存使用情况：</p>
+<p>$ free -m (-m参数是指以M为单位显示内存使用情况）</p>
+<pre>
+           total       used       free     shared    buffers     cached
+Mem:          2021       1544        477          0        320        805
+-/+ buffers/cache:        417       1603
+Swap:         1983          0       1983</pre>
+<p>Mem：表示物理内存统计<br />
+-/+ buffers/cached：表示物理内存的缓存统计<br />
+Swap：表示硬盘上交换分区的使用情况，这里我们不去关心。<br />
+系统的总物理内存：2021M，但系统当前真正可用的内存并不是第一行free 标记的 477M，它仅代表未被分配的内存。</p>
+<p>我们使用total1、used1、free1、used2、free2 等名称来代表上面统计数据的各值，1、2 分别代表第一行和第二行的数据。</p>
+<p>total1：表示物理内存总量。<br />
+used1：表示总计分配给缓存（包含buffers 与cache ）使用的数量，但其中可能部分缓存并未实际使用。<br />
+free1：未被分配的内存。<br />
+shared1：共享内存，一般系统不会用到，这里也不讨论。<br />
+buffers1：系统分配但未被使用的buffers 数量。<br />
+cached1：系统分配但未被使用的cache 数量。buffer 与cache 的区别见后面。<br />
+used2：实际使用的buffers 与cache 总量，也是实际使用的内存总量。<br />
+free2：未被使用的buffers 与cache 和未被分配的内存之和，这就是系统当前实际可用内存。<br />
+可以整理出如下等式：</p>
+<p>total1 = used1 + free1total1 = used2 + free2used1 = buffers1 + cached1 + used2free2 = buffers1 + cached1 + free1</p>
+<p>很多人误以为free1是实际的剩余内存，还在奇怪为什么<a href="http://www.linuxsong.org/category/linux/">Linux</a>系统占用了如此大的内存，其实这是正常的。</p>
+<p>二.buffer 与cache 的区别<br />
+A buffer is something that has yet to be "written" to disk. A cache is something that has been "read" from the disk and stored for later use.<br />
+三.对于共享内存（Shared memory）<strong><br />
+</strong>主要用于在UNIX 环境下不同进程之间共享数据，是进程间通信的一种方法.</p>

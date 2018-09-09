@@ -1,0 +1,166 @@
+---
+status: publish
+published: true
+title: awk内置字符串函数详解
+author:
+  display_name: LinuxSong
+  login: xks
+  email: linuxsong@gmail.com
+  url: http://www.linuxsong.org
+author_login: xks
+author_email: linuxsong@gmail.com
+author_url: http://www.linuxsong.org
+excerpt: "awk提供了许多强大的字符串函数，见下表：\r\nawk内置字符串函数"
+wordpress_id: 230
+wordpress_url: http://www.linuxsong.org/?p=230
+date: '2010-09-05 11:06:26 +0800'
+date_gmt: '2010-09-05 03:06:26 +0800'
+comments:
+- id: 4190
+  author: 绚丽也尘埃
+  author_email: fuzhijie1985@gmail.com
+  author_url: http://fuzhijie.me
+  date: '2012-04-24 16:53:33 +0800'
+  date_gmt: '2012-04-24 08:53:33 +0800'
+  content: awk '{BEGIN {print split("123#456#678", myarray, "#")}' //这条命令BEGIN前面多了一个大括号。
+- id: 4191
+  author: LinuxSong
+  author_email: linuxsong@gmail.com
+  author_url: http://www.linuxsong.org
+  date: '2012-04-24 18:42:50 +0800'
+  date_gmt: '2012-04-24 10:42:50 +0800'
+  content: 谢谢，已改正。原来没注意。
+---
+<p>awk提供了许多强大的字符串函数，见下表：<br />
+<a href="http://www.linuxsong.org/category/awk/">awk</a>内置字符串函数</p>
+<table id="c-nq" border="0" cellspacing="0" cellpadding="3">
+<tbody>
+<tr>
+<td width="50%">gsub(r,s)</td>
+<td width="50%">在整个$0中用s替代r</td>
+</tr>
+<tr>
+<td width="50%">gsub(r,s,t)</td>
+<td width="50%">在整个t中用s替代r</td>
+</tr>
+<tr>
+<td width="50%">index(s,t)</td>
+<td width="50%">返回s中字符串t的第一位置</td>
+</tr>
+<tr>
+<td width="50%">length(s)</td>
+<td width="50%">返回s长度</td>
+</tr>
+<tr>
+<td width="50%">match(s,r)</td>
+<td width="50%">测试s是否包含匹配r的字符串</td>
+</tr>
+<tr>
+<td width="50%">split(s,a,fs)</td>
+<td width="50%">在fs上将s分成序列a</td>
+</tr>
+<tr>
+<td width="50%">sprint(fmt,exp)</td>
+<td width="50%">返回经fmt格式化后的exp</td>
+</tr>
+<tr>
+<td width="50%">sub(r,s)</td>
+<td width="50%">用$0中最左边最长的子串代替s</td>
+</tr>
+<tr>
+<td width="50%">substr(s,p)</td>
+<td width="50%">返回字符串s中从p开始的后缀部分</td>
+</tr>
+<tr>
+<td width="50%">substr(s,p,n)</td>
+<td width="50%">返回字符串s中从p开始长度为n的后缀部分</td>
+</tr>
+</tbody>
+</table>
+<p>详细说明一下各个函数的使用方法。</p>
+<p><!--more-->gsub函数有点类似于sed查找和替换。它允许替换一个字符串或字符为另一个字符串或字符，并以正则表达式的形式执行。第一个函数作用于记录$0，第二个gsub函数允许指定目标，然而，如果未指定目标，缺省为$0。<br />
+index(s,t)函数返回目标字符串s中查询字符串t的首位置。length函数返回字符串s字符<br />
+长度。match函数测试字符串s是否包含一个正则表达式r定义的匹配。split使用域分隔符fs将<br />
+字符串s划分为指定序列a。sprint函数类似于printf函数(以后涉及)，返回基本输出格式fmt的<br />
+结果字符串exp。sub(r,s)函数将用s替代$0中最左边最长的子串，该子串被(r)匹配。<br />
+sub(s,p)返回字符串s在位置p后的后缀。substr(s,p,n)同上，并指定子串长度为n。<br />
+现在看一看awk中这些字符串函数的功能。</p>
+<p>1.gsub<br />
+要在整个记录中替换一个字符串为另一个，使用正则表达式格式，/目标模式/，替换模式<br />
+/。例如改变学生序号4842到4899：</p>
+<p>$ awk 'gsub('4842/, 4899) {print $0}' grade.txt<br />
+J.Troll 07/99 4899 Brown-3 12 26 26</p>
+<p>2.index<br />
+查询字符串s中t出现的第一位置。必须用双引号将字符串括起来。例如返回目标字符串<br />
+Bunny中ny出现的第一位置，即字符个数。</p>
+<p>$ awk 'BEGIN {print index("Bunny", "ny")} grade.txt<br />
+4</p>
+<p>3.length<br />
+返回所需字符串长度，例如检验字符串J.Troll返回名字及其长度，即人名构成的字符个<br />
+数。</p>
+<p>$ awk '$1=="J.Troll" {print length($1) " "$1}' grade.txt<br />
+7 J.Troll</p>
+<p>还有一种方法，这里字符串加双引号。</p>
+<p>$ awk 'BEGIN {print length("A FEW GOOD MEN")}'<br />
+14</p>
+<p>4.match<br />
+match测试目标字符串是否包含查找字符的一部分。可以对查找部分使用正则表达式,返<br />
+回值为成功出现的字符排列数。如果未找到,返回0,第一个例子在ANCD中查找d。因其不<br />
+存在,所以返回0。第二个例子在ANCD中查找D。因其存在,所以返回ANCD中D出现的首位<br />
+置字符数。第三个例子在学生J.Lulu中查找u。</p>
+<p>$ awk 'BEGIN {print match("ANCD", /d/)}'<br />
+0<br />
+$ awk 'BEGIN {print match("ANCD", /C/)}'<br />
+3<br />
+$ awk '$1=="J.Lulu" {print match($1, "u")} grade.txt<br />
+4</p>
+<p>5.split<br />
+使用split返回字符串数组元素个数。工作方式如下：如果有一字符串,包含一指定分隔<br />
+符-,例如AD2-KP9-JU2-LP-1,将之划分成一个数组。使用split,指定分隔符及数组名。此<br />
+例中,命令格式为("AD2-KP9-JU2-LP-1",parts_array,"-"),split然后返回数组下标数,这<br />
+里结果为4。<br />
+还有一个例子使用不同的分隔符。</p>
+<p>$ awk 'BEGIN {print split("123#456#678", myarray, "#")}'<br />
+3</p>
+<p>这个例子中,split返回数组myarray的下标数。数组myarray取值如下：</p>
+<p>Myarray[1]="123"<br />
+Myarray[2]="456"<br />
+Myarray[3]="789"</p>
+<p>6.sub<br />
+使用sub发现并替换模式的第一次出现位置。字符串STR包含‘popedpopopill’,执行下<br />
+列sub命令sub(/op/,"op",STR)。模式op第一次出现时,进行替换操作,返回结果如下：<br />
+‘pOPedpopepill’。<br />
+假如grade.txt文件中,学生J.Troll的记录有两个值一样,“目前级别分”与“最高级别分”。只<br />
+改变第一个为29,第二个仍为24不动,操作命令为sub(/26/,"29",$0),只替换第一个出现<br />
+24的位置。</p>
+<p>$ awk '$1=="J.Troll" sub(/26/, "29", $0)' grade.txt<br />
+L.Troll 07/99 4842 Brown-3 12 29 26<br />
+L.Transley 05/99 4712 Brown-2 12 30 28</p>
+<p>7.substr<br />
+substr是一个很有用的函数。它按照起始位置及长度返回字符串的一部分。例子如下：</p>
+<p>$ awk '$1=="L.Transley" {print substr($1, 1,5)}' grade.txt<br />
+L.Tan<br />
+上面例子中,指定在域1的第一个字符开始,返回其前面5个字符。<br />
+如果给定长度值远大于字符串长度， awk将从起始位置返回所有字符，要抽取L.Tansley的姓,只需从第3个字符开始返回长度为7。可以输入长度99,awk返回结果相同。</p>
+<p>$ awk '{$1=="L.Transley" {print substr($1, 3,99)}' grade.txt<br />
+Transley</p>
+<p>substr的另一种形式是返回字符串后缀或指定位置后面字符。这里需要给出指定字符串及其返回字串的起始位置。例如,从文本文件中抽取姓氏,需操作域1,并从第三个字符开始：</p>
+<p>$ awk '{print substr($1, 3)}' grade.txt<br />
+Troll<br />
+Transley</p>
+<p>还有一个例子,在BEGIN部分定义字符串,在END部分返回从第t个字符开始抽取的子串。</p>
+<p>$ awk '{BEGIN STR="A FEW GOOD MEN"} END {print substr(STR,7)) grade.txt<br />
+GOOD MEN</p>
+<p>8.从<a href="http://www.linuxsong.org/category/shell/">shell</a>中向awk传入字符串<br />
+awk脚本大多只有一行,其中很少是字符串表示的,这一点通过将变量传入awk命令行会变得很容易。现就其基本原理讲述一些例子。<br />
+使用管道将字符串stand-by传入awk,返回其长度。</p>
+<p>$ echo "Stand-by" | awk '{print length($0)}'<br />
+8</p>
+<p>设置文件名为一变量,管道输出到awk,返回不带扩展名的文件名。</p>
+<p>$ STR="mydoc.txt"<br />
+$ echo $STR | awk '{print subst($STR, 1, 5)}'<br />
+mydoc</p>
+<p>设置文件名为一变量,管道输出到awk,只返回其扩展名。<br />
+$ STR="mydoc.txt"<br />
+$ echo $STR | awk '{print substr($STR, 7)}'<br />
+txt</p>

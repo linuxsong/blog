@@ -1,0 +1,64 @@
+---
+status: publish
+published: true
+title: Linux文件名编码转换
+author:
+  display_name: LinuxSong
+  login: xks
+  email: linuxsong@gmail.com
+  url: http://www.linuxsong.org
+author_login: xks
+author_email: linuxsong@gmail.com
+author_url: http://www.linuxsong.org
+excerpt: 从Linux往windows拷贝文件或者从windows往Linux拷贝文件，有时会出现中文文件名乱码的情况，出现这种问题的原因是因为，windows的文件名中文编码默认为GBK,而Linux中默认文件名编码为UTF8,由于编码不一致，所以导致了文件名乱码的问题，解决这个问题需要对文件名进行转码。
+wordpress_id: 125
+wordpress_url: http://www.linuxsong.org/?p=125
+date: '2010-09-05 00:46:06 +0800'
+date_gmt: '2010-09-04 16:46:06 +0800'
+comments:
+- id: 11
+  author: Linux查看文件编码格式及文件编码转换 | Thinking In Linux
+  author_email: ''
+  author_url: http://www.linuxsong.org/2010/09/linux-file-transcoding/
+  date: '2010-09-12 19:57:55 +0800'
+  date_gmt: '2010-09-12 11:57:55 +0800'
+  content: "[...] Linux文件名编码转换   此条目发表在 linux, shell, vim 分类目录，贴了 linux, shell [...]"
+- id: 84
+  author: 柯冷&#039;Blog &raquo; Blog Archive &raquo; Linux查看文件编码格式及文件编码转换
+  author_email: ''
+  author_url: http://www.1x1x.org/archives/127
+  date: '2010-10-26 15:22:32 +0800'
+  date_gmt: '2010-10-26 07:22:32 +0800'
+  content: "[...] http://www.linuxsong.org/2010/09/linux-filename-transcoding/   标签：编码
+    转换 utf-8 gbk 评论 (RSS) &nbsp;|&nbsp;&nbsp;Trackback [...]"
+- id: 4179
+  author: reyesyang
+  author_email: reyes.yang@gmail.com
+  author_url: http://reyesyang.info
+  date: '2012-02-10 13:37:06 +0800'
+  date_gmt: '2012-02-10 05:37:06 +0800'
+  content: 谢谢楼主的文章，解决了问题。
+- id: 16463
+  author: river
+  author_email: ''
+  author_url: http://www.wagutou.com
+  date: '2013-11-05 05:01:23 +0800'
+  date_gmt: '2013-11-04 21:01:23 +0800'
+  content: 找半天linux的文件名编码问题,你这个能解决
+---
+<p>从<a href="http://www.linuxsong.org/category/linux/">Linux</a>往windows拷贝文件或者从windows往Linux拷贝文件，有时会出现中文文件名乱码的情况，出现这种问题的原因是因为，windows的文件名中文编码默认为GBK,而Linux中默认文件名编码为UTF8,由于编码不一致，所以导致了文件名乱码的问题，解决这个问题需要对文件名进行转码。</p>
+<p>在Linux中专门提供了一种工具convmv进行文件名编码的转换，可以将文件名从GBK转换成UTF-8编码,或者从UTF-8转换到GBK。</p>
+<p>首先看一下你的系统上是否安装了convmv,如果没安装的话用:<br />
+yum -y install convmv<br />
+安装。<br />
+下面看一下convmv的具体用法：</p>
+<p>convmv -f 源编码 -t 新编码 [选项] 文件名</p>
+<p>常用参数：<br />
+-r 递归处理子文件夹<br />
+--notest 真正进行操作，请注意在默认情况下是不对文件进行真实操作的，而只是试验。<br />
+--list 显示所有支持的编码<br />
+--unescap 可以做一下转义，比如把%20变成空格<br />
+比如我们有一个utf8编码的文件名，转换成GBK编码，命令如下：</p>
+<p>convmv -f UTF-8 -t GBK --notest utf8编码的文件名</p>
+<p>这样转换以后"utf8编码的文件名"会被转换成GBK编码（只是文件名编码的转换，文件内容不会发生变化）。</p>
+<p>注意：不要在NTFS和FAT文件系统中使用此命令，否则可能产生意外结果，如果要在Linux中正确的显示NTFS和 FAT的中文件名，可以通过mount参数来解决，具体方法查看一下man手册。</p>
