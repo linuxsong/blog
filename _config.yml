@@ -18,8 +18,8 @@
 ##############################
 text_skin: default # "default" (default), "dark", "forest", "ocean", "chocolate", "orange"
 highlight_theme: default # "default" (default), "tomorrow", "tomorrow-night", "tomorrow-night-eighties", "tomorrow-night-blue", "tomorrow-night-bright"
-url     : # the base hostname & protocol for your site e.g. https://www.someone.com
-baseurl : # does not include hostname
+url     : https://www.linuxsong.org # the base hostname & protocol for your site e.g. https://www.someone.com
+baseurl :   # does not include hostname
 title: Think In Linux
 description: > # this means to ignore newlines until "Language & timezone"
     Think In Linux
@@ -54,6 +54,7 @@ author:
 ## => GitHub Repository (if the site is hosted by GitHub)
 ##############################
 repository: linuxsong/blog
+#repository: PAGES_REPO_NWO
 repository_tree: master
 
 
@@ -120,8 +121,8 @@ comments:
     clientSecret: 4b2217542a3b957b492ba876b1764ca9abb7973e # GitHub Application Client Secret
     repository  : blog # GitHub repo
     owner       : linuxsong # GitHub repo owner
-    admin: ['linuxsong'] # GitHub repo owner and collaborators, only these guys can initialize GitHub issues, IT IS A LIST.
-      # - your GitHub Id
+    admin:  ['linuxsong'] # GitHub repo owner and collaborators, only these guys can initialize GitHub issues, IT IS A LIST.
+    #    - linuxsong
 
 
 ## => Pageview
@@ -181,7 +182,7 @@ defaults:
       license: true
       aside:
         toc: true
-      show_edit_on_github: true
+      show_edit_on_github: false
       pageview: true
 
 
