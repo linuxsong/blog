@@ -2,6 +2,7 @@
 status: publish
 published: true
 title: html5+javascript画谢尔宾斯基三角形
+key: html5+javascript画谢尔宾斯基三角形
 author:
   display_name: LinuxSong
   login: xks
