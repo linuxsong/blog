@@ -1,6 +1,6 @@
 ---
-title: A*算法的Javascript实现
-key: A*算法的Javascript实现
+title: A*算法的JavaScript实现
+key: A*算法的JavaScript实现
 tags: 算法
 ---
 
@@ -101,8 +101,11 @@ function draw() {
             aStar.path.forEach(function (node) {
                 rect(node.y * blockSize, node.x * blockSize, blockSize, blockSize)
             });
+            noLoop();
+        } else {
+            // 若找不到可行的路径，则重新生成地图
+            reset();
         }
-        noLoop();
     }
 }
 
@@ -375,8 +378,11 @@ function draw() {
             aStar.path.forEach(function (node) {
                 rect(node.y * blockSize, node.x * blockSize, blockSize, blockSize)
             });
+            noLoop();
+        } else {
+            // 若找不到可行的路径，则重新生成地图
+            reset();
         }
-        noLoop();
     }
 }
 
