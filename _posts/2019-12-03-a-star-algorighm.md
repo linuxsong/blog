@@ -428,8 +428,8 @@ class AStar {
         // 障碍物的数量按总方块数的1/5
         let barrierCount = Math.round(this.mapSize * this.mapSize / 5);
         for (let i = 0; i < barrierCount; i++) {
-            let randX = this.getRandomInt(1, this.mapSize);
-            let randY = this.getRandomInt(1, this.mapSize);
+            let randX = this.getRandomInt(0, this.mapSize);
+            let randY = this.getRandomInt(0, this.mapSize);
             this.mapData[randX][randY].type = 'barrier';
         }
     }
