@@ -18,16 +18,16 @@ date_gmt: '2015-04-07 03:18:13 +0800'
 comments: []
 ---
 <p>谢尔宾斯基三角形（Sierpinski triangle）是一种分形，由波兰数学家谢尔宾斯基在1915年提出。</p>
-<p><a href="http://www.linuxsong.org/wp-content/uploads/2015/04/下载-1-e1428373711612.png"><img class="alignnone wp-image-583 size-full" src="http://www.linuxsong.org/wp-content/uploads/2015/04/下载-1-e1428373711612.png" alt="" /></a></p>
+<p><img class="alignnone wp-image-583 size-full" src="/assets/images/posts/sierpinski-triangle-0.png" alt="" /></p>
 <p>我们来看一下这个谢尔宾斯基三角形的实现步骤：</p>
 <p>1. 画一个三角形（通常为等边三角形）</p>
-<p><a href="http://www.linuxsong.org/wp-content/uploads/2015/04/5CC053DC-AA5D-4EDD-9941-97958E6EC7AB.jpg"><img class="alignnone wp-image-584 size-medium" src="http://www.linuxsong.org/wp-content/uploads/2015/04/5CC053DC-AA5D-4EDD-9941-97958E6EC7AB-300x251.jpg" alt="" width="300" height="251" /></a></p>
+<p><img class="alignnone wp-image-584 size-medium" src="/assets/images/posts/sierpinski-triangle-1.png"/></p>
 <p>2. 假设上面的顶点为a,左边的点为b,右边的为c</p>
 <p>选出三条边的中间点，a-b,a-c,b-c,画三个三角形</p>
 <p>a a-b a-c</p>
 <p>a-b b b-c</p>
 <p>a-c b-c c</p>
-<p><img class="alignnone size-medium wp-image-589" src="http://www.linuxsong.org/wp-content/uploads/2015/04/222-300x264.jpg" alt="222" width="300" height="264" /></p>
+<p><img class="alignnone size-medium wp-image-589" src="/assets/images/posts/sierpinski-triangle-2.png" alt="222" width="300" height="264" /></p>
 <p>3.对新画出的三个三角形按步骤二继续绘制（递归的过程），直到你认为绘制的三角形足够小。</p>
 <p><a href="http://www.linuxsong.org/wp-content/uploads/2015/04/下载-1-e1428373711612.png"><img class="alignnone wp-image-583 size-full" src="http://www.linuxsong.org/wp-content/uploads/2015/04/下载-1-e1428373711612.png" alt="" width="405" height="332" /></a></p>
 <p>把以上的步骤理解清楚以后，就很容易实现，递归的思想用递归来实现是最合适不过了。</p>
