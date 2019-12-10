@@ -27,7 +27,7 @@ comments: []
 <p>a a-b a-c</p>
 <p>a-b b b-c</p>
 <p>a-c b-c c</p>
-<p><img class="alignnone size-medium wp-image-589" src="/assets/images/posts/sierpinski-triangle-2.png" alt="222" width="300" height="264" /></p>
+<p><img class="alignnone size-medium wp-image-589" src="/assets/images/posts/sierpinski-triangle-2.png"/></p>
 <p>3.对新画出的三个三角形按步骤二继续绘制（递归的过程），直到你认为绘制的三角形足够小。</p>
 <p><a href="http://www.linuxsong.org/wp-content/uploads/2015/04/下载-1-e1428373711612.png"><img class="alignnone wp-image-583 size-full" src="http://www.linuxsong.org/wp-content/uploads/2015/04/下载-1-e1428373711612.png" alt="" width="405" height="332" /></a></p>
 <p>把以上的步骤理解清楚以后，就很容易实现，递归的思想用递归来实现是最合适不过了。</p>
