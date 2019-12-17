@@ -2,6 +2,7 @@
 title: A*算法的JavaScript实现
 key: A*算法的JavaScript实现
 tags: 算法
+author: LinuxSong
 ---
 
 A* (A-Star)算法是一种路径搜索和图形遍历算法，它有较好的性能和准确度。
