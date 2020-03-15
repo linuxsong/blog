@@ -5,7 +5,7 @@ tags: linux
 author: LinuxSong
 ---
 
-在一个关于 [Linus Torvalds 的一个采访](https://www.ted.com/talks/linus_torvalds_the_mind_behind_linux){:target="_blank"}中, Linus Torvalds 举了一个关于什么是代码好的品味的例子（视频14:20左右)。
+在一个关于 [Linus Torvalds 的一个访谈](https://www.ted.com/talks/linus_torvalds_the_mind_behind_linux){:target="_blank"}中, Linus Torvalds 举了一个关于什么是代码好的品味的例子（视频14:20左右)。
 
 他先是展示了一个C代码片断。
 
@@ -43,6 +43,6 @@ Linus 解释了这段代码为什么更好, 它消除了边缘情况。
 
 从可读性上来讲，Linus举例的第一段代码可能更容易理解，第二段代码不能一眼看出意图。在我们平常处理链表的时候，通常为了处理方便会添加一个空头指针，来实现简化处理逻辑，消除边缘情况。
 
-但是这个例子给我们提供了一种思路，有些看上去很简单或者看上去理所当然的代码，也会有改进的方法，以精益求精的方式面对你的代码，会让你写出的代码越来越好。
+但是这个例子给我们提供了一种思路，有些看上去很简单或者看上去理所当然的代码，也会有改进的方法，以精益求精的方式面对你的代码，会让你写出的代码越来越好。就像Linus在访谈中所说的,有的时候你可以换个角度看问题，重写代码排除特例,完美覆盖所有情况。
 
 
