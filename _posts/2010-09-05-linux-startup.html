@@ -7,19 +7,19 @@ author:
   display_name: LinuxSong
   login: xks
   email: linuxsong@gmail.com
-  url: http://www.linuxsong.org
+  url: https://www.topbyte.cn
 author_login: xks
 author_email: linuxsong@gmail.com
-author_url: http://www.linuxsong.org
+author_url: https://www.topbyte.cn
 excerpt: 由于操作系统正在变得越来越复杂，所以开机引导和关机下电的过程也越来越智能化。从简单的DOS系统转移到Windows NT系统，人们已经亲身感受到了这些变化——这已不仅仅是核心操作系统的启动引导和关闭了，还包括必须要同时启动或者关闭相当数量的服务项目。类似于
   Windows NT，Linux系统启动过程需要打开的服务项目也是数量极大的。
 wordpress_id: 133
-wordpress_url: http://www.linuxsong.org/?p=133
+wordpress_url: https://www.topbyte.cn/?p=133
 date: '2010-09-05 00:54:09 +0800'
 date_gmt: '2010-09-04 16:54:09 +0800'
 comments: []
 ---
-<p>由于操作系统正在变得越来越复杂，所以开机引导和关机下电的过程也越来越智能化。从简单的DOS系统转移到Windows NT系统，人们已经亲身感受到了这些变化——这已不仅仅是核心操作系统的启动引导和关闭了，还包括必须要同时启动或者关闭相当数量的服务项目。类似于 Windows NT，<a href="http://www.linuxsong.org/category/linux/">Linux</a>系统启动过程需要打开的服务项目也是数量极大的。</p>
+<p>由于操作系统正在变得越来越复杂，所以开机引导和关机下电的过程也越来越智能化。从简单的DOS系统转移到Windows NT系统，人们已经亲身感受到了这些变化——这已不仅仅是核心操作系统的启动引导和关闭了，还包括必须要同时启动或者关闭相当数量的服务项目。类似于 Windows NT，<a href="https://www.topbyte.cn/category/linux/">Linux</a>系统启动过程需要打开的服务项目也是数量极大的。</p>
 <p>这里，我们假设大家已经熟悉其它操作系统的引导过程，了解硬件的自检引导步骤，就只从Linux操作系统的引导加载程序（对个人电脑而言通常是LILO,注：现在基本都改用grub了）开始，介绍Linux开机引导的步骤。</p>
 <p>加载内核</p>
 <p>LILO启动之后，如果你选择了Linux作为准备引导的操作系统，第一个被加载的东西就是内核。请记住此时的计算机内存中还不存在任何操作系统，PC（因为它们天然的设计缺陷）也还没有办法存取机器上全部的内存。因此，内核就必须完整地加载到可用RAM的第一个兆字节之内。为了实现这个目的，内核是被压缩了的。这个文件的头部包含着必要的代码，先设置CPU进入安全模式（以此解除内存限制），再对内核的剩余部分进行解压缩。</p>

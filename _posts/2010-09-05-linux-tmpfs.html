@@ -7,21 +7,21 @@ author:
   display_name: LinuxSong
   login: xks
   email: linuxsong@gmail.com
-  url: http://www.linuxsong.org
+  url: https://www.topbyte.cn
 author_login: xks
 author_email: linuxsong@gmail.com
-author_url: http://www.linuxsong.org
+author_url: https://www.topbyte.cn
 excerpt: 伴 随着 Linux 2.4 版本的发行，出现了大量的文件系统可能性，其中包括 ReiserFS、XFS、GFS 和其它文件系统。这些文件系统听起来的确都很酷，但是它们真正能做些什么呢，擅长在哪些方面，以及在
   Linux 产品环境下如何才能安全地使用它们呢？Daniel Robbins 通过向您展示如何在 Linux 2.4 的环境下建立这些新的高级文件系统来回答以上的问题。在这个部分，Daniel
   简单地介绍了 tmpfs，一个基于 VM 的文件系统，还向您介绍了 2.4 版本的“绑定”安装功能带来的新的可能。
 wordpress_id: 138
-wordpress_url: http://www.linuxsong.org/?p=138
+wordpress_url: https://www.topbyte.cn/?p=138
 date: '2010-09-05 01:02:00 +0800'
 date_gmt: '2010-09-04 17:02:00 +0800'
 comments: []
 ---
 <p><a id="x0o652" href="http://www.ibm.com/developerworks/cn/linux/filesystem/l-fs3/index.html#author" target="_blank">Daniel Robbins</a> (<a id="x0o653" rel="noreferrer">drobbins@gentoo.org</a>), 总裁／首席执行官, Gentoo Technologies, Inc.</p>
-<blockquote id="x0o656"><p>伴 随着 <a href="http://www.linuxsong.org/category/linux/">Linux</a> 2.4 版本的发行，出现了大量的文件系统可能性，其中包括 ReiserFS、XFS、GFS 和其它文件系统。这些文件系统听起来的确都很酷，但是它们真正能做些什么呢，擅长在哪些方面，以及在 Linux 产品环境下如何才能安全地使用它们呢？Daniel Robbins 通过向您展示如何在 Linux 2.4 的环境下建立这些新的高级文件系统来回答以上的问题。在这个部分，Daniel 简单地介绍了 tmpfs，一个基于 VM 的文件系统，还向您介绍了 2.4 版本的“绑定”安装功能带来的新的可能。</p></blockquote>
+<blockquote id="x0o656"><p>伴 随着 <a href="https://www.topbyte.cn/category/linux/">Linux</a> 2.4 版本的发行，出现了大量的文件系统可能性，其中包括 ReiserFS、XFS、GFS 和其它文件系统。这些文件系统听起来的确都很酷，但是它们真正能做些什么呢，擅长在哪些方面，以及在 Linux 产品环境下如何才能安全地使用它们呢？Daniel Robbins 通过向您展示如何在 Linux 2.4 的环境下建立这些新的高级文件系统来回答以上的问题。在这个部分，Daniel 简单地介绍了 tmpfs，一个基于 VM 的文件系统，还向您介绍了 2.4 版本的“绑定”安装功能带来的新的可能。</p></blockquote>
 <p id="x0o657">在本系列我以前的文章中，我 <a id="x0o658" href="http://www.ibm.com/developerworks/cn/linux/filesystem/l-fs/index.html" target="_blank">介绍了创建日志和使用 ReiserFS 的好处</a>，并 <a id="x0o659" href="http://www.ibm.com/developerworks/cn/linux/filesystem/l-fs2/index.html" target="_blank">展示了如何安装一个稳固的基于 Linux 2.4 的 ReiserFS 系统</a>。 在本文中，我们要谈论几个相对次要的主题。首先，我们会简单地介绍一下 tmpfs，也就是我们知道的虚拟内存（virtual memory，VM）文件系统。Tmpfs 可能是现在 Linux 可以使用的最好的类似于 RAM 磁盘的系统，而且是 2.4 内核的一个新功能。然后，我们将简单地介绍另一个 2.4 内核的新功能，叫做“绑定安装”，它在安装（和重新安装）文件系统的时候带来了很大的灵活性。在下一篇文章中，我们会把重点集中在 devfs 上，之后，我们会花点时间来进一步熟悉新的 ext3 文件系统。</p>
 <p id="x0o663"><!--more-->如果我必须一下子说清楚 tmpfs，我会说 tmpfs 就象虚拟磁盘（ramdisk），但不一样。象虚拟磁盘一样，tmpfs <em>可以</em>使用您的 RAM，但它也可以使用您的交换分区来存储。而且传统的虚拟磁盘是个块设备，并需要一个 <code id="x0o665">mkfs</code> 之类的命令才能真正地使用它，tmpfs 是一个文件系统，而不是块设备；您只是安装它，它就可以使用了。总而言之，这让 tmpfs 成为我有机会遇到的最好的基于 RAM 的文件系统。</p>
 <p id="x0o669">让我们来看看 tmpfs 更有趣的一些特性吧。正如我前面提到的一样，tmpfs 既可以使用 RAM， <em>也</em>可 以使用交换分区。刚开始这看起来可能有点武断，但请记住 tmpfs 也是我们知道的“虚拟内存文件系统”。而且，您可能也知道，Linux 内核的虚拟内存资源同时来源于您的 RAM 和交换分区。内核中的 VM 子系统将这些资源分配到系统中的其它部分，并负责在后台管理这些资源，通常是透明地将 RAM 页移动到交换分区或从交换分区到 RAM 页。</p>

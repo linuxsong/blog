@@ -7,21 +7,21 @@ author:
   display_name: LinuxSong
   login: xks
   email: linuxsong@gmail.com
-  url: http://www.linuxsong.org
+  url: https://www.topbyte.cn
 author_login: xks
 author_email: linuxsong@gmail.com
-author_url: http://www.linuxsong.org
+author_url: https://www.topbyte.cn
 excerpt: Graphics View提供了一个界面，它既可以管理大数量的定制2D graphical items，又可与它们交互，有一个view widget可以把这些项绘制出来，并支持旋转与缩放。这个柜架也包含一个事件传播结构，对于在scene中的这些items,它具有双精度的交互能力。
   Items能处理键盘事件，鼠标的按，移动、释放、双击事件，也可以跟踪鼠标移动。Graphics View使用BSP树来提供对item的快速查找，使用这种技术，它可以实时地绘制大规模场景，甚至以百万items计。Graphics
   View在Qt 4.2中被引用，它替代了它的前辈QCanvas。
 wordpress_id: 412
-wordpress_url: http://www.linuxsong.org/?p=412
+wordpress_url: https://www.topbyte.cn/?p=412
 date: '2010-09-17 15:43:20 +0800'
 date_gmt: '2010-09-17 07:43:20 +0800'
 comments: []
 ---
 <div>
-<p><span><span>Graphics View提供了一个界面，它既可以管理大数量的定制2D graphical items，又可与它们交互，有一个view widget可以把这些项绘制出来，并支持旋转与缩放。这个柜架也包含一个事件传播结构，对于在scene中的这些items,它具有双精度的交互能力。 Items能处理键盘事件，鼠标的按，移动、释放、双击事件，也可以跟踪鼠标移动。Graphics View使用BSP树来提供对item的快速查找，使用这种技术，它可以实时地绘制大规模场景，甚至以百万items计。Graphics View在<a title="Qt" href="http://www.linuxsong.org/category/qt/">Qt</a> 4.2中被引用，它替代了它的前辈QCanvas。</span></span></p>
+<p><span><span>Graphics View提供了一个界面，它既可以管理大数量的定制2D graphical items，又可与它们交互，有一个view widget可以把这些项绘制出来，并支持旋转与缩放。这个柜架也包含一个事件传播结构，对于在scene中的这些items,它具有双精度的交互能力。 Items能处理键盘事件，鼠标的按，移动、释放、双击事件，也可以跟踪鼠标移动。Graphics View使用BSP树来提供对item的快速查找，使用这种技术，它可以实时地绘制大规模场景，甚至以百万items计。Graphics View在<a title="Qt" href="https://www.topbyte.cn/category/qt/">Qt</a> 4.2中被引用，它替代了它的前辈QCanvas。</span></span></p>
 <div><span><span><span><strong><em><!--more-->Graphics View的体系结构</em><br />
 </strong></span><br />
 Graphics View提供的是一种类似于Qt model-view的编程。多个views可以监视同一个场景，而场景包含多个具有多种几何外形的items。<br />
@@ -40,7 +40,7 @@ Graphics View提供的是一种类似于Qt model-view的编程。多个views可�
 <span style="color: #0000ff;"><span><strong>视图<br />
 </strong></span></span><span style="color: #0000ff;">QGraphicsView</span>提供了视图部件，它可视化场景中的内容。你可以联结多个视图到同一个场景，对这个相同的数据集提供几个视口。视口部件是一个滚动区域，它提供了滚动条以对大场景进行浏览。为了使用OpenGL,你应该调用QGraphicsView::<span style="color: #ff00ff;">setViewport</span>()来把一个QGLWidget设为视口。视图从键盘，鼠标接收输入事件，在发送这些事件到场景之前，会对这些事件进行适当的翻译（把事件坐标转换成对应的场景坐标）。<br />
 利用转换矩阵，QGraphicsView::<span style="color: #ff00ff;">matrix</span>(),视图可变换场景的坐标系统。这允许高级的导航特性，如缩放，旋转。为了方便，QGraphicsView也提供了在视图与场景之间进行坐标转换的函数：QGraphicsView::<span style="color: #ff00ff;">mapToScene</span>(),QGraphicsView::<span style="color: #ff00ff;">mapForScene</span>()。<br />
-<a href="http://www.linuxsong.org/wp-content/uploads/2010/09/r_graphicsview-view.png"><img class="alignnone size-full wp-image-419" title="r_graphicsview-view" src="http://www.linuxsong.org/wp-content/uploads/2010/09/r_graphicsview-view.png" alt="" width="354" height="208" /></a></span></span></div>
+<a href="https://www.topbyte.cn/wp-content/uploads/2010/09/r_graphicsview-view.png"><img class="alignnone size-full wp-image-419" title="r_graphicsview-view" src="https://www.topbyte.cn/wp-content/uploads/2010/09/r_graphicsview-view.png" alt="" width="354" height="208" /></a></span></span></div>
 <div><span><span><span style="color: #0000ff;"><span>The Item<br />
 </span></span><span style="color: #0000ff;">QGraphicsItem</span> 是场景中图形items的基类。Graphics View 提供了一些标准的、用于典型形状的items。像矩形(QGraphicsRectItem),椭圆（QGraphicsEllipseItem),文本 (QGraphicsTextItem),当你写定制的item时，那些最有用的一些QGraphicsItem特性也是有效的。除此这 外，QGraphicsItem支持以下特性：<br />
 *鼠标按、移动、释放、双击事件，鼠标悬停事件，滚轮事件，弹出菜单事件。<br />
@@ -54,7 +54,7 @@ Items可以包含别的items(孩子）。父items的转换被它的子孙所继�
 <div><span><span style="font-size: large;"><em>Graphics View 坐标系统</em></span><br />
 Graphics View基于笛卡尔坐标系。item在场景中的位置与几何形状通过x,y坐标表示。当使用未经变形的视图来观察场景时，场景中的一个单位等于屏幕上的一个 像素。在Graphics View中有三个有效的坐标系统：Item坐标系，场景坐标系，视图坐标系。为了简化你的实现，Graphics View提供了方便的函数，允许三个坐标系之间相互映射。<br />
 当渲染时，Graphics View的场景坐标对应于QPainter的逻辑坐标，视图坐标与设备坐标相同。</p>
-<p><a href="http://www.linuxsong.org/wp-content/uploads/2010/09/o_graphicsview-parentchild.png"><img class="alignnone size-full wp-image-418" title="o_graphicsview-parentchild" src="http://www.linuxsong.org/wp-content/uploads/2010/09/o_graphicsview-parentchild.png" alt="" width="200" height="200" /></a></p>
+<p><a href="https://www.topbyte.cn/wp-content/uploads/2010/09/o_graphicsview-parentchild.png"><img class="alignnone size-full wp-image-418" title="o_graphicsview-parentchild" src="https://www.topbyte.cn/wp-content/uploads/2010/09/o_graphicsview-parentchild.png" alt="" width="200" height="200" /></a></p>
 <p></span></div>
 <div><span><strong>Item坐标<br />
 </strong>Items位于它们自己的坐标系中。它的坐标都以点(0,0)为中心点，这也是所有变换的中心点。在item坐标系中的几何图元，经常被称为item点，item线，item矩形。当创建一个定制的item,item坐标是所需要考虑的。<span style="color: #0000ff;">QGraphicsScene</span>与<span style="color: #0000ff;">QGraphicsView</span>可以为你执行所有转换，这使得实现定制的item变得容易。举例来说，假如你收到鼠标按或是拖进入事件，事件的位置以item坐标的形式给出。<span style="color: #0000ff;">QGraphicsItem</span>::<span style="color: #0000ff;">contain</span>()虚函数，当某个点的位置在你的item范围内时，返回true,否则返回false。这个点参数使用item坐标，相似地，item的包围矩形与形状也使用item坐标。<br />

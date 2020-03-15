@@ -7,26 +7,26 @@ author:
   display_name: LinuxSong
   login: xks
   email: linuxsong@gmail.com
-  url: http://www.linuxsong.org
+  url: https://www.topbyte.cn
 author_login: xks
 author_email: linuxsong@gmail.com
-author_url: http://www.linuxsong.org
+author_url: https://www.topbyte.cn
 excerpt: 学会这 10 个技巧后，您将成为世界上最强大的 Linux® 系统管理员，整个世界是有点夸张，但要在一个大团队中工作，这些技巧是十分必要的。学习
   SHH 通道、VNC、密码恢复、控制台侦察等等。各个技巧都附有例子，可以将这些例子复制到自己的系统中。
 wordpress_id: 216
-wordpress_url: http://www.linuxsong.org/?p=216
+wordpress_url: https://www.topbyte.cn/?p=216
 date: '2010-09-05 10:51:35 +0800'
 date_gmt: '2010-09-05 02:51:35 +0800'
 comments:
 - id: 3
   author: "“懒惰”Linux：“懒惰”集群管理员的 11 个秘诀 | Thinking In Linux"
   author_email: ''
-  author_url: http://www.linuxsong.org/2010/09/linux-lazy-administrator/
+  author_url: https://www.topbyte.cn/2010/09/linux-lazy-administrator/
   date: '2010-09-05 11:01:31 +0800'
   date_gmt: '2010-09-05 03:01:31 +0800'
   content: "[...] “懒惰” Linux 管理员的 10 个关键技巧 [...]"
 ---
-<blockquote>学会这 10 个技巧后，您将成为世界上最强大的 <a href="http://www.linuxsong.org/category/linux/">Linux</a>® 系统管理员，整个世界是有点夸张，但要在一个大团队中工作，这些技巧是十分必要的。学习 SHH 通道、VNC、密码恢复、控制台侦察等等。各个技巧都附有例子，可以将这些例子复制到自己的系统中。</p></blockquote>
+<blockquote>学会这 10 个技巧后，您将成为世界上最强大的 <a href="https://www.topbyte.cn/category/linux/">Linux</a>® 系统管理员，整个世界是有点夸张，但要在一个大团队中工作，这些技巧是十分必要的。学习 SHH 通道、VNC、密码恢复、控制台侦察等等。各个技巧都附有例子，可以将这些例子复制到自己的系统中。</p></blockquote>
 <p>好的系统管理员区分在效率上。如果一位高效的系统管理员能在 10 分钟内完成一件他人需要 2 个小时才能完成的任务，那么他应该受到奖励（得到更多报酬），因为他为公司节约了时间，而时间就是金钱，不是吗？</p>
 <p>技巧是为了提高管理效率。虽然本文不打算对<em>所有</em> 技巧进行讨论，但是我会介绍 “懒惰” 管理员所用的 10 个基本法宝。这些技巧可以节约时间 —— 即使没有因为高效而得到更多的报酬，但至少可以有更多的时间去玩。</p>
 <p><a name="T1"><!--more-->技巧 1：卸载无响应的 DVD 驱动器</a></p>
@@ -73,7 +73,7 @@ comments:
 <p><code># screen -S foo</code></p>
 <p>然后呼叫 David：</p>
 <p>“David，在终端运行命令 <code># screen -x foo</code>”。</p>
-<p>这使您和 David 的会话在 Linux <a href="http://www.linuxsong.org/category/shell/">shell</a> 中联接在一起。您可以输入，他也可以输入，但彼此可以看到对方所做的事情。这避免了进入其他层次，而且双方都有相同的控制权。这样做的好处是 David 可以观察到您的故障诊断技巧，并能准确了解如何解决问题。</p>
+<p>这使您和 David 的会话在 Linux <a href="https://www.topbyte.cn/category/shell/">shell</a> 中联接在一起。您可以输入，他也可以输入，但彼此可以看到对方所做的事情。这避免了进入其他层次，而且双方都有相同的控制权。这样做的好处是 David 可以观察到您的故障诊断技巧，并能准确了解如何解决问题。</p>
 <p>最后大家都能看到问题所在：David 的编译脚本对一个不在此新服务器上的旧目录进行了硬编码。将它装载后再次编译即可解决问题，然后 David 继续工作。您则可以继续之前的娱乐活动。</p>
 <p>关于此技巧需要注意的一点是，双方需要以同一用户登录。<code>screen</code> 命令还可以：实现多个窗口和拆分屏幕。请阅读手册页获取更多相关信息。</p>
 <p>对于 <code>screen</code> 会话，我还有最后一个技巧。要从中分离并让它打开，请输入 <code>Ctrl-A D </code>（即按住 <strong>Ctrl</strong> 键并点击 <strong>A</strong> 键。然后按 <strong>D</strong> 键）。</p>
@@ -126,7 +126,7 @@ passwd: all authentication tokens updated successfully</code></p>
 <li>现在指示 tech 上的朋友使用 SSH 连接到 blackbox，而不需要使用任何特殊的 SSH 标记。但必须把密码给他们：<code>root@tech:~# ssh thedude@blackbox.example.com </code>.</li>
 <li>tech 位于 blackbox 上后，可以使用以下命令从 SSH 连接到 ginger：<code>thedude@blackbox:~$: ssh -p 2222 root@localhost</code></li>
 <li>Tech 将提示输入密码。应该输入 ginger 的根密码。</li>
-<li>现在您和来自 tech 的支持可以一起工作并解决问题。甚至需要一起使用屏幕！（参见 <a href="http://www.linuxsong.org/2008/11/linux-10.html#T4">技巧 4</a>）。</li>
+<li>现在您和来自 tech 的支持可以一起工作并解决问题。甚至需要一起使用屏幕！（参见 <a href="https://www.topbyte.cn/2008/11/linux-10.html#T4">技巧 4</a>）。</li>
 </ol>
 <p><a name="T6">技巧 6：通过 SSH 通道进行远程 VNC 会话</a></p>
 <p>VNC 或虚拟网络计算已经存在很长时间了。通常，当远程服务器上的某类图形程序只能在此服务器上使用时，我才需要 VNC。</p>

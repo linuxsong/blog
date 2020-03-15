@@ -7,20 +7,20 @@ author:
   display_name: LinuxSong
   login: xks
   email: linuxsong@gmail.com
-  url: http://www.linuxsong.org
+  url: https://www.topbyte.cn
 author_login: xks
 author_email: linuxsong@gmail.com
-author_url: http://www.linuxsong.org
+author_url: https://www.topbyte.cn
 excerpt: 本 文全面系统地介绍了shell脚本调试技术，包括使用echo, tee, trap等命令输出关键信息，跟踪变量的值，在脚本中植入调试钩子，使用“-n”选项进行shell脚本的语法检查，
   使用“-x”选项实现shell脚本逐条语句的跟踪，巧妙地利用shell的内置变量增强“-x”选项的输出信息等。
 wordpress_id: 140
-wordpress_url: http://www.linuxsong.org/?p=140
+wordpress_url: https://www.topbyte.cn/?p=140
 date: '2010-09-05 01:04:42 +0800'
 date_gmt: '2010-09-04 17:04:42 +0800'
 comments: []
 ---
-<blockquote>本 文全面系统地介绍了<a href="http://www.linuxsong.org/category/shell/">shell</a>脚本调试技术，包括使用echo, tee, trap等命令输出关键信息，跟踪变量的值，在脚本中植入调试钩子，使用“-n”选项进行shell脚本的语法检查， 使用“-x”选项实现shell脚本逐条语句的跟踪，巧妙地利用shell的内置变量增强“-x”选项的输出信息等。</p></blockquote>
-<p>shell编程在unix/<a href="http://www.linuxsong.org/category/linux/">linux</a>世界中使用得非常广泛，熟练掌握shell编程也是成为一名优秀的unix/linux开发者和系统管理员的必经之 路。脚本调试的主要工作就是发现引发脚本错误的原因以及在脚本源代码中定位发生错误的行，常用的手段包括分析输出的错误信息，通过在脚本中加入调试语句， 输出调试信息来辅助诊断错误，利用调试工具等。但与其它高级语言相比，shell解释器缺乏相应的调试机制和调试工具的支持，其输出的错误信息又往往很不 明确，初学者在调试脚本时，除了知道用echo语句输出一些信息外，别无它法，而仅仅依赖于大量的加入echo语句来诊断错误，确实令人不胜其繁，故常见 初学者抱怨shell脚本太难调试了。本文将系统地介绍一些重要的shell脚本调试技术，希望能对shell的初学者有所裨益。</p>
+<blockquote>本 文全面系统地介绍了<a href="https://www.topbyte.cn/category/shell/">shell</a>脚本调试技术，包括使用echo, tee, trap等命令输出关键信息，跟踪变量的值，在脚本中植入调试钩子，使用“-n”选项进行shell脚本的语法检查， 使用“-x”选项实现shell脚本逐条语句的跟踪，巧妙地利用shell的内置变量增强“-x”选项的输出信息等。</p></blockquote>
+<p>shell编程在unix/<a href="https://www.topbyte.cn/category/linux/">linux</a>世界中使用得非常广泛，熟练掌握shell编程也是成为一名优秀的unix/linux开发者和系统管理员的必经之 路。脚本调试的主要工作就是发现引发脚本错误的原因以及在脚本源代码中定位发生错误的行，常用的手段包括分析输出的错误信息，通过在脚本中加入调试语句， 输出调试信息来辅助诊断错误，利用调试工具等。但与其它高级语言相比，shell解释器缺乏相应的调试机制和调试工具的支持，其输出的错误信息又往往很不 明确，初学者在调试脚本时，除了知道用echo语句输出一些信息外，别无它法，而仅仅依赖于大量的加入echo语句来诊断错误，确实令人不胜其繁，故常见 初学者抱怨shell脚本太难调试了。本文将系统地介绍一些重要的shell脚本调试技术，希望能对shell的初学者有所裨益。</p>
 <p><!--more-->本文的目标读者是unix/linux环境下的开发人员，测试人员和系统管理员，要求读者具有基本的shell编程知识。本文所使用范例在 Bash3.1+Redhat Enterprise Server 4.0下测试通过，但所述调试技巧应也同样适用于其它shell。</p>
 <p>通过在程序中加入调试语句把一些关键地方或出错的地方的相关信息显示出来是最常见的调试手段。Shell程序员通常使用echo(ksh程序员常使用 print)语句输出信息，但仅仅依赖echo语句的输出跟踪信息很麻烦，调试阶段在脚本中加入的大量的echo语句在产品交付时还得再费力一一删除。针 对这个问题，本节主要介绍一些如何方便有效的输出调试信息的方法。</p>
 <p>trap命令用于捕获指定的信号并执行预定义的命令。<br />
@@ -77,7 +77,7 @@ before execute line:10, a=1,b=2,c=<br />
 before execute line:11, a=1,b=2,c=3<br />
 end<br />
 从运行结果中可以清晰的看到每执行一条命令之后，相关变量的值的变化。同时，从运行结果中打印出来的行号来分析，可以看到整个脚本的执行轨迹，能够判断出哪些条件分支执行了，哪些条件分支没有执行。</p>
-<p>在<a href="http://www.linuxsong.org/category/shell/">shell</a>脚本中管道以及输入输出重定向使用得非常多，在管道的作用下，一些命令的执行结果直接成为了下一条命令的输入。如果我们发现由管道连接起来的 一批命令的执行结果并非如预期的那样，就需要逐步检查各条命令的执行结果来判断问题出在哪儿，但因为使用了管道，这些中间结果并不会显示在屏幕上，给调试 带来了困难，此时我们就可以借助于tee命令了。</p>
+<p>在<a href="https://www.topbyte.cn/category/shell/">shell</a>脚本中管道以及输入输出重定向使用得非常多，在管道的作用下，一些命令的执行结果直接成为了下一条命令的输入。如果我们发现由管道连接起来的 一批命令的执行结果并非如预期的那样，就需要逐步检查各条命令的执行结果来判断问题出在哪儿，但因为使用了管道，这些中间结果并不会显示在屏幕上，给调试 带来了困难，此时我们就可以借助于tee命令了。</p>
 <p>tee命令会从标准输入读取数据，将其内容输出到标准输出设备,同时又可将内容保存成文件。例如有如下的脚本片段，其作用是获取本机的ip地址：<br />
 ipaddr=`/sbin/ifconfig | grep 'inet addr:' | grep -v '127.0.0.1'<br />
 | cut -d : -f3 | awk '{print $1}'`<br />
@@ -207,4 +207,4 @@ welcome root user</pre>
 <p>可知由于第11行的[号后面缺少了一个空格，导致[号与紧挨它的变量$?的值1被shell解释器看作了一个整体，并试着把这个整体视为一个命令来执行，故有“[1: command not found”这样的错误提示。只需在[号后面插入一个空格就一切正常了。</p>
 <p>shell中还有其它一些对调试有帮助的内置变量，比如在Bash Shell中还有BASH_SOURCE, BASH_SUBSHELL等一批对调试有帮助的内置变量，您可以通过man sh或man bash来查看，然后根据您的调试目的,使用这些内置变量来定制$PS4，从而达到增强“-x”选项的输出信息的目的。</p>
 <p>现在让我们来总结一下调试shell脚本的过程：<br />
-首先使用“-n”选项检查语 法错误，然后使用“-x”选项跟踪脚本的执行，使用“-x”选项之前，别忘了先定制PS4变量的值来增强“-x”选项的输出信息，至少应该令其输出行号信 息(先执行export PS4='+[$LINENO]'，更一劳永逸的办法是将这条语句加到您用户主目录的.bash_profile文件中去)，这将使你的调试之旅更轻松。 也可以利用trap,调试钩子等手段输出关键调试信息，快速缩小排查错误的范围，并在脚本中使用“set -x”及“set +x”对某些代码块进行重点跟踪。这样多种手段齐下，相信您已经可以比较轻松地抓出您的shell脚本中的臭虫了。如果您的脚本足够复杂，还需要更强的调 试能力，可以使用shell调试器bashdb，这是一个类似于GDB的调试工具，可以完成对shell脚本的断点设置，单步执行，变量观察等许多功能， 使用bashdb对阅读和理解复杂的<a href="http://www.linuxsong.org/search/label/shell">shell</a>脚本也会大有裨益。关于bashdb的安装和使用，不属于本文范围，您可参阅 http://bashdb.sourceforge.net/上的文档并下载试用。</p>
+首先使用“-n”选项检查语 法错误，然后使用“-x”选项跟踪脚本的执行，使用“-x”选项之前，别忘了先定制PS4变量的值来增强“-x”选项的输出信息，至少应该令其输出行号信 息(先执行export PS4='+[$LINENO]'，更一劳永逸的办法是将这条语句加到您用户主目录的.bash_profile文件中去)，这将使你的调试之旅更轻松。 也可以利用trap,调试钩子等手段输出关键调试信息，快速缩小排查错误的范围，并在脚本中使用“set -x”及“set +x”对某些代码块进行重点跟踪。这样多种手段齐下，相信您已经可以比较轻松地抓出您的shell脚本中的臭虫了。如果您的脚本足够复杂，还需要更强的调 试能力，可以使用shell调试器bashdb，这是一个类似于GDB的调试工具，可以完成对shell脚本的断点设置，单步执行，变量观察等许多功能， 使用bashdb对阅读和理解复杂的<a href="https://www.topbyte.cn/search/label/shell">shell</a>脚本也会大有裨益。关于bashdb的安装和使用，不属于本文范围，您可参阅 http://bashdb.sourceforge.net/上的文档并下载试用。</p>

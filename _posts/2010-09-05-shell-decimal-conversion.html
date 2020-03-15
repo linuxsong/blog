@@ -7,19 +7,19 @@ author:
   display_name: LinuxSong
   login: xks
   email: linuxsong@gmail.com
-  url: http://www.linuxsong.org
+  url: https://www.topbyte.cn
 author_login: xks
 author_email: linuxsong@gmail.com
-author_url: http://www.linuxsong.org
+author_url: https://www.topbyte.cn
 excerpt: 假定在您的脚本中有一些数字，您需要以另外的进制处理这些数字。使用 Shell 运算可以很容易地自动实现这类转换。一种情况是使用 Shell 运算把一个数字从给定的进制转换位十进制。如果数字以运算展开式的形式提供，那么假定它带有十进制符号，除非
   它前面带有 0（这种情况假定是八进制）或 0x（这种情况假定是十六进制）。键入以下内容以得到一些八进制和十六进制值的十进制输出：
 wordpress_id: 236
-wordpress_url: http://www.linuxsong.org/?p=236
+wordpress_url: https://www.topbyte.cn/?p=236
 date: '2010-09-05 11:13:05 +0800'
 date_gmt: '2010-09-05 03:13:05 +0800'
 comments: []
 ---
-<p>假定在您的脚本中有一些数字，您需要以另外的进制处理这些数字。使用 <a href="http://www.linuxsong.org/category/shell/">Shell</a> 运算可以很容易地自动实现这类转换。一种情况是使用 Shell 运算把一个数字从给定的进制转换位十进制。如果数字以运算展开式的形式提供，那么假定它带有十进制符号，除非 它前面带有 0（这种情况假定是八进制）或 0x（这种情况假定是十六进制）。键入以下内容以得到一些八进制和十六进制值的十进制输出：</p>
+<p>假定在您的脚本中有一些数字，您需要以另外的进制处理这些数字。使用 <a href="https://www.topbyte.cn/category/shell/">Shell</a> 运算可以很容易地自动实现这类转换。一种情况是使用 Shell 运算把一个数字从给定的进制转换位十进制。如果数字以运算展开式的形式提供，那么假定它带有十进制符号，除非 它前面带有 0（这种情况假定是八进制）或 0x（这种情况假定是十六进制）。键入以下内容以得到一些八进制和十六进制值的十进制输出：</p>
 <table border="0" cellspacing="0" cellpadding="0">
 <tbody>
 <tr>
@@ -59,7 +59,7 @@ echo $((36#ZZYY))</pre>
 </tbody>
 </table>
 <p><a name="bc"><strong>使用 bc 进行进制转换</strong></a></p>
-<p>在 <a href="http://www.linuxsong.org/category/shell/">Shell</a> 中进行进制转换的另一个诀窍是使用 <code>bc</code>，它是一种任意精度运算语言，大多数 UNIX/<a href="http://www.linuxsong.org/category/linux/">Linux</a> 安装程序都提供。因为它允许您指定输出进制，所以当您需要以十进制以外的进制输出时，这是一种很好的技术。</p>
+<p>在 <a href="https://www.topbyte.cn/category/shell/">Shell</a> 中进行进制转换的另一个诀窍是使用 <code>bc</code>，它是一种任意精度运算语言，大多数 UNIX/<a href="https://www.topbyte.cn/category/linux/">Linux</a> 安装程序都提供。因为它允许您指定输出进制，所以当您需要以十进制以外的进制输出时，这是一种很好的技术。</p>
 <p><code>bc</code> 的特殊变量 <code>ibase</code> 和 <code>obase</code> 分别包含用于输入和输出的进制的值。缺省情况下，都被设置为 10。要执行进制转换，需要改变其中的一个或两个值，然后提供一个数字。立即尝试，如清单 8 中所示。<br />
 <a name="listing8"><strong>清单 8. 使用 bc 执行进制转换</strong></a></p>
 <table border="0" cellspacing="0" cellpadding="0">

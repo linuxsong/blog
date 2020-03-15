@@ -7,19 +7,19 @@ author:
   display_name: LinuxSong
   login: xks
   email: linuxsong@gmail.com
-  url: http://www.linuxsong.org
+  url: https://www.topbyte.cn
 author_login: xks
 author_email: linuxsong@gmail.com
-author_url: http://www.linuxsong.org
+author_url: https://www.topbyte.cn
 excerpt: "屏弃 Windows 低效率的工作方式，发掘 Linux 身上的 UNIX 气质\r\n\r\n作者：王垠\r\n\r\n我已经半年没有使用 Windows
   的方式工作了。Linux 高效的完成了我所有的工作。\r\nGNU/Linux 不是每个人都想用的。如果你只需要处理一般的事务，打游戏，那么你不需要了解下面这些了。"
 wordpress_id: 146
-wordpress_url: http://www.linuxsong.org/?p=146
+wordpress_url: https://www.topbyte.cn/?p=146
 date: '2010-09-05 01:13:30 +0800'
 date_gmt: '2010-09-04 17:13:30 +0800'
 comments: []
 ---
-<p>屏弃 Windows 低效率的工作方式，发掘 <a href="http://www.linuxsong.org/category/linux/">Linux</a> 身上的 UNIX 气质</p>
+<p>屏弃 Windows 低效率的工作方式，发掘 <a href="https://www.topbyte.cn/category/linux/">Linux</a> 身上的 UNIX 气质</p>
 <p>作者：王垠</p>
 <p>我已经半年没有使用 Windows 的方式工作了。Linux 高效的完成了我所有的工作。</p>
 <p>GNU/Linux 不是每个人都想用的。如果你只需要处理一般的事务，打游戏，那么你不需要了解下面这些了。</p>
@@ -106,7 +106,7 @@ Windows 下的某些功能确实是我们需要的，那么 Linux 的开发者�
 <p>IDE<br />
 有些人在抱怨为什么 Linux 没有一个良好的 IDE 开发环境。Linux 现在已经有一些 IDE 了，但是总是有很多问题。你是不是正在寻找，正在期望 Linux 某一天可以有一个VC那样的开发环境？你有没有发现你正在进入微软给你设下的怪圈？你为什么一定要用 IDE？你说：“IDE 开发迅速，调试方便，适合大型程序……” 那说明微软的程序在你脑子里已经比较根深蒂固，你需要好好清醒一下了，看看我来告诉你。</p>
 <p>高明的 UNIX 程序员不用 IDE，IDE 从来就是给初级 Windows 程序员用的。</p>
-<p>你看看大型的 UNIX 程序，包括 Linux 内核，各种网络服务程序，Xwindow 程序在内，哪一个是 IDE 搞出来的？我们实验室的 EDA 程序也没有一个是 IDE 弄的，我还知道 Candence, Synopsys，Mentor 的高性能的图形界面 EDA 程序也都不是 IDE 写的。你信不信，微软的人在写 Windows 本身的时候也根本不用 IDE。微软内部程序员最喜欢的编辑器其实是 VIM，用 <a href="http://www.linuxsong.org/category/vim/">VIM</a> 的微软程序员上次向乌干达的可怜儿童捐助了1000多美元，这是值得称赞的。</p>
+<p>你看看大型的 UNIX 程序，包括 Linux 内核，各种网络服务程序，Xwindow 程序在内，哪一个是 IDE 搞出来的？我们实验室的 EDA 程序也没有一个是 IDE 弄的，我还知道 Candence, Synopsys，Mentor 的高性能的图形界面 EDA 程序也都不是 IDE 写的。你信不信，微软的人在写 Windows 本身的时候也根本不用 IDE。微软内部程序员最喜欢的编辑器其实是 VIM，用 <a href="https://www.topbyte.cn/category/vim/">VIM</a> 的微软程序员上次向乌干达的可怜儿童捐助了1000多美元，这是值得称赞的。</p>
 <p>有一次某杂志采访一些出名的 Linux 内核程序员，包括 Linus 在内，没有一个人用 IDE，有的人用 VIM，有的用 Emacs，只有 Linus 说“GNU Emacs is evil”，但是其实他用的是一种跟 Emacs 有同样键绑定功能的 MicroEmacs。大家都是用编辑器编辑了程序文件，然后用 make 这样的自动工具调用 gcc 编译器完成编译工作的。甚至高级的 Windows 程序员也不用 IDE，他们可以从命令行调用 cl，nmake 来编译自己的程序。虽然这样的 Windows 程序员很少，但是他们却是最了解 Windows，最高明的 Windows 程序员。</p>
 <p>为什么 UNIX 程序员不用 IDE？明白了这个道理你就能体会到 UNIX 的设计思想了。首先，一个 IDE 集成了编辑器，编译器，汇编器，调试器，跟踪器…… 这个编辑器功能肯定比不上 VIM 或 Emacs，编译器比不上 GCC，汇编器比不上 as，调试器比不上 gdb, ddd, 跟踪器比不上 strace, ltrace, truss。你得到的是一套整合的低能的程序。如果你对调试器的功能不满意，你只好换用另外一套 IDE，但是这套 IDE 的热键，菜单，编辑器功能，按钮…… 跟原来那个有很大不同。你不得不花很多时间来熟悉新的环境，而不能保持原来的某些东西。</p>
 <p>而在 UNIX 下就不一样了。你可以用你最喜欢的 VIM 编辑程序，你在 VIM 里可以调用 GNU make，make 可以调用 gcc, ld, ... make 的出错信息可以被 VIM 捕获，VIM 能帮你在源程序里定位。你如果喜欢 icc, 你可以让 make 用 icc 而不是 gcc。你如果觉得 gdb 跟踪变量时比较麻烦，你可以用 ddd 来显示各种数据结构之间的关系。你还可以在 Emacs 里调用 gdb，那样就可以同步显示源代码了。而且 VIM 和 Emacs 还可以编辑很多其它东西，比如信件，LaTeX 文档，HTML，配置文件…… 你不用另外找一个什么编辑器来干这些杂活了。很多程序比如 Mutt, tin 都可以在内部使用 VIM，这样就更方便了。实际上 make 在其它方面还能帮你很多忙，我的每一个比较大型的 LaTeX 文档都是用 make 维护的。</p>
@@ -186,7 +186,7 @@ Windows 下的某些功能确实是我们需要的，那么 Linux 的开发者�
 <p>鼠标虽然是很好的工具，但是它的表达能力是有限的。你不可能光用鼠标就让电脑完全明白你的意思，它毕竟只有3个按钮。看看我的MetaPost页你就能体会到鼠标的这一弱点。所以我们虽然很喜欢鼠标，但是却不能完全依赖它。</p>
 <p>各个小程序的完美配合</p>
 <p>这就是UNIX最重要的特点了，它就是UNIX设计的思想。让每个程序只具有一项专门的能力，然后让它们合作。Xwindow也继承了这种好传统。</p>
-<p>这恐怕就是Windows和其它操作系统望尘末及的地方了。UNIX 程序设计之统一，配合之完美，真使我难以置信！<a href="http://www.linuxsong.org/category/shell/">shell</a>, grep, find, <a href="http://www.linuxsong.org/category/awk/">awk</a>, <a href="http://www.linuxsong.org/category/sed/">sed</a>, make, Perl, Emacs, vi, tin, Mutt, ... 它们是那么的具有一致性！你一旦学会了 sed 的正则表达式，其它程序基本上都能用了。你一旦学会了 vi 和 VIM, 你会发现它的操作是那么的有规律性，似乎vi的设计者在几十年前就已经设计好了 VIM 在今天的完美而统一的操作方式！而且vi的操作还体现在 Mutt, tin 等很多程序中。你甚至可以把 bash 设置为 vi 的输入方式来输入命令行，我就是这么做的。一个程序可以调用另外一个程序来得到数据，可以把数据交给它处理后返回来，可以在自己的窗口里“嵌入”另外一个 程序。</p>
+<p>这恐怕就是Windows和其它操作系统望尘末及的地方了。UNIX 程序设计之统一，配合之完美，真使我难以置信！<a href="https://www.topbyte.cn/category/shell/">shell</a>, grep, find, <a href="https://www.topbyte.cn/category/awk/">awk</a>, <a href="https://www.topbyte.cn/category/sed/">sed</a>, make, Perl, Emacs, vi, tin, Mutt, ... 它们是那么的具有一致性！你一旦学会了 sed 的正则表达式，其它程序基本上都能用了。你一旦学会了 vi 和 VIM, 你会发现它的操作是那么的有规律性，似乎vi的设计者在几十年前就已经设计好了 VIM 在今天的完美而统一的操作方式！而且vi的操作还体现在 Mutt, tin 等很多程序中。你甚至可以把 bash 设置为 vi 的输入方式来输入命令行，我就是这么做的。一个程序可以调用另外一个程序来得到数据，可以把数据交给它处理后返回来，可以在自己的窗口里“嵌入”另外一个 程序。</p>
 <p>在 Windows 和其它非 UNIX 操作系统中，这种合作是非常困难的。我曾经在 Windows 下使用 Perl来进行一些自动工作。但是 Windows 的文件操作，管道是如此的不稳定，程序之间基本不能合作。你别想在 Visual Studio 窗口里面嵌入 UltraEdit 编辑器，你别想用一个 expect 脚本来控制 telnet 到水木清华BBS。</p>
 <p>Windows 的程序都是大而全，大而杂，所有的电子邮件程序都需要自己提供编辑器，自己发送和收取邮件，自己显示邮件的附件。每一个BBS程序都提供自己的 Virtual Terminal, 自己的通讯代码。每一个 IDE 都自己提供编辑器，编译器，汇编器，调试器。人们为了使用一种新的程序，需要适应所有这些它提供的界面，而不能使用自己喜欢的编辑器的键绑定，菜单组 织…… 不能 DIY！</p>
 <p>你要知道，最高级的电脑是定做的，自己想要什么什么CPU，什么主板，多少内存，什么硬盘，键盘，鼠标，显示器都是自己选择的。最高级的滑板，自己想要什 么牌子的版面，什么牌子的沙，什么桥，什么轮子，什么轴承，也都是自己选的。最高级的乒乓球拍，木板，胶皮，海绵，胶水都是可以自己选择…… 而用 Windows 程序，你得到的是大杂烩，就像你去买“品牌机”，只有那么几种配置，而且附带很多你不需要的软件和服务；就像你去买组装好的滑板，你想要大一点的轮子和窄 一点的板子，但是你没有这种选择余地！Windows 程序就相当于最廉价，最次的滑板。但是它却会花你更多的钱，因为一旦一个部件坏了，或者你不喜欢了，你不能另外找一个好的换掉它，你必需重新买全套配件！</p>

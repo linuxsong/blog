@@ -7,14 +7,14 @@ author:
   display_name: LinuxSong
   login: xks
   email: linuxsong@gmail.com
-  url: http://www.linuxsong.org
+  url: https://www.topbyte.cn
 author_login: xks
 author_email: linuxsong@gmail.com
-author_url: http://www.linuxsong.org
+author_url: https://www.topbyte.cn
 excerpt: 采用 10 个能够提高您的 UNIX® 命令行效率的好习惯——并在此过程中摆脱不良的使用模式。本文循序渐进地指导您学习几项用于命令行操作的技术，这些技术非常好，但是通常被忽略。了解常见
   错误和克服它们的方法，以便您能够确切了解为何值得采用这些 UNIX 习惯。
 wordpress_id: 240
-wordpress_url: http://www.linuxsong.org/?p=240
+wordpress_url: https://www.topbyte.cn/?p=240
 date: '2010-09-05 11:28:05 +0800'
 date_gmt: '2010-09-05 03:28:05 +0800'
 comments:
@@ -41,7 +41,7 @@ comments:
   content: "[...] [转载]UNIX 高手的 10 个习惯  Posted on 2012/02/09 by fpzeng       转载至Thinking
     In Linux [...]"
 ---
-<blockquote>采用 10 个能够提高您的 UNIX® 命令行效率的好习惯——并在此过程中摆脱不良的使用模式。本文循序渐进地指导您学习几项用于命令行操作的技术，这些技术非常好，但是通常被忽略。了解常见 错误和克服它们的方法，以便您能够确切了解为何值得采用这些 <a href="http://www.linuxsong.org/category/linux/">UNIX </a>习惯。</p></blockquote>
+<blockquote>采用 10 个能够提高您的 UNIX® 命令行效率的好习惯——并在此过程中摆脱不良的使用模式。本文循序渐进地指导您学习几项用于命令行操作的技术，这些技术非常好，但是通常被忽略。了解常见 错误和克服它们的方法，以便您能够确切了解为何值得采用这些 <a href="https://www.topbyte.cn/category/linux/">UNIX </a>习惯。</p></blockquote>
 <p>当 您经常使用某个系统时，往往会陷入某种固定的使用模式。有时，您没有养成以尽可能最好的方式做事的习惯。有时，您的不良习惯甚至会导致出现混乱。纠正此类 缺点的最佳方法之一，就是有意识地采用抵制这些坏习惯的好习惯。本文提出了 10 个值得采用的 UNIX 命令行习惯——帮助您克服许多常见使用怪癖，并在该过程中提高命令行工作效率的好习惯。下面列出了这 10 个好习惯，之后对进行了更详细的描述。</p>
 <p><!--more-->要采用的十个好习惯为：</p>
 <ol>
@@ -117,7 +117,7 @@ comments:
 </tbody>
 </table>
 <p>相对于将存档文件移动到您希望在其中解压缩它的位置，切换到该目录，然后才解压缩它，养成使用 <code>-C</code> 的习惯则更加可取——当存档文件位于其他某个位置时尤其如此。</p>
-<p>您可能已经知道，在大多数 <a href="http://www.linuxsong.org/category/shell/">Shell</a> 中，您可以在单个命令行上通过在命令之间放置一个分号 (;) 来组合命令。该分号是 Shell <em>控制操作符</em>， 虽然它对于在单个命令行上将离散的命令串联起来很有用，但它并不适用于所有情况。例如，假设您使用分号来组合两个命令，其中第二个命令的正确执行完全依赖 于第一个命令的成功完成。如果第一个命令未按您预期的那样退出，第二个命令仍然会运行——结果会导致失败。相反，应该使用更适当的控制操作符（本文将描述 其中的部分操作符）。只要您的 Shell 支持它们，就值得养成使用它们的习惯。</p>
+<p>您可能已经知道，在大多数 <a href="https://www.topbyte.cn/category/shell/">Shell</a> 中，您可以在单个命令行上通过在命令之间放置一个分号 (;) 来组合命令。该分号是 Shell <em>控制操作符</em>， 虽然它对于在单个命令行上将离散的命令串联起来很有用，但它并不适用于所有情况。例如，假设您使用分号来组合两个命令，其中第二个命令的正确执行完全依赖 于第一个命令的成功完成。如果第一个命令未按您预期的那样退出，第二个命令仍然会运行——结果会导致失败。相反，应该使用更适当的控制操作符（本文将描述 其中的部分操作符）。只要您的 Shell 支持它们，就值得养成使用它们的习惯。</p>
 <p>使用 <code>&amp;&amp;</code> 控制操作符来组合两个命令，以便<em>仅当</em> 第一个命令返回零退出状态时才运行第二个命令。换句话说，如果第一个命令运行成功，则第二个命令将运行。如果第一个命令失败，则第二个命令根本就不运行。例如：</p>
 <table border="0" cellspacing="0" cellpadding="0" width="100%">
 <tbody>

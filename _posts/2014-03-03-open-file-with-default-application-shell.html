@@ -7,19 +7,19 @@ author:
   display_name: LinuxSong
   login: xks
   email: linuxsong@gmail.com
-  url: http://www.linuxsong.org
+  url: https://www.topbyte.cn
 author_login: xks
 author_email: linuxsong@gmail.com
-author_url: http://www.linuxsong.org
+author_url: https://www.topbyte.cn
 excerpt: '在Linux环境下工作，大部分时间都是在与终端打交道，经常会遇到要查看某个文件，比如一个图片或者一个word文档（不能在终端中直接查看的）。这时通常的做法是切换到gui界面，到文件所在的目录，双击想打开的文件。另外一种方法是直接在shell中输入指定的程序打开文件，比如:
   evince xx.pdf 查看某个pdf文件。当然这样做的前提是你得记得住那些程序的名字，比如你能记得住用LibreOffice打开一个word文件的命令吗？反正我是记不住。'
 wordpress_id: 545
-wordpress_url: http://www.linuxsong.org/?p=545
+wordpress_url: https://www.topbyte.cn/?p=545
 date: '2014-03-03 18:16:28 +0800'
 date_gmt: '2014-03-03 10:16:28 +0800'
 comments: []
 ---
-<p>在<a title="linux" href="http://www.linuxsong.org/category/linux/">Linux</a>环境下工作，大部分时间都是在与终端打交道，经常会遇到要查看某个文件，比如一个图片或者一个word文档（不能在终端中直接查看的）。这时通常的做法是切换到gui界面，到文件所在的目录，双击想打开的文件。另外一种方法是直接在<a title="shell" href="http://www.linuxsong.org/category/shell/">shell</a>中输入指定的程序打开文件，比如: evince xx.pdf 查看某个pdf文件。当然这样做的前提是你得记得住那些程序的名字，比如你能记得住用LibreOffice打开一个word文件的命令吗？反正我是记不住。</p>
+<p>在<a title="linux" href="https://www.topbyte.cn/category/linux/">Linux</a>环境下工作，大部分时间都是在与终端打交道，经常会遇到要查看某个文件，比如一个图片或者一个word文档（不能在终端中直接查看的）。这时通常的做法是切换到gui界面，到文件所在的目录，双击想打开的文件。另外一种方法是直接在<a title="shell" href="https://www.topbyte.cn/category/shell/">shell</a>中输入指定的程序打开文件，比如: evince xx.pdf 查看某个pdf文件。当然这样做的前提是你得记得住那些程序的名字，比如你能记得住用LibreOffice打开一个word文件的命令吗？反正我是记不住。</p>
 <p>在图形界面中已经定义了很多默认的文件打开方式，比如你双击网页文件就会自动用默认的浏览器打开，双击一个图片就会用默认的图片浏览器打开，所以终端下也应该会有相应的机制。顺着这个思路去google了一下，就发现了xdg-open这个命令（兼容gnome和kde)，这个命令会用图形界面中设置的文件默认打开方式一致（和直接双击打开文件的行为应该是一样的）。</p>
 <p>利用这个命令，在终端 下打开文件就方便多了，比如用默认的pdf 阅读器打开一个pdf文件:</p>
 <p>xdg-open xxx.pdf</p>
