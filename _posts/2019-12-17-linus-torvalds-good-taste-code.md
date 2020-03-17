@@ -1,7 +1,7 @@
 ---
 title: Linus Torvalds 提及的关于代码的"good taste"
 key: Linus Torvalds 提及的关于代码的"good taste"
-tags: linux
+tags: linux,c
 author: LinuxSong
 ---
 
