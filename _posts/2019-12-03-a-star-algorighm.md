@@ -1,7 +1,7 @@
 ---
 title: A*算法的JavaScript实现
 key: A*算法的JavaScript实现
-tags: 算法
+tags: 算法 javascript
 author: LinuxSong
 ---
 
