@@ -1,5 +1,11 @@
 header:
   - titles:
+      en:       Vim中文手册 
+      zh:       Vim中文手册 
+      zh-Hans:  Vim中文手册 
+      zh-Hant:  Vim中文手册 
+    url:        /vimdoc/
+  - titles:
       en:       Archive
       zh:       归档
       zh-Hans:  归档
