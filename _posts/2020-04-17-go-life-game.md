@@ -11,6 +11,8 @@ author: LinuxSong
 
 <!--more-->
 
+为了增加延展度，界面左右边界视为连通，即在计算元素邻居时逻辑上认为界面的最左侧和最右侧是相邻的。
+
 运行效果如下：
 
 ![go-lifegame](https://www.topbyte.cn/assets/images/posts/go-lifegame.gif)
